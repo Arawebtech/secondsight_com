@@ -1,0 +1,1226 @@
+/* ===================================
+   MOBILE RESPONSIVE FIXES
+   Second Sight Foundation
+   =================================== */
+
+/* ===================================
+   GLOBAL MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  /* Global spacing adjustments */
+  .container, .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  /* Typography fixes */
+  h1 {
+    font-size: 24px !important;
+    line-height: 1.3 !important;
+  }
+  
+  h2 {
+    font-size: 20px !important;
+    line-height: 1.3 !important;
+  }
+  
+  h3 {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+  
+  h4 {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+  
+  p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+  
+  /* Button fixes */
+  .default-btn {
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    width: 100% !important;
+    margin: 5px 0 !important;
+    text-align: left !important;
+  }
+  
+  .default-btn + .default-btn {
+    margin-left: 0 !important;
+  }
+  
+  /* Form fixes */
+  .form-control {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 12px 15px !important;
+    height: auto !important;
+  }
+  
+  .form-group {
+    margin-bottom: 15px !important;
+  }
+  
+  /* Image fixes */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Section padding adjustments */
+  .ptb-100 {
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+  }
+  
+  .ptb-70 {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+  
+  .pt-100 {
+    padding-top: 50px !important;
+  }
+  
+  .pb-100 {
+    padding-bottom: 50px !important;
+  }
+  
+  .pt-70 {
+    padding-top: 30px !important;
+  }
+  
+  .pb-70 {
+    padding-bottom: 30px !important;
+  }
+}
+
+/* ===================================
+   NAVIGATION MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  /* Navbar fixes */
+  .navbar-area {
+    padding: 10px 0 !important;
+  }
+  
+  .navbar-area .main-nav {
+    padding: 0 !important;
+  }
+  
+  .navbar-area .main-nav .navbar-brand {
+    max-width: 150px !important;
+  }
+  
+  .navbar-area .main-nav .navbar-brand img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Mobile menu fixes */
+  .mobile-nav {
+    background: #fff !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+  }
+  
+  .mobile-nav .logo {
+    max-width: 120px !important;
+  }
+  
+  .mobile-nav nav .navbar-nav {
+    padding-bottom: 50px !important;
+  }
+  
+  .mobile-nav nav .navbar-nav .nav-item {
+    border-bottom: 1px solid #eee !important;
+  }
+  
+  .mobile-nav nav .navbar-nav .nav-item a {
+    text-align: left !important;
+    padding: 10px 10px !important;
+    font-size: 16px !important;
+    color: #333 !important;
+  }
+  
+  .mobile-nav nav .navbar-nav .nav-item a:hover {
+    background: #f8f9fa !important;
+  }
+  
+  /* Others option fixes */
+  .others-option-for-responsive {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+  
+  .others-option-for-responsive .default-btn {
+    font-size: 12px !important;
+    padding: 8px 15px !important;
+    margin: 0 !important;
+  }
+  
+  .others-option-for-responsive .cart-icon {
+    margin-left: 10px !important;
+  }
+  
+  .others-option-for-responsive .cart-icon a {
+    font-size: 18px !important;
+  }
+}
+
+/* ===================================
+   BANNER/HERO SECTION MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .banner-area {
+    height: auto !important;
+    min-height: 100vh !important;
+    padding: 80px 0 50px !important;
+    text-align: center !important;
+  }
+  
+  .banner-area .container-fluid {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  
+  .banner-content {
+    margin-top: 0 !important;
+    padding: 20px 0 !important;
+  }
+  
+  .banner-content h1 {
+    font-size: 24px !important;
+    margin-bottom: 20px !important;
+    line-height: 1.3 !important;
+  }
+  
+  .banner-content p {
+    font-size: 14px !important;
+    margin-bottom: 30px !important;
+    line-height: 1.6 !important;
+  }
+  
+  .banner-content .default-btn {
+    margin: 10px 5px !important;
+    width: auto !important;
+    display: inline-block !important;
+  }
+  
+  /* Social media section */
+  .banner-area .social .social-wrap {
+    position: static !important;
+    transform: none !important;
+    margin-top: 30px !important;
+    text-align: center !important;
+  }
+  
+  .banner-area .social .social-wrap li {
+    display: inline-block !important;
+    margin: 0 10px !important;
+  }
+  
+  .banner-area .social .social-wrap li.follow-us {
+    display: block !important;
+    margin-bottom: 15px !important;
+    color: var(--main-color) !important;
+  }
+}
+
+/* ===================================
+   COURSES SECTION MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .single-course {
+    margin-bottom: 30px !important;
+  }
+  
+  .single-course img {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover !important;
+  }
+  
+  .single-course .course-content {
+    padding: 20px 15px !important;
+  }
+  
+  .single-course .course-content a h3 {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .single-course .course-content .price {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .single-course .course-content .lessons {
+    margin-bottom: 15px !important;
+  }
+  
+  .single-course .course-content .lessons li {
+    font-size: 12px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .single-course .course-content .default-btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  /* Course grid fixes */
+  .courses-area .row {
+    margin: 0 -10px !important;
+  }
+  
+  .courses-area .col-lg-4,
+  .courses-area .col-md-6 {
+    padding: 0 10px !important;
+  }
+}
+
+/* ===================================
+   TEAM SECTION MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .single-teachers {
+    margin-bottom: 30px !important;
+    text-align: center !important;
+  }
+  
+  .single-teachers img {
+    width: 100% !important;
+    max-width: 200px !important;
+    height: auto !important;
+    margin: 0 auto 15px !important;
+  }
+  
+  .single-teachers .teachers-content {
+    padding: 15px !important;
+  }
+  
+  .single-teachers .teachers-content h3 {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .single-teachers .teachers-content span {
+    font-size: 14px !important;
+  }
+  
+  .single-teachers .teachers-content .default-btn {
+    margin-top: 15px !important;
+    width: 100% !important;
+  }
+}
+
+/* ===================================
+   BLOG SECTION MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .single-news {
+    margin-bottom: 30px !important;
+  }
+  
+  .single-news a {
+    display: block !important;
+  }
+  
+  .single-news a img {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover !important;
+  }
+  
+  .single-news .news-content {
+    padding: 20px 15px !important;
+  }
+  
+  .single-news .news-content a h3 {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .single-news .news-content .lessons {
+    margin-bottom: 15px !important;
+  }
+  
+  .single-news .news-content .lessons li {
+    font-size: 12px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .single-news .news-content .default-btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+/* ===================================
+   TESTIMONIAL SECTION MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .feedback-item {
+    text-align: center !important;
+    padding: 20px 15px !important;
+  }
+  
+  .feedback-item p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .feedback-item .info {
+    text-align: center !important;
+  }
+  
+  .feedback-item .info h3 {
+    font-size: 16px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .feedback-item .info span {
+    font-size: 12px !important;
+  }
+  
+  .feedback-area .owl-dots {
+    margin-top: 20px !important;
+  }
+}
+
+/* ===================================
+   FOOTER MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .footer-widget {
+    margin-bottom: 30px !important;
+    text-align: center !important;
+  }
+  
+  .footer-widget h3 {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .footer-widget .link li {
+    margin-bottom: 8px !important;
+  }
+  
+  .footer-widget .link li a {
+    font-size: 14px !important;
+  }
+  
+  .footer-widget .address li {
+    margin-bottom: 10px !important;
+    font-size: 14px !important;
+  }
+  
+  .footer-widget .address li a {
+    font-size: 14px !important;
+  }
+  
+  .footer-bottom {
+    text-align: center !important;
+    padding: 20px 0 !important;
+  }
+  
+  .footer-bottom p {
+    font-size: 12px !important;
+    margin-bottom: 10px !important;
+  }
+}
+
+/* ===================================
+   FORMS MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .contact-form-action {
+    padding: 20px 15px !important;
+  }
+  
+  .contact-form-action form .form-group {
+    margin-bottom: 15px !important;
+  }
+  
+  .contact-form-action form .form-group .form-control {
+    font-size: 16px !important;
+    padding: 12px 15px !important;
+  }
+  
+  .contact-form-action form .default-btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  .contact-form-action form .login-action {
+    text-align: center !important;
+  }
+  
+  .contact-form-action form .login-action .forgot-login {
+    display: block !important;
+    margin-top: 10px !important;
+    text-align: center !important;
+  }
+  
+  .contact-form-action form .text-right {
+    text-align: center !important;
+  }
+  
+  /* Enroll form fixes */
+  .enroll-wrap .courses-form {
+    padding: 20px 15px !important;
+  }
+  
+  .enroll-wrap .courses-form h3 {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .enroll-wrap .courses-form .form-group {
+    margin-bottom: 15px !important;
+  }
+  
+  .enroll-wrap .courses-form .default-btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+/* ===================================
+   CART & CHECKOUT MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .cart-area {
+    padding: 20px 15px !important;
+  }
+  
+  .cart-area .cart-table {
+    overflow-x: auto !important;
+  }
+  
+  .cart-area .cart-table table {
+    min-width: 600px !important;
+  }
+  
+  .cart-area .cart-table table thead tr th {
+    font-size: 12px !important;
+    padding: 10px 5px !important;
+  }
+  
+  .cart-area .cart-table table tbody tr td {
+    font-size: 12px !important;
+    padding: 10px 5px !important;
+  }
+  
+  .cart-area .cart-table table tbody tr td a {
+    font-size: 12px !important;
+  }
+  
+  .cart-area .coupon-cart {
+    margin-bottom: 20px !important;
+  }
+  
+  .cart-area .coupon-cart .form-group .default-btn {
+    width: 100% !important;
+    margin: 10px 0 0 0 !important;
+  }
+  
+  .cart-area .cart-totals {
+    margin-top: 20px !important;
+  }
+  
+  .cart-area .cart-totals .default-btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  /* Checkout fixes */
+  .checkout-area .billing-details {
+    margin-bottom: 30px !important;
+  }
+  
+  .checkout-area .billing-details h3 {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .checkout-area .cart-totals h3 {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .checkout-area .cart-totals ul {
+    margin-bottom: 20px !important;
+  }
+  
+  .checkout-area .faq-accordion h3 {
+    font-size: 16px !important;
+    margin-bottom: 15px !important;
+  }
+  
+  .checkout-area .faq-accordion .default-btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+/* ===================================
+   PROFILE & USER AREA MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .user-area-style {
+    padding: 20px 15px !important;
+  }
+  
+  .user-area-style .section-title {
+    margin-bottom: 30px !important;
+  }
+  
+  .user-area-style .section-title h2 {
+    font-size: 20px !important;
+  }
+  
+  .user-area-style .contact-form-action {
+    margin-bottom: 30px !important;
+  }
+  
+  .user-area-style .contact-form-action form .form-group {
+    margin-bottom: 15px !important;
+  }
+  
+  .user-area-style .contact-form-action form .login-action {
+    text-align: center !important;
+  }
+  
+  .user-area-style .contact-form-action form .login-action .forgot-login {
+    display: block !important;
+    margin-top: 10px !important;
+    text-align: center !important;
+  }
+  
+  .user-area-style .contact-form-action form .text-right {
+    text-align: center !important;
+  }
+  
+  .user-area-style .contact-form-action form .default-btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  /* Profile page fixes */
+  .profile-area {
+    padding: 20px 15px !important;
+  }
+  
+  .profile-area .profile-content {
+    margin-bottom: 30px !important;
+  }
+  
+  .profile-area .profile-content h3 {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .profile-area .profile-content .form-group {
+    margin-bottom: 15px !important;
+  }
+  
+  .profile-area .profile-content .default-btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+/* ===================================
+   COURSE DETAILS MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .single-course-area {
+    padding: 20px 15px !important;
+  }
+  
+  .single-course-area .single-course-content h3 {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .single-course-area .account-wrap {
+    margin-bottom: 30px !important;
+  }
+  
+  .single-course-area .course-list {
+    margin-bottom: 20px !important;
+  }
+  
+  .single-course-area .course-list li {
+    margin-bottom: 10px !important;
+    font-size: 14px !important;
+  }
+  
+  .single-course-area .course-rating {
+    margin-bottom: 20px !important;
+  }
+  
+  .single-course-area .course-rating.star {
+    font-size: 16px !important;
+  }
+  
+  .single-course-area .course-rating img {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  
+  .single-course-area .single-course-tab .tabs li {
+    margin-bottom: 10px !important;
+  }
+  
+  .single-course-area .single-course-tab .tabs li a {
+    font-size: 14px !important;
+    padding: 10px 15px !important;
+  }
+  
+  .single-course-area .single-course-tab .tabs li.current a::before {
+    display: none !important;
+  }
+}
+
+/* ===================================
+   BLOG DETAILS MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .single-blog-content {
+    padding: 20px 15px !important;
+  }
+  
+  .single-blog-content .blog-top-content img {
+    width: 100% !important;
+    height: auto !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .single-blog-content .blog-top-content h3 {
+    font-size: 18px !important;
+    margin-bottom: 15px !important;
+  }
+  
+  .single-blog-content .blog-top-content .post-details li {
+    font-size: 12px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .single-blog-content .blog-top-content blockquote p {
+    font-size: 14px !important;
+    padding: 15px !important;
+  }
+  
+  .single-blog-content .social-wrap {
+    margin: 20px 0 !important;
+  }
+  
+  .single-blog-content .social-wrap li {
+    margin: 0 5px !important;
+  }
+  
+  .single-blog-content .social-wrap li a {
+    font-size: 16px !important;
+    padding: 8px !important;
+  }
+  
+  .single-blog-content .comments-wrap ul li {
+    margin-bottom: 20px !important;
+  }
+  
+  .single-blog-content .comments-wrap ul li img {
+    width: 50px !important;
+    height: 50px !important;
+    margin-right: 10px !important;
+  }
+  
+  .single-blog-content .leave-reply-wrap p {
+    font-size: 14px !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+/* ===================================
+   CONTACT PAGE MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .contact-info-area {
+    padding: 20px 15px !important;
+  }
+  
+  .contact-info-area .single-contact-info {
+    margin-bottom: 30px !important;
+    text-align: center !important;
+  }
+  
+  .contact-info-area .single-contact-info::before {
+    display: none !important;
+  }
+  
+  .contact-info-area .single-contact-info i {
+    font-size: 30px !important;
+    margin-bottom: 15px !important;
+  }
+  
+  .contact-info-area .single-contact-info h3 {
+    font-size: 16px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .contact-info-area .single-contact-info p {
+    font-size: 14px !important;
+  }
+}
+
+/* ===================================
+   GALLERY MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .gallery-area {
+    padding: 20px 15px !important;
+  }
+  
+  .gallery-area .text-center.mt-3 {
+    margin-top: 20px !important;
+  }
+  
+  .gallery-area .default-btn {
+    width: 100% !important;
+    margin: 10px 0 !important;
+  }
+  
+  .single-gallery {
+    margin-bottom: 20px !important;
+  }
+  
+  .single-gallery a {
+    display: block !important;
+  }
+  
+  .single-gallery a img {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover !important;
+  }
+}
+
+/* ===================================
+   ADMIN AREA MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  /* Admin dashboard fixes */
+  .admin-area {
+    padding: 15px !important;
+  }
+  
+  .admin-area .card {
+    margin-bottom: 20px !important;
+  }
+  
+  .admin-area .card-header {
+    padding: 15px !important;
+  }
+  
+  .admin-area .card-body {
+    padding: 15px !important;
+  }
+  
+  .admin-area .table {
+    font-size: 12px !important;
+  }
+  
+  .admin-area .table th,
+  .admin-area .table td {
+    padding: 8px 5px !important;
+  }
+  
+  .admin-area .btn {
+    font-size: 12px !important;
+    padding: 8px 12px !important;
+    margin: 2px !important;
+  }
+  
+  /* Admin forms */
+  .admin-area .form-group {
+    margin-bottom: 15px !important;
+  }
+  
+  .admin-area .form-control {
+    font-size: 16px !important;
+    padding: 10px 12px !important;
+  }
+  
+  .admin-area .btn-primary {
+    width: 100% !important;
+    margin: 10px 0 !important;
+  }
+}
+
+/* ===================================
+   UTILITY CLASSES FOR MOBILE
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  .text-center-mobile {
+    text-align: center !important;
+  }
+  
+  .text-left-mobile {
+    text-align: left !important;
+  }
+  
+  .text-right-mobile {
+    text-align: right !important;
+  }
+  
+  .d-block-mobile {
+    display: block !important;
+  }
+  
+  .d-none-mobile {
+    display: none !important;
+  }
+  
+  .w-100-mobile {
+    width: 100% !important;
+  }
+  
+  .mb-20-mobile {
+    margin-bottom: 20px !important;
+  }
+  
+  .mt-20-mobile {
+    margin-top: 20px !important;
+  }
+  
+  .p-15-mobile {
+    padding: 15px !important;
+  }
+  
+  .px-15-mobile {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  
+  .py-20-mobile {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+}
+
+/* ===================================
+   TABLET FIXES (768px - 991px)
+   =================================== */
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .container, .container-fluid {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  h1 {
+    font-size: 28px !important;
+  }
+  
+  h2 {
+    font-size: 24px !important;
+  }
+  
+  h3 {
+    font-size: 20px !important;
+  }
+  
+  .default-btn {
+    font-size: 14px !important;
+    padding: 12px 25px !important;
+  }
+  
+  .banner-content h1 {
+    font-size: 32px !important;
+  }
+  
+  .single-course .course-content a h3 {
+    font-size: 18px !important;
+  }
+  
+  .single-teachers .teachers-content h3 {
+    font-size: 20px !important;
+  }
+  
+  .single-news .news-content a h3 {
+    font-size: 18px !important;
+  }
+}
+
+/* ===================================
+   LARGE MOBILE FIXES (576px - 767px)
+   =================================== */
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .banner-content h1 {
+    font-size: 28px !important;
+  }
+  
+  .default-btn {
+    width: auto !important;
+    display: inline-block !important;
+  }
+  
+  .single-course .course-content .default-btn {
+    width: auto !important;
+  }
+  
+  .single-news .news-content .default-btn {
+    width: auto !important;
+  }
+  
+  .contact-form-action form .default-btn {
+    width: auto !important;
+  }
+}
+
+/* ===================================
+   EXTRA SMALL MOBILE FIXES (320px - 575px)
+   =================================== */
+
+@media only screen and (max-width: 575px) {
+  .container, .container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  h1 {
+    font-size: 20px !important;
+  }
+  
+  h2 {
+    font-size: 18px !important;
+  }
+  
+  h3 {
+    font-size: 16px !important;
+  }
+  
+  .banner-content h1 {
+    font-size: 22px !important;
+  }
+  
+  .banner-content p {
+    font-size: 13px !important;
+  }
+  
+  .default-btn {
+    font-size: 13px !important;
+    padding: 8px 15px !important;
+  }
+  
+  .navbar-area .main-nav .navbar-brand {
+    max-width: 120px !important;
+  }
+  
+  .mobile-nav .logo {
+    max-width: 100px !important;
+  }
+  
+  .others-option-for-responsive .default-btn {
+    font-size: 11px !important;
+    padding: 6px 12px !important;
+  }
+  
+  .form-control {
+    font-size: 16px !important;
+    padding: 10px 12px !important;
+  }
+  
+  .single-course img {
+    height: 150px !important;
+  }
+  
+  .single-teachers img {
+    max-width: 150px !important;
+  }
+  
+  .single-news a img {
+    height: 150px !important;
+  }
+  
+  .single-gallery a img {
+    height: 150px !important;
+  }
+}
+
+/* ===================================
+   LANDSCAPE MOBILE FIXES
+   =================================== */
+
+@media only screen and (max-width: 767px) and (orientation: landscape) {
+  .banner-area {
+    min-height: 80vh !important;
+    padding: 60px 0 30px !important;
+  }
+  
+  .banner-content h1 {
+    font-size: 20px !important;
+    margin-bottom: 15px !important;
+  }
+  
+  .banner-content p {
+    font-size: 13px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .ptb-100 {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+  
+  .ptb-70 {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+}
+
+/* ===================================
+   HIGH DPI DISPLAY FIXES
+   =================================== */
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .navbar-area .main-nav .navbar-brand img,
+  .mobile-nav .logo img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* ===================================
+   ACCESSIBILITY IMPROVEMENTS
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  /* Improve touch targets */
+  .default-btn,
+  .navbar-nav .nav-item a,
+  .mobile-nav nav .navbar-nav .nav-item a {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .custom-logins-btn,.mobile-nav nav .navbar-nav .nav-item a{
+    min-height: 25px !important;
+  }
+  
+  .mobile-nav nav .navbar-nav .nav-item a{
+    justify-content: start !important;
+    padding-left:20px!important;
+  }
+  
+  /* Improve focus states */
+  .default-btn:focus,
+  .form-control:focus,
+  .navbar-nav .nav-item a:focus {
+    outline: 2px solid #007bff !important;
+    outline-offset: 2px !important;
+  }
+  
+  /* Improve contrast for better readability */
+  .banner-content h1,
+  .banner-content p {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+  }
+  
+  /* Ensure sufficient color contrast */
+  .text-muted {
+    color: #6c757d !important;
+  }
+  
+  .text-light {
+    color: #f8f9fa !important;
+  }
+}
+
+/* ===================================
+   PERFORMANCE OPTIMIZATIONS
+   =================================== */
+
+@media only screen and (max-width: 767px) {
+  /* Reduce animations on mobile for better performance */
+  .animate__animated {
+    animation-duration: 0.5s !important;
+  }
+  
+  /* Optimize images for mobile */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Reduce box shadows for better performance */
+  .card,
+  .single-course,
+  .single-news,
+  .single-teachers {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  }
+}
+
+/* ===================================
+   PRINT STYLES
+   =================================== */
+
+@media print {
+  .navbar-area,
+  .mobile-nav,
+  .others-option-for-responsive,
+  .footer-area,
+  .default-btn {
+    display: none !important;
+  }
+  
+  .banner-area {
+    height: auto !important;
+    padding: 20px 0 !important;
+  }
+  
+  .banner-content h1 {
+    color: #000 !important;
+    font-size: 24px !important;
+  }
+  
+  .banner-content p {
+    color: #333 !important;
+    font-size: 14px !important;
+  }
+  
+  .container,
+  .container-fluid {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+} 

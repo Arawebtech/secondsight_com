@@ -1,0 +1,408 @@
+=============================
+Time: 2025-09-09 11:28:50
+To: rakshittiwari02@gmail.com
+Name: Rakshit Tiwari
+Amount: ₹299
+Order ID: order_RFaMhUNOIKQaCs
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-09 11:33:45
+To: rakshittiwari02@gmail.com
+Name: Rakshit Tiwari
+Amount: ₹299
+Order ID: order_RFaRseaewXdCnO
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-09 11:37:01
+To: rakshittiwari02@gmail.com
+Name: Rakshit Tiwari
+Amount: ₹299
+Order ID: order_RFaVCvAQbHnMeF
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-09 22:23:35
+To: milup81@gmail.com
+Name: MILIND ANANT PALANDE
+Amount: ₹299
+Order ID: order_RFlWFedumBbm9j
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-10 02:43:30
+To: tiwarirakshit2001@gmail.com
+Name: Rakshit Tiwari
+Amount: ₹299
+Order ID: order_RFpwt98UzRA9q6
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-10 02:44:53
+To: tiwarirakshit2001@gmail.com
+Name: Rakshit Tiwari
+Amount: ₹299
+Order ID: order_RFpyLpoUSWEGiN
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-10 02:48:16
+To: tiwarirakshit2001@gmail.com
+Name: Rakshit Tiwari
+Amount: ₹299
+Order ID: order_RFq1fnNSkJZ7Hx
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-12 11:40:23
+To: neetunt@hotmail.com
+Name: Neeta Biswas
+Amount: ₹299
+Order ID: order_RGm9m9PzlLiwxJ
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-12 13:15:03
+To: kondur1980@gmail.com
+Name: Ahalya
+Amount: ₹299
+Order ID: order_RGnlUN0jj747La
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-13 00:05:49
+To: rajeshsrivastava11111@gmail.com
+Name: Rajesh Srivastava
+Amount: ₹299
+Order ID: order_RGyrOt49xPogcF
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-13 01:24:18
+To: susmitadafle@gmail.com
+Name: Susmmiita Rajendra Dafle
+Amount: ₹299
+Order ID: order_RH0COnN2xbgzyK
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-13 07:41:18
+To: vidyanisth9@gmail.com
+Name: Vidyanisth Marak
+Amount: ₹299
+Order ID: order_RH6cRPLxCyNVFc
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-13 16:31:34
+To: ajay.cheble@gmail.com
+Name: Ajay Cheble
+Amount: ₹299
+Order ID: order_RHFeRQaKjrc4FF
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-13 20:04:00
+To: ndeotarse@gmail.com
+Name: Nikhil
+Amount: ₹299
+Order ID: order_RHJGt8sfvFNviy
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-13 20:50:21
+To: dasdaksha@gmail.com
+Name: Daksha Das
+Amount: ₹299
+Order ID: order_RHK3gsFRwQ0I7m
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-13 21:02:04
+To: naresh.matia@gmail.com
+Name: Naresh Matia
+Amount: ₹299
+Order ID: order_RHKGTMtngQhnRT
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-13 21:36:17
+To: i.adityaa5@gmail.com
+Name: Adityyaa Siingh
+Amount: ₹299
+Order ID: order_RHKqYacncBCtKB
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-14 00:00:14
+To: 123nagaraj123@gmail.com
+Name: RAGHAVENDRA KULKARNI
+Amount: ₹299
+Order ID: order_RHNFM1xhEZwhfo
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-14 04:48:30
+To: srivastavpreetima@gmail.com
+Name: Preetima Srivastav
+Amount: ₹299
+Order ID: order_RHSCNs9qD1PIdd
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-14 08:48:06
+To: harjitoya@gmail.com
+Name: Harjit singh
+Amount: ₹299
+Order ID: order_RHWIAewOudbUbm
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-14 08:55:50
+To: drshikhacnbc@gmail.com
+Name: Shikha sharma
+Amount: ₹299
+Order ID: order_RHWQY7RFRZFUf4
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-15 08:08:34
+To: nitinyeshwant@gmail.com
+Name: Nitin yashwant tandel
+Amount: ₹299
+Order ID: order_RHu9arafjsbXnI
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-15 13:00:25
+To: magicktarotreader@gmail.com
+Name: Renuka agarwal
+Amount: ₹299
+Order ID: order_RHz82xIUECD4BQ
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-15 19:55:00
+To: rateeshdeo05@gmail.com
+Name: Dr.Rateesh Deo
+Amount: ₹299
+Order ID: order_RI6BkcBAKkdH5s
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-15 19:59:49
+To: leimapokpam.tennin007@gmail.com
+Name: Leimapokpam Tennin
+Amount: ₹299
+Order ID: order_RI6GtC8ZKqX78Q
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-16 04:42:09
+To: poonamsoni022@gmail.com
+Name: poonam soni
+Amount: ₹299
+Order ID: order_RIF9abxDvtVkPE
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-16 09:49:35
+To: snehapsyche@gmail.com
+Name: Soumya
+Amount: ₹299
+Order ID: order_RIKP7WqciKi3gY
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-16 12:34:54
+To: sonulovesavni@gmail.com
+Name: Neeru Rajpurohit
+Amount: ₹299
+Order ID: order_RINE320lKPzJtA
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-17 03:21:33
+To: satishpiparva@gmail.com
+Name: Satish Piparva
+Amount: ₹299
+Order ID: order_RIcGbIIOLayYcw
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-17 08:20:04
+To: pandurangbhalerao6@gmail.com
+Name: PANDURANG BHALERAO
+Amount: ₹299
+Order ID: order_RIhPlGWSKOu6Ck
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-17 11:28:46
+To: karan.mahajan.35912@gmail.com
+Name: Karnn Mmahajan
+Amount: ₹299
+Order ID: order_RIkdIHSPYUPgNQ
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-18 05:40:23
+To: nageshwarsharmaajmer@gmail.com
+Name: Nageshwar Sharma
+Amount: ₹299
+Order ID: order_RJ3DwXJD4Seynw
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-18 05:53:58
+To: dipakjangle1990@gmail.com
+Name: Dipak Jangle
+Amount: ₹299
+Order ID: order_RJ3SielWbL33ou
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-18 08:08:33
+To: pratikpatel.3479@yahoo.com
+Name: Pratik Patel
+Amount: ₹299
+Order ID: order_RJ5kVXZ9oTEHtV
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-18 11:22:20
+To: shyamp1966@gmail.com
+Name: shyam padwekar
+Amount: ₹299
+Order ID: order_RJ93h7C0CvlFs4
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-18 17:02:29
+To: rkburnwal10@gmail.com
+Name: Rajesh Burnwal
+Amount: ₹299
+Order ID: order_RJEqsdLLGim8PY
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-19 07:27:59
+To: sds1970@gmail.com
+Name: Shiv datt sharma
+Amount: ₹299
+Order ID: order_RJTbDgbEx4Qnu9
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-21 09:31:01
+To: aditikaundal1111@gmail.com
+Name: Aditi
+Amount: ₹299
+Order ID: order_RKIlU22oJd5yW8
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-21 22:15:04
+To: koushiks4u@gmail.com
+Name: Koushik suthrave
+Amount: ₹299
+Order ID: order_RKVmAhnUcH8gUJ
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-21 22:56:42
+To: mrpansderiya@gmail.com
+Name: Mehul rp
+Amount: ₹299
+Order ID: order_RKWUVafS9yUDBX
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-22 02:29:54
+To: rgkolvekar25@gmail.com
+Name: Rajesh Kolvekar
+Amount: ₹299
+Order ID: order_RKa30Jkk3I7h6M
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-22 02:47:40
+To: kgjalani@gmail.com
+Name: kusum jalani
+Amount: ₹299
+Order ID: order_RKaQHv72HiPiLo
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-23 00:36:54
+To: sukanshah063@gmail.com
+Name: Sukansha
+Amount: ₹299
+Order ID: order_RKwich6BeJpZTI
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-23 10:06:39
+To: khesssudeepkumar@gmail.com
+Name: SUDEEP KUMAR KHESS
+Amount: ₹299
+Order ID: order_RL6RPgneb8701P
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-24 03:14:32
+To: kkdeka2010@yahoo.com
+Name: Kaushik Kumar Deka
+Amount: ₹299
+Order ID: order_RLNxAWik5xIZJC
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-24 05:20:45
+To: b.vinaynayak@gmail.com
+Name: Vinay Nayak B
+Amount: ₹299
+Order ID: order_RLQ6UuYyUrajUh
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-25 14:25:31
+To: puspitagayen26@gmail.com
+Name: Puspita Gayen
+Amount: ₹299
+Order ID: order_RLxv7LmzBf1TtU
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-26 09:25:13
+To: abhinandangebise1008@gmail.com
+Name: abhinandan gebise
+Amount: ₹299
+Order ID: order_RMHKi5LYYhWQbl
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-26 10:27:04
+To: drsusrak@gmail.com
+Name: Kanhaiya
+Amount: ₹299
+Order ID: order_RMINy5GxVHC6BL
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-27 22:39:29
+To: prityadhikary1111@gmail.com
+Name: prity adhikary
+Amount: ₹299
+Order ID: order_RMtOWVbrZlM4Pq
+Status: Email sent successfully
+
+=============================
+Time: 2025-09-28 10:05:52
+To: yusufshaikh918@gmail.com
+Name: Yusuf Shaikh
+Amount: ₹299
+Order ID: order_RN55To5iDcLwhO
+Status: Email sent successfully
+

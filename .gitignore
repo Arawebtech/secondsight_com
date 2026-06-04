@@ -1,0 +1,28 @@
+ssf.sql
+# ZIP & Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+
+# Backup Files
+*.sql
+*.sql.gz
+*.bak
+*.backup
+
+# IDE Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# PHPUnit
+.phpunit.result.cache
