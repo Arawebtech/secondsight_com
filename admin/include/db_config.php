@@ -1,13 +1,13 @@
 <?php
 
 $servername = "localhost";
-$username = "jhbewdmy_ssf";
-$password = "NDyakq.q#o_r";
+$username = "secondsight_com_db";
+$password = "Solutions@321@";
 $dbname = "jhbewdmy_ssf";
 
 // Defining base url
 if (!defined('BASE_URL')) {
-    define("BASE_URL", "https://www.secondsightfoundation.com/");
+    define("BASE_URL", "http://new.arawebtechnologies.com/");
 }
 
 // Getting Admin url

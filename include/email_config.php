@@ -27,6 +27,6 @@ define('SENDER_EMAIL', 'your-email@gmail.com'); // Replace with your email
 define('SENDER_NAME', 'Secondsight Foundation');
 
 // Website Information
-define('WEBSITE_URL', 'https://www.secondsightfoundation.com');
-define('LOGO_URL', 'https://www.secondsightfoundation.com/assets/img/n-logo.png');
+define('WEBSITE_URL', 'http://localhost/secondSiteCom');
+define('LOGO_URL', 'http://localhost/secondSiteCom/assets/img/n-logo.png');
 ?> 
