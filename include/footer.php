@@ -381,18 +381,18 @@ $conn->close();
                     <h3>Quick Links</h3>
                     <ul class="link">
                         <li>
-                            <a href="index.php">Home</a>
+                            <a href="/index.php">Home</a>
                         </li>
                         <li>
-                            <a href="about.php">About us
+                            <a href="/about.php">About us
                             </a>
                         </li>
                         <li>
-                            <a href="testimonial.php">Testimonial
+                            <a href="/testimonial.php">Testimonial
                             </a>
                         </li>
                         <li>
-                            <a href="contact.php">Contact us</a>
+                            <a href="/contact.php">Contact us</a>
                         </li>
                     </ul>
                 </div>
@@ -402,16 +402,16 @@ $conn->close();
                     <h3>Useful links</h3>
                     <ul class="link">
                         <li>
-                            <a href="courses.php">Courses</a>
+                            <a href="/courses.php">Courses</a>
                         </li>
                         <li>
-                            <a href="teamlist.php">Our Team</a>
+                            <a href="/teamlist.php">Our Team</a>
                         </li>
                         <li>
-                            <a href="view_gallery.php">View Gallery</a>
+                            <a href="/view_gallery.php">View Gallery</a>
                         </li>
                         <li>
-                            <a href="blog.php">Blog</a>
+                            <a href="/blog.php">Blog</a>
                         </li>
 <li>
  <a href="terms-and-conditons.php" target="_blank">Terms & Conditions</a></li>

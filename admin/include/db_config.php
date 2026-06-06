@@ -1,9 +1,9 @@
 <?php
 
 $servername = "localhost";
-$username = "secondsight_com_db";
+$username = "secondsight_com_user";
 $password = "Solutions@321@";
-$dbname = "jhbewdmy_ssf";
+$dbname = "secondsight_com_db";
 
 // Defining base url
 if (!defined('BASE_URL')) {
@@ -28,3 +28,6 @@ date_default_timezone_set('Asia/Calcutta');
 $base_url = BASE_URL;
 
 ?>
+
+
+

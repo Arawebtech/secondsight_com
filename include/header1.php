@@ -8,29 +8,29 @@ $user_name = $is_logged_in ? $_SESSION['user_name'] : '';
 
     <div class="mobile-nav">
         <a href="index.php" class="logo">
-            <img src="assets/img/n-logo.png" class="main-logo" style="max-width: 206%; height: 60px;" alt="Logo" loading="lazy">
-            <img src="assets/img/logoh.png" class="white-logo" alt="Logo" loading="lazy">
+            <img src="/assets/img/n-logo.png" class="main-logo" style="max-width: 206%; height: 60px;" alt="Logo" loading="lazy">
+            <img src="/assets/img/logoh.png" class="white-logo" alt="Logo" loading="lazy">
         </a>
     </div>
 
     <div class="main-nav justify-content-end">
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg">
-                <a class="navbar-brand" href="index.php">
-                    <img src="assets/img/n-logo.png" class="main-logo" alt="Logo" style="height: 69px;" loading="lazy">
-                    <img src="assets/img/logoh.png" class="white-logo" style="max-width: 82%;" alt="Logo" loading="lazy">
+                <a class="navbar-brand" href="/index.php">
+                    <img src="/assets/img/n-logo.png" class="main-logo" alt="Logo" style="height: 69px;" loading="lazy">
+                    <img src="/assets/img/logoh.png" class="white-logo" style="max-width: 82%;" alt="Logo" loading="lazy">
                 </a>
                 <div class="collapse navbar-collapse mean-menu" style="margin-left:60px;">
                     <ul class="navbar-nav m-auto">
-                        <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-                        <li class="nav-item"><a href="about.php" class="nav-link">About us</a></li>
+                        <li class="nav-item"><a href="/index.php" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="/about.php" class="nav-link">About us</a></li>
                         <?php if (!$is_logged_in): ?>
-                            <li class="nav-item"><a href="courses.php" class="nav-link">Courses</a></li>
+                            <li class="nav-item"><a href="/courses.php" class="nav-link">Courses</a></li>
                         <?php endif; ?>
-                        <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
-                        <li class="nav-item"><a href="testimonial.php" class="nav-link">Testimonial</a></li>
-                        <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-                        <!--<li class="nav-item"><a href="apply.php" class="nav-link">Apply Now</a></li>-->
+                        <li class="nav-item"><a href="/blog.php" class="nav-link">Blog</a></li>
+                        <li class="nav-item"><a href="/testimonial.php" class="nav-link">Testimonial</a></li>
+                        <li class="nav-item"><a href="/contact.php" class="nav-link">Contact</a></li>
+                        <!--<li class="nav-item"><a href="/apply.php" class="nav-link">Apply Now</a></li>-->
 
                         <div class="others-option">
                         <!-- Cart Icon -->

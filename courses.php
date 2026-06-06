@@ -299,7 +299,7 @@ mysqli_set_charset($conn, "utf8mb4");
                     ?>
                     <div class="col-lg-4 col-md-6">
                         <div class="single-course shadow">
-                            <a href="<?= $base_url; ?>courses/<?= $row['url']; ?>">
+                            <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>">
                                 <img src="<?= $bannerImagePath; ?>" alt="Image">
                             </a>
                             
@@ -314,7 +314,7 @@ mysqli_set_charset($conn, "utf8mb4");
                                 <span class="discounted-price">₹ <?= number_format($discountedPrice, 0); ?></span>
                                 <span class="original-price">₹ <?= number_format($originalPrice, 0); ?></span>
                             </div>
-                            <a href="<?= $base_url; ?>courses/<?= $row['url']; ?>">
+                            <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>">
                                 <h3>
                                     <?= $row['s_name']; ?>
                                 </h3>
@@ -326,7 +326,7 @@ mysqli_set_charset($conn, "utf8mb4");
                                 }
                                 ?>
                                 <li>
-                                    <a href="<?= $base_url; ?>courses/<?= $row['url']; ?>">
+                                    <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>">
                                         5
                                     </a>
                                 </li>
@@ -356,7 +356,7 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
 
 
                             <div style="margin-top: 35px; text-align: center;" class="btn-course-view">
-                            <a href="<?= $base_url; ?>courses/<?= $row['url']; ?>" class="default-btn" style="padding: 10px 20px;">
+                          <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>" class="default-btn" style="padding: 10px 20px;">
                                 Know More
                             </a>
                         </div>

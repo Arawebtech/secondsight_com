@@ -539,14 +539,14 @@ if ($result_product->num_rows > 0) {
 
 
                                     <div class="item">
-                                        <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row['url']; ?>" class="thumb">
+                                        <a  class="thumb">
                                             <span class="fullimage cover bg<?= $index; ?>" role="img"
                                                 style="background-image: url('<?= $bannerImagePath1; ?>');"></span>
                                         </a>
 
                                         <div class="info">
                                             <h4 class="title">
-                                              <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row['url']; ?>">
+                                                <a href="<?= $base_url; ?>blog/<?= $row1['url']; ?>">
                                                     <h3 style="font-size:18px">
                                                         <?= $row1['b_name']; ?>
                                                     </h3> <!-- Dynamic description -->
@@ -589,7 +589,7 @@ if ($result_product->num_rows > 0) {
                                     style="width: 410px; height: 250px;">
                             </a>
                             <div class="course-content">
-                               <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row['url']; ?>">
+                                <a href="<?= $base_url; ?>blog/<?= $row1['url']; ?>">
                                     <h3>
                                           <?php
                                     // Trim the short description to remove any leading or trailing whitespace

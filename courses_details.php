@@ -1037,7 +1037,7 @@ include('include/head.php');
 
                                 ?>
                                     <div class="item">
-                                        <a href="<?= $base_url; ?>courses/<?= $row1['url']; ?>" class="thumb">
+                                        <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row1['url']; ?>" class="thumb">
                                             <span class="fullimage cover bg1" role="img"
                                                 style="background-image: url('<?= $bannerImagePath1; ?>');"></span>
                                         </a>
@@ -1045,7 +1045,7 @@ include('include/head.php');
 
                                         <div class="info">
                                             <h4 class="title">
-                                                <a href="<?= $base_url; ?>courses/<?= $row1['url']; ?>">
+                                                <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row1['url']; ?>">
                                                     <h5>
                                                         <?= $row1['s_title']; ?>
                                                     </h5> <!-- Dynamic description -->
@@ -1092,7 +1092,7 @@ include('include/head.php');
                 ?>
                     <div class="col-lg-4 col-md-6">
                         <div class="single-course shadow">
-                            <a href="<?= $base_url; ?>courses/<?= $row2['url']; ?>">
+                            <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row2['url']; ?>">
                                 <img src="<?= $bannerImagePath1; ?>" alt="Image">
                             </a>
                             <div class="course-content">
@@ -1101,7 +1101,7 @@ include('include/head.php');
                                     <!--<small> <del class="total_price"><?= $row2['duration']; ?></del></small>-->
                                 </span>
                                 <!--<span class="tag">Education</span>-->
-                                <a href="<?= $base_url; ?>courses/<?= $row2['url']; ?>">
+                                <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row2['url']; ?>">
                                     <h3>
                                         <?= $row2['s_name']; ?>
                                     </h3>
@@ -1116,7 +1116,7 @@ include('include/head.php');
                                     }
                                     ?>
                                     <!--<li>-->
-                                    <!--    <a href="<?= $base_url; ?>courses/<?= $row2['url']; ?>">-->
+                                    <!--    <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row2['url']; ?>">-->
                                     <!--        <?= $row2['rating']; ?>-->
                                     <!--    </a>-->
                                     <!--</li>-->
@@ -1134,7 +1134,7 @@ include('include/head.php');
                                     ?>
                                 </span>
                                 <div style="margin-top: 15px;" class="btn-course-view">
-                                    <a href="<?= $base_url; ?>courses/<?= $row2['url'] ?>" class="default-btn" style="padding: 10px 20px;">
+                                    <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row2['url'] ?>" class="default-btn" style="padding: 10px 20px;">
                                         Buy Now
                                     </a>
                                 </div>

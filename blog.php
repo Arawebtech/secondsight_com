@@ -140,11 +140,11 @@ $result = mysqli_query($conn, $query);
 
                     <div class="col-lg-4 col-md-6">
                         <div class="single-course">
-                            <a href="<?= $base_url; ?>blog/<?= $row['url']; ?>">
+                            <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row['url']; ?>">
                                 <img src="<?= $bannerImagePath; ?>" alt="Image" style="width: 390px; height: 250px;">
                             </a>
                             <div class="course-content">
-                                <a href="<?= $base_url; ?>blog/<?= $row['url']; ?>">
+                                <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row['url']; ?>">
                                     <h3>
                                         <?= $row['b_name']; ?>
                                     </h3>
