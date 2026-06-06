@@ -173,7 +173,7 @@ include('include/head.php');
                     ?>
                     <div class="col-lg-4 col-md-6">
                         <div class="single-news">
-                            <img src="assets/img/gallery/<?= $row['small_image'] ?>" alt="Image" id="<?php $row['id'] ?>"
+                            <img src="/assets/img/gallery/<?= $row['small_image'] ?>" alt="Image" id="<?php $row['id'] ?>"
                                 class="modal-content" onclick="openModal(this.src)" style="width:-webkit-fill-available;">
                         </div>
                     </div>

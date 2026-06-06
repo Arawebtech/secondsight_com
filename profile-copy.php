@@ -449,7 +449,7 @@ function checkNotificationExists($user_id, $message, $date) {
         <div class="container-fluid" style="justify-content: flex-start;">
             <!-- Logo -->
             <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
-                <img src="assets/img/logo-nn.png" class="main-logo" alt="Logo" style="height: 50px; margin-right: 10px;">
+                <img src="/assets/img/logo-nn.png" class="main-logo" alt="Logo" style="height: 50px; margin-right: 10px;">
             </a>
          <button class="openbtn" onclick="openNav()" style="border-radius:5px;">☰  </button> 
          
@@ -803,7 +803,7 @@ function checkNotificationExists($user_id, $message, $date) {
                                 <h3 class="course-title-head py-1" style="background-color:#d3d3cf;padding:6%;"><?php echo htmlspecialchars($course['s_name']); ?></h3>
                                 <div class="row" style="padding:2% 6%;">
                                     <div class="img-box col-lg-4 col-md-6 col-12">
-                                        <img src="assets/img/course-img/<?php echo htmlspecialchars($course['banner_image']); ?>" alt="course_img">
+                                        <img src="/assets/img/course-img/<?php echo htmlspecialchars($course['banner_image']); ?>" alt="course_img">
                                     </div>
                                     <div class="content-box col-lg-8 col-md-6 col-12 row">
                                         <!--<div class="desc"><?php echo strlen($course['description']) > 100 ? substr($course['description'], 0, 100) . '...' : $course['description']; ?></div>-->

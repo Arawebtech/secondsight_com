@@ -286,8 +286,8 @@ mysqli_set_charset($conn, "utf8mb4");
             <div class="row">
                 <?php
                 while ($row = mysqli_fetch_assoc($result)) {
-                    // $bannerImagePath = $base_url . "assets/img/course-img/{$row['banner_image']}";
-         $bannerImagePath = "assets/img/course-img/" . rawurlencode($row['banner_image']);
+                    // $bannerImagePath = $base_url . "/assets/img/course-img/{$row['banner_image']}";
+         $bannerImagePath = "/assets/img/course-img/" . rawurlencode($row['banner_image']);
 
                     
                     // Calculate discounted price (assuming 20% discount, you can modify this logic)

@@ -71,7 +71,7 @@ if ($result_product->num_rows > 0) {
         <div class="mobile-nav">
             <a href="index.php" class="logo">
                 <img src="../assets/img/n-logo.png" class="main-logo" style="max-width: 206%; height: 44px;" alt="Logo" loading="lazy">
-                <img src="assets/img/logoh.png" class="white-logo" alt="Logo" loading="lazy">
+                <img src="/assets/img/logoh.png" class="white-logo" alt="Logo" loading="lazy">
             </a>
         </div>
 

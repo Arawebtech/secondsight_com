@@ -71,7 +71,7 @@ include('include/head.php');
             <div class="row">
                  <?php while ($row = mysqli_fetch_assoc($result)) {
                     // $bannerImagePath = $base_url . "/assets/img/team/{$row['image']}";
-                    $bannerImagePath = "assets/img/team/" . rawurlencode($row['image']);
+                    $bannerImagePath = "/assets/img/team/" . rawurlencode($row['image']);
                     ?>
                 
                 <div class="col-lg-3 col-sm-6">

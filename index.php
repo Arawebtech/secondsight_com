@@ -164,14 +164,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['enroll-submit'])) {
 <?php
 include('include/head.php');
 ?>
-<link rel="preload" href="assets/img/banner-imag/b11.webp" as="image">
+<link rel="preload" href="/assets/img/banner-imag/b11.webp" as="image">
 
-<link rel="stylesheet" href="assets/css/odometer.min.css">
-<link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
-<link rel="preload" href="assets/img/banner-imag/s1.webp" as="image">
+<link rel="stylesheet" href="/assets/css/odometer.min.css">
+<link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
+<link rel="preload" href="/assets/img/banner-imag/s1.webp" as="image">
 
-<link rel="preload" href="assets/img/banner-imag/b11.webp" as="image">
-<link rel="preload" href="assets/img/n-logo.png" as="image">
+<link rel="preload" href="/assets/img/banner-imag/b11.webp" as="image">
+<link rel="preload" href="/assets/img/n-logo.png" as="image">
 <style amp-custom>
     .single-course,
     .single-teachers {
@@ -377,7 +377,7 @@ include('include/head.php');
                 <!-- Right Image -->
                 <div class="col-lg-6">
                     <div class="banner-img wow animate__animated animate__fadeInRight" data-wow-delay="1.5s">
-                        <img src="assets/img/banner-imag/s1.webp" alt="Banner Image" loading="lazy">
+                        <img src="/assets/img/banner-imag/s1.webp" alt="Banner Image" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -548,7 +548,7 @@ include('include/head.php');
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-achieve">
                         <div class="achieve-shape shape-1">
-                            <img loading="lazy" src="assets/img/achieve-shape/1.png" alt="Image">
+                            <img loading="lazy" src="/assets/img/achieve-shape/1.png" alt="Image">
                         </div>
                         <h3 style="font-size: 18px;">Master Powerful Techniques</h3>
                         <p class="font-14-mobile"  style="font-size: 14px;">Learn advanced spiritual techniques such as Third Eye Activation, Shambhavi Healing, and Aura
@@ -558,7 +558,7 @@ include('include/head.php');
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-achieve">
                         <div class="achieve-shape shape-2">
-                            <img loading="lazy" src="assets/img/achieve-shape/2.png" alt="Image">
+                            <img loading="lazy" src="/assets/img/achieve-shape/2.png" alt="Image">
                         </div>
                         <h3 style="font-size: 18px;">Transform Your                         <br> Life</h3>
                         <br>
@@ -570,7 +570,7 @@ include('include/head.php');
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-achieve">
                         <div class="achieve-shape shape-3">
-                            <img loading="lazy" src="assets/img/achieve-shape/3.png" alt="Image">
+                            <img loading="lazy" src="/assets/img/achieve-shape/3.png" alt="Image">
                         </div>
                         <h3 style="font-size: 18px;">Get Certified</h3>
                         <br>
@@ -581,7 +581,7 @@ include('include/head.php');
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-achieve">
                         <div class="achieve-shape shape-4">
-                            <img loading="lazy" src="assets/img/achieve-shape/4.png" alt="Image">
+                            <img loading="lazy" src="/assets/img/achieve-shape/4.png" alt="Image">
                         </div>
                         <h3 style="font-size: 18px;">Empower Your Community</h3> <br>
                         <p class="font-14-mobile"  style="font-size: 14px;">Utilize your newfound skills to create a positive impact by healing and guiding others,
@@ -644,19 +644,19 @@ include('include/head.php');
                 <div class="col-lg-6">
                     <div class="education-img-wrap">
                         <div class="education-img-2">
-                            <img loading="lazy" src="assets/img/banner-imag/p2.webp" alt="Image">
+                            <img loading="lazy" src="/assets/img/banner-imag/p2.webp" alt="Image">
                         </div>
                         <div class="education-img-3">
-                            <img loading="lazy" src="assets/img/banner-imag/p1.webp" alt="Image">
+                            <img loading="lazy" src="/assets/img/banner-imag/p1.webp" alt="Image">
                         </div>
                         <div class="education-img-4">
-                            <img loading="lazy" src="assets/img/banner-imag/p3.webp" alt="Image">
+                            <img loading="lazy" src="/assets/img/banner-imag/p3.webp" alt="Image">
                         </div>
                         <div class="education-shape-1">
-                            <img loading="lazy" src="assets/img/banner-imag/education-shape-1.webp" alt="Image">
+                            <img loading="lazy" src="/assets/img/banner-imag/education-shape-1.webp" alt="Image">
                         </div>
                         <div class="education-shape-2">
-                            <img loading="lazy" src="assets/img/banner-imag/education-shape-2.png" alt="Image">
+                            <img loading="lazy" src="/assets/img/banner-imag/education-shape-2.png" alt="Image">
                         </div>
                     </div>
                 </div>
@@ -766,7 +766,7 @@ include('include/head.php');
             <div class="row">
                 <div class="col-lg-6">
                     <div class="education-img" style="height: 81%;">
-                        <img loading="lazy" src="assets/img/imag/guruji2.webp" alt="Image">
+                        <img loading="lazy" src="/assets/img/imag/guruji2.webp" alt="Image">
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -814,7 +814,7 @@ include('include/head.php');
                 $result = mysqli_query($conn, $query);
                 while ($row = mysqli_fetch_assoc($result)) {
                     // $bannerImagePath = $base_url . "/assets/img/course-img/{$row['banner_image']}";
-                          $bannerImagePath = "assets/img/course-img/" . rawurlencode($row['banner_image']);
+                          $bannerImagePath = "/assets/img/course-img/" . rawurlencode($row['banner_image']);
 
                     ?>
 
@@ -920,7 +920,7 @@ include('include/head.php');
                 </div>
                 <div class="col-md-7 d-flex justify-content-end">
                     <div class="enroll-img">
-                        <img loading="lazy" src="assets/img/imag/ccc.jpg" alt="Image" style="width:520px;">
+                        <img loading="lazy" src="/assets/img/imag/ccc.jpg" alt="Image" style="width:520px;">
                     </div>
                 </div>
             </div>
@@ -945,7 +945,7 @@ include('include/head.php');
                 $result_team = mysqli_query($conn, $query_team);
                 while ($row_team = mysqli_fetch_assoc($result_team)) {
                     // $bannerImagePath = $base_url . "/assets/img/team/{$row_team['image']}"; 
-                      $bannerImagePath = "assets/img/team/" . rawurlencode($row_team['image']);
+                      $bannerImagePath = "/assets/img/team/" . rawurlencode($row_team['image']);
 
                     ?>
                     
@@ -1061,7 +1061,7 @@ include('include/head.php');
 
                     <div class="col-lg-4 col-md-6">
                         <div class="single-news">
-                            <img loading="lazy" src="assets/img/gallery/<?= $row['small_image'] ?>" alt="Image"
+                            <img loading="lazy" src="/assets/img/gallery/<?= $row['small_image'] ?>" alt="Image"
                                 style="width:-webkit-fill-available;" loading="lazy">
                         </div>
                     </div>
@@ -1095,7 +1095,7 @@ include('include/head.php');
                 while ($row = mysqli_fetch_assoc($result)) {
 
                     // $bannerImagePath = $base_url . "/assets/img/single-blog/{$row['banner_image']}";
-                          $bannerImagePath = "assets/img/single-blog/" . rawurlencode($row['banner_image']);
+                          $bannerImagePath = "/assets/img/single-blog/" . rawurlencode($row['banner_image']);
 
 
                     ?>
@@ -1166,7 +1166,7 @@ include('include/head.php');
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-counter">
                         <div class="counter-shape shape-1">
-                            <img src="assets/img/counter-shape/counter-shape-1.png" alt="Image" loading="lazy">
+                            <img src="/assets/img/counter-shape/counter-shape-1.png" alt="Image" loading="lazy">
                             <h2>
                                 <span class="odometer" data-count="100">00</span>
                                 <span class="target">%</span>
@@ -1178,7 +1178,7 @@ include('include/head.php');
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-counter">
                         <div class="counter-shape shape-2">
-                            <img src="assets/img/counter-shape/counter-shape-2.png" alt="Image" loading="lazy">
+                            <img src="/assets/img/counter-shape/counter-shape-2.png" alt="Image" loading="lazy">
                             <h2>
                                 <span class="odometer" data-count="5253">00</span>
                             </h2>
@@ -1189,7 +1189,7 @@ include('include/head.php');
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-counter">
                         <div class="counter-shape shape-3">
-                            <img src="assets/img/counter-shape/counter-shape-3.png" alt="Image" loading="lazy">
+                            <img src="/assets/img/counter-shape/counter-shape-3.png" alt="Image" loading="lazy">
                             <h2>
                                 <span class="odometer" data-count="325">00</span>
                             </h2>
@@ -1200,7 +1200,7 @@ include('include/head.php');
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-counter">
                         <div class="counter-shape shape-4">
-                            <img src="assets/img/counter-shape/counter-shape-4.png" alt="Image" loading="lazy">
+                            <img src="/assets/img/counter-shape/counter-shape-4.png" alt="Image" loading="lazy">
                             <h2>
                                 <span class="odometer" data-count="565">00</span>
                             </h2>
@@ -1217,7 +1217,7 @@ include('include/head.php');
     <div class="video-area f5f6fa-bg-color">
         <div class="container">
             <div class="video-wrap">
-                <img src="assets/img/banner-imag/image.webp" alt="Image" loading="lazy">
+                <img src="/assets/img/banner-imag/image.webp" alt="Image" loading="lazy">
                 <div class="video-content">
                     <!--<a href="https://www.youtube.com/watch?v=ZL-xMdqFJZw" class="video-btn popup-youtube">-->
                         <i class="flaticon-play-button"></i>

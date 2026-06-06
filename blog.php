@@ -135,7 +135,7 @@ $result = mysqli_query($conn, $query);
             <div class="row">
                 <?php while ($row = mysqli_fetch_assoc($result)) {
                     // $bannerImagePath = $base_url . "/assets/img/single-blog/{$row['banner_image']}";
-                    $bannerImagePath = "assets/img/single-blog/" . rawurlencode($row['banner_image']);
+                    $bannerImagePath = "/assets/img/single-blog/" . rawurlencode($row['banner_image']);
                     ?>
 
                     <div class="col-lg-4 col-md-6">

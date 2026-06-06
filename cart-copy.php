@@ -106,7 +106,7 @@ $email_prefill = $_SESSION['email'] ?? ''; // Session se email fetch karo
                                     </td>
                                     <td data-label="Image">
                                         <?php
-                                            // $bannerImagePath = $base_url . "assets/img/course-img/{$course['banner_image']}";
+                                            // $bannerImagePath = $base_url . "/assets/img/course-img/{$course['banner_image']}";
                                             $bannerImagePath = "/assets/img/course-img/" . rawurlencode($course['banner_image']);
                                         ?>
                                         <img src="<?= $bannerImagePath; ?>" alt="Product Image" style="width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid #eee;">

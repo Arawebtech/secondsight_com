@@ -119,7 +119,7 @@ include('include/head.php');
             <div class="col-lg-6">
                 <div class="education-img-wrap" style="position: relative;">
                                          <div class="education-img-2" style="position: relative; overflow: hidden; border-radius: 15px; ">
-                         <img src="assets/img/imag/about2.webp" alt="Image" loading="lazy" style="border-radius: 15px; transition: transform 0.3s ease; width: 100%; height: 100%; object-fit: cover;">
+                         <img src="/assets/img/imag/about2.webp" alt="Image" loading="lazy" style="border-radius: 15px; transition: transform 0.3s ease; width: 100%; height: 100%; object-fit: cover;">
                      </div>
                     <div style="position: absolute; top: -10px; right: -10px; width: 50px; height: 50px; background: #fdc134; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(253, 193, 52, 0.3);">
                         <i class="bx bx-star" style="color: white; font-size: 20px;"></i>
@@ -160,7 +160,7 @@ include('include/head.php');
                 <div class="education-img-wrap" style="position: relative;">
                                          <div class="education-img-2" style="position: relative; overflow: hidden; border-radius: 15px;
                                          ">
-                         <img src="assets/img/imag/banner-about-md.webp" alt="Image" loading="lazy" style="border-radius: 15px; transition: transform 0.3s ease; width: 100%; height: 100%; object-fit: cover;">
+                         <img src="/assets/img/imag/banner-about-md.webp" alt="Image" loading="lazy" style="border-radius: 15px; transition: transform 0.3s ease; width: 100%; height: 100%; object-fit: cover;">
                      </div>
                     <div style="position: absolute; top: -10px; left: -10px; width: 50px; height: 50px; background: #fdc134; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(253, 193, 52, 0.3);">
                         <i class="bx bx-award" style="color: white; font-size: 20px;"></i>
@@ -258,7 +258,7 @@ include('include/head.php');
             $result_team = mysqli_query($conn, $query_team);
             while ($row_team = mysqli_fetch_assoc($result_team)) {
                 // $bannerImagePath = $base_url . "/assets/img/team/{$row_team['image']}";
-                      $bannerImagePath = "assets/img/team/" . rawurlencode($row_team['image']);
+                      $bannerImagePath = "/assets/img/team/" . rawurlencode($row_team['image']);
 
             ?>
                 <div class="col-lg-3 col-sm-6">

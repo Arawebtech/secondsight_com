@@ -483,7 +483,7 @@ function checkNotificationExists($user_id, $message, $date)
                     <div class="container-fluid" style="justify-content: flex-start;">
                         <!-- Logo -->
                         <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
-                            <img src="assets/img/logo-nn.png" class="main-logo" alt="Logo" style="height: 50px; margin-right: 10px;">
+                            <img src="/assets/img/logo-nn.png" class="main-logo" alt="Logo" style="height: 50px; margin-right: 10px;">
                         </a>
                         <button class="openbtn" onclick="openNav()" style="border-radius:5px;">☰  </button>
 
