@@ -168,9 +168,9 @@ try {
 
 // Set up paths
 echo "<!-- DEBUG: Setting up paths -->\n";
-$videoBasePath = 'https://secondsightfoundation.com/';
-$outputDir = '/home2/jhbewdmy/public_html/secondsightfoundationcom/admin/temp_videos/';
-$watermarkDir = '/home2/jhbewdmy/public_html/secondsightfoundationcom/admin/watermarks/';
+$videoBasePath = __DIR__ . '/';
+$outputDir = __DIR__ . '/admin/temp_videos/';
+$watermarkDir = __DIR__ . '/admin/watermarks/';
 
 echo "<!-- DEBUG: Output dir: $outputDir -->\n";
 echo "<!-- DEBUG: Watermark dir: $watermarkDir -->\n";
@@ -178,7 +178,7 @@ echo "<!-- DEBUG: Watermark dir: $watermarkDir -->\n";
 // Create directories if they don't exist
 if (!is_dir($outputDir)) {
     echo "<!-- DEBUG: Creating output directory -->\n";
-    if (!mkdir($outputDir, 0755, true)) {
+    if (!@mkdir($outputDir, 0755, true)) {
         echo "<!-- DEBUG: Failed to create output directory -->\n";
     } else {
         echo "<!-- DEBUG: Output directory created -->\n";
@@ -189,7 +189,7 @@ if (!is_dir($outputDir)) {
 
 if (!is_dir($watermarkDir)) {
     echo "<!-- DEBUG: Creating watermark directory -->\n";
-    if (!mkdir($watermarkDir, 0755, true)) {
+    if (!@mkdir($watermarkDir, 0755, true)) {
         echo "<!-- DEBUG: Failed to create watermark directory -->\n";
     } else {
         echo "<!-- DEBUG: Watermark directory created -->\n";
@@ -198,12 +198,12 @@ if (!is_dir($watermarkDir)) {
     echo "<!-- DEBUG: Watermark directory exists -->\n";
 }
 
-// Path to FFmpeg static binary
-$ffmpegPath = '/home2/jhbewdmy/bin/ffmpeg';
+// Path to FFmpeg binary (change to 'ffmpeg' if it's in system path, or specify absolute path)
+$ffmpegPath = 'ffmpeg'; // Defaulting to system ffmpeg for now
 echo "<!-- DEBUG: FFmpeg path: $ffmpegPath -->\n";
 
 // Path to font file
-$fontFile = '/home2/jhbewdmy/public_html/secondsightfoundationcom/fonts/DejaVuSans-Bold.ttf';
+$fontFile = __DIR__ . '/fonts/DejaVuSans-Bold.ttf';
 echo "<!-- DEBUG: Font file: $fontFile -->\n";
 echo "<!-- DEBUG: Font file exists: " . (file_exists($fontFile) ? 'Yes' : 'No') . " -->\n";
 
