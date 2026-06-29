@@ -7,7 +7,7 @@ $dbname = "secondsight_com_db";
 
 // Defining base url
 if (!defined('BASE_URL')) {
-    define("BASE_URL", "http://new.arawebtechnologies.com/");
+    define("BASE_URL", "https://secondsightfoundation.com/");
 }
 
 // Getting Admin url
@@ -26,8 +26,3 @@ if (!$conn) {
 date_default_timezone_set('Asia/Calcutta');
 
 $base_url = BASE_URL;
-
-?>
-
-
-

@@ -335,16 +335,12 @@ function copyVideoWithoutWatermark($ffmpegPath, $inputPath, $outputPath)
 {
     echo "<!-- DEBUG: Copying video without watermark -->\n";
 
-    $inputEscaped = escapeshellarg($inputPath);
-    $outputEscaped = escapeshellarg($outputPath);
+    $result = copy($inputPath, $outputPath);
+    $output = "Native PHP copy() used. Result: " . ($result ? 'Success' : 'Failed');
+    
+    echo "<!-- DEBUG: Copy output: $output -->\n";
 
-    $cmd = "$ffmpegPath -i $inputEscaped -c copy $outputEscaped -y 2>&1";
-
-    echo "<!-- DEBUG: FFmpeg copy command: $cmd -->\n";
-    $output = shell_exec($cmd);
-    echo "<!-- DEBUG: FFmpeg copy output: $output -->\n";
-
-    return $cmd . "\n\n" . $output;
+    return $output;
 }
 
 // Check if GD extension is loaded
@@ -877,11 +873,14 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                             $finalVideoUrl = htmlspecialchars($publicVideoUrl) . '?v=' . time(); // cache-busting
                     
                             echo "<!-- DEBUG: About to render video element -->\n";
-                            echo "<div class='video-container'>";
+                            echo "<div class='video-container' style='position: relative; display: inline-block; width: 100%;'>";
                             echo "    <video id='video-$lessonIndex' data-index='$lessonIndex' controls preload='metadata' controlsList='nodownload' class='course-video' style='width:100%'>";
                             echo "        <source src='$finalVideoUrl' type='video/mp4'>";
                             echo "        Your browser does not support the video tag.";
                             echo "    </video>";
+                            echo "    <div class='css-watermark' style='position: absolute; top: 10%; left: 10%; opacity: 0.5; font-size: 18px; color: white; pointer-events: none; z-index: 10; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); user-select: none; background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 5px;'>";
+                            echo htmlspecialchars($watermarkText);
+                            echo "    </div>";
                             echo "</div>";
                             echo "<!-- DEBUG: Video element rendered -->\n";
 
