@@ -7,6 +7,10 @@ header("Pragma: no-cache");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+if (!defined('BASE_URL')) {
+    define("BASE_URL", "https://secondsightfoundation.com/");
+}
+
 include('admin/include/db_config.php');
 include('include/session_validator.php');
 
@@ -754,7 +758,7 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                             echo "<div class='lesson-content' style='display:" . ($lessonIndex === 0 ? 'block' : 'none') . "'>";
                             echo "<h4 class='lesson-title'>" . htmlspecialchars($lessonTitle) . "</h4>";
 
-                            $localVideoPath = '/home2/jhbewdmy/public_html/secondsightfoundationcom/admin/' . $videoUrl;
+                            $localVideoPath = __DIR__ . '/admin/' . $videoUrl;
                             echo "<!-- DEBUG: Local video path: $localVideoPath -->\n";
 
                             if (!file_exists($localVideoPath)) {
@@ -869,7 +873,7 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                             }
 
                             // Final public URL
-                            $publicVideoUrl = $base_url . "admin/temp_videos/" . basename($outputVideoPath);
+                            $publicVideoUrl = BASE_URL . "admin/temp_videos/" . basename($outputVideoPath);
                             $finalVideoUrl = htmlspecialchars($publicVideoUrl) . '?v=' . time(); // cache-busting
                     
                             echo "<!-- DEBUG: About to render video element -->\n";
