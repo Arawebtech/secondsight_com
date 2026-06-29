@@ -23,6 +23,6 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-date_default_timezone_set('Asia/Calcutta');
+date_default_timezone_set('Asia/Kolkata');
 
 $base_url = BASE_URL;
