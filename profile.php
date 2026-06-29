@@ -264,7 +264,8 @@ SELECT DISTINCT
     c.duration_time,
     'batch' AS access_type
 FROM user_batch_enrollments ube
-JOIN lesson_video lv ON ube.batch_id = lv.batch_id
+JOIN lesson_batch lb ON ube.batch_id = lb.batch_id
+JOIN lesson_video lv ON lb.lesson_id = lv.id
 JOIN courses c ON lv.course_id = c.id
 WHERE 
 ube.user_id = ? 

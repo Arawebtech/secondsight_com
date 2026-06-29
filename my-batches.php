@@ -23,7 +23,7 @@ SELECT
     ube.enrolled_date,
     ube.status AS enrollment_status,
     COUNT(DISTINCT ube2.user_id) AS current_enrolled,
-    0 AS lesson_count
+    (SELECT COUNT(*) FROM lesson_batch lb WHERE lb.batch_id = b.id) AS lesson_count
 FROM batch b
 LEFT JOIN user_batch_enrollments ube ON b.id = ube.batch_id AND ube.user_id = ?
 LEFT JOIN user_batch_enrollments ube2 ON b.id = ube2.batch_id AND ube2.status = 'Active'

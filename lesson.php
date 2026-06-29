@@ -877,14 +877,11 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                             $finalVideoUrl = htmlspecialchars($publicVideoUrl) . '?v=' . time(); // cache-busting
                     
                             echo "<!-- DEBUG: About to render video element -->\n";
-                            echo "<div class='video-container' style='position: relative; display: inline-block; width: 100%;'>";
+                            echo "<div class='video-container'>";
                             echo "    <video id='video-$lessonIndex' data-index='$lessonIndex' controls preload='metadata' controlsList='nodownload' class='course-video' style='width:100%'>";
                             echo "        <source src='$finalVideoUrl' type='video/mp4'>";
                             echo "        Your browser does not support the video tag.";
                             echo "    </video>";
-                            echo "    <div class='css-watermark' style='position: absolute; top: 10%; left: 10%; opacity: 0.5; font-size: 18px; color: white; pointer-events: none; z-index: 10; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); user-select: none; background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 5px;'>";
-                            echo htmlspecialchars($watermarkText);
-                            echo "    </div>";
                             echo "</div>";
                             echo "<!-- DEBUG: Video element rendered -->\n";
 
