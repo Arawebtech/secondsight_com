@@ -889,8 +889,8 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                             echo "<!-- DEBUG: About to render video element -->\n";
                             echo "<div class='video-container' style='position: relative; overflow: hidden; background: #000; border-radius: 8px;'>";
                             
-                            // JS/CSS Watermark Overlay
-                            echo "    <div class='js-watermark' style='position: absolute; top: 10px; left: 10px; color: rgba(255, 255, 255, 0.6); font-size: 18px; font-weight: bold; pointer-events: none; z-index: 999; padding: 5px 15px; background: rgba(0,0,0,0.4); border-radius: 5px; display: none; text-shadow: 1px 1px 2px #000; font-family: monospace; transition: all 0.5s ease;'>" . htmlspecialchars($watermarkText) . "</div>";
+                            // JS/CSS Watermark Overlay (Subtle Styling)
+                            echo "    <div class='js-watermark' style='position: absolute; top: 10px; left: 10px; color: rgba(255, 255, 255, 0.5); font-size: 13px; font-weight: normal; pointer-events: none; z-index: 999; padding: 4px 8px; background: rgba(0, 0, 0, 0.2); border-radius: 4px; display: none; text-shadow: 1px 1px 1px rgba(0,0,0,0.8); font-family: Arial, sans-serif; transition: all 0.8s ease; opacity: 0.6;'>" . htmlspecialchars($watermarkText) . "</div>";
 
                             echo "    <video id='video-$lessonIndex' data-index='$lessonIndex' controls preload='metadata' controlsList='nodownload' class='course-video' style='width:100%; display: block;'>";
                             echo "        <source src='$finalVideoUrl' type='video/mp4'>";
