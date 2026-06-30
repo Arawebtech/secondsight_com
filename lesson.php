@@ -783,11 +783,15 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                             echo "<!-- DEBUG: Output filename: $outputFilename -->\n";
                             echo "<!-- DEBUG: Output path: $outputVideoPath -->\n";
 
+                            // Try common absolute paths for FFmpeg on Linux just in case it's missing from PATH
+                            if (strpos($ffmpegPath, '/') === false) {
+                                if (file_exists('/usr/bin/ffmpeg')) $ffmpegPath = '/usr/bin/ffmpeg';
+                                elseif (file_exists('/usr/local/bin/ffmpeg')) $ffmpegPath = '/usr/local/bin/ffmpeg';
+                                elseif (file_exists('/opt/ffmpeg/bin/ffmpeg')) $ffmpegPath = '/opt/ffmpeg/bin/ffmpeg';
+                            }
+
                             // Only re-generate if it doesn't exist or is older than 1 hour
                             $needsRegeneration = !file_exists($outputVideoPath) || (time() - filemtime($outputVideoPath)) > 3600;
-                            
-                            // FORCING REGENERATION TO BYPASS CACHE
-                            $needsRegeneration = true;
                             
                             echo "<!-- DEBUG: Needs regeneration: " . ($needsRegeneration ? 'Yes' : 'No') . " -->\n";
 
