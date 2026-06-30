@@ -887,8 +887,12 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                             $finalVideoUrl = htmlspecialchars($publicVideoUrl) . '?v=' . time(); // cache-busting
                     
                             echo "<!-- DEBUG: About to render video element -->\n";
-                            echo "<div class='video-container'>";
-                            echo "    <video id='video-$lessonIndex' data-index='$lessonIndex' controls preload='metadata' controlsList='nodownload' class='course-video' style='width:100%'>";
+                            echo "<div class='video-container' style='position: relative; overflow: hidden; background: #000; border-radius: 8px;'>";
+                            
+                            // JS/CSS Watermark Overlay
+                            echo "    <div class='js-watermark' style='position: absolute; top: 10px; left: 10px; color: rgba(255, 255, 255, 0.6); font-size: 18px; font-weight: bold; pointer-events: none; z-index: 999; padding: 5px 15px; background: rgba(0,0,0,0.4); border-radius: 5px; display: none; text-shadow: 1px 1px 2px #000; font-family: monospace; transition: all 0.5s ease;'>" . htmlspecialchars($watermarkText) . "</div>";
+
+                            echo "    <video id='video-$lessonIndex' data-index='$lessonIndex' controls preload='metadata' controlsList='nodownload' class='course-video' style='width:100%; display: block;'>";
                             echo "        <source src='$finalVideoUrl' type='video/mp4'>";
                             echo "        Your browser does not support the video tag.";
                             echo "    </video>";
@@ -903,6 +907,59 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                     echo "<!-- DEBUG: All lessons processed -->\n";
                     ?>
                 </div>
+
+                <!-- JavaScript for Dynamic Moving Watermark -->
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const containers = document.querySelectorAll('.video-container');
+                    
+                    containers.forEach(container => {
+                        const video = container.querySelector('video');
+                        const watermark = container.querySelector('.js-watermark');
+                        
+                        if (video && watermark) {
+                            // Show watermark when playing
+                            video.addEventListener('play', () => {
+                                watermark.style.display = 'block';
+                            });
+                            
+                            // Hide watermark when paused or ended (optional, uncomment if desired)
+                            // video.addEventListener('pause', () => { watermark.style.display = 'none'; });
+                            // video.addEventListener('ended', () => { watermark.style.display = 'none'; });
+                            
+                            // Move watermark every 4 seconds
+                            setInterval(() => {
+                                if (!video.paused && !video.ended) {
+                                    // Calculate safe boundaries so watermark doesn't go off-screen
+                                    const maxX = container.clientWidth - watermark.clientWidth - 20;
+                                    const maxY = container.clientHeight - watermark.clientHeight - 40; // leaving space for controls
+                                    
+                                    // Generate random position
+                                    const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+                                    const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+                                    
+                                    watermark.style.left = randomX + 'px';
+                                    watermark.style.top = randomY + 'px';
+                                }
+                            }, 4000);
+                            
+                            // Anti-tamper: if user tries to delete the watermark node, reload page
+                            const observer = new MutationObserver(function(mutations) {
+                                mutations.forEach(function(mutation) {
+                                    if (mutation.removedNodes) {
+                                        for (let i = 0; i < mutation.removedNodes.length; i++) {
+                                            if (mutation.removedNodes[i] === watermark) {
+                                                location.reload();
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                            observer.observe(container, { childList: true });
+                        }
+                    });
+                });
+                </script>
 
                 <div class="notes-section">
                     <!-- DEBUG: Notes section started -->
