@@ -34,7 +34,7 @@ try {
             $discountPercentage = isset($row['discount_percentage']) ? $row['discount_percentage'] : 0;
             $discountedPrice = $originalPrice - ($originalPrice * $discountPercentage / 100);
             $bannerImagePath = $base_url . "/assets/img/course-img/" . htmlspecialchars($row['banner_image'] ?? '');
-            $courseUrl = $base_url . '/courses/' . htmlspecialchars($row['url'] ?? '');
+            $courseUrl = $base_url . '/courses_details.php?courses_url=' . htmlspecialchars($row['url'] ?? '');
 
             $output .= '
             <div class="col-lg-4 col-md-6">

@@ -138,7 +138,7 @@ if (isset($_GET['toggle'])) {
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Mobile</th>
-                                                <!--<th>Password</th>-->
+                                                <th>Password</th>
                                                 <th>Created Date</th>
                                                 <!-- <th>ADD DETAIL</th> -->
                                                 <th width="10%">Action</th>
@@ -170,12 +170,10 @@ if (isset($_GET['toggle'])) {
                                                 
                                                 <td>
                                                     <?php echo $info_item->mobile;?>
-                                                <!--<td>-->
-                                                    <?php
-                                                    // echo $info_item->password;
-                                                    ?>
-                                                    <!--<td><img src="../assets/image/therapy/banner/<?php echo $info_item->banner_image;?>"-->
-                                                    <!--        width="100px"></td>-->
+                                                </td>
+                                                <td>
+                                                    <?php echo $info_item->password;?>
+                                                </td>
                                                 <td>
                                                     <?php echo $info_item->created_date;?>
                                                 </td>

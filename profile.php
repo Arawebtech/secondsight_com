@@ -791,7 +791,7 @@ function checkNotificationExists($user_id, $message, $date)
                                 ?>
                                     <div class="col-lg-4 col-md-6">
                                         <div class="single-course shadow position-relative">
-                                            <a href="<?= $base_url; ?>courses/<?= $row['url']; ?>">
+                                            <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>">
                                                 <img src="<?= $bannerImagePath; ?>" alt="Image">
                                             </a>
                                             <div class="discount-badge"><?= $discountPercentage; ?>% OFF</div>
@@ -803,7 +803,7 @@ function checkNotificationExists($user_id, $message, $date)
                                                 <h3><?= htmlspecialchars($row['s_name'] ?? '') ?></h3>
                                                 <ul class="rating">
                                                     <?php for ($i = 0; $i < 5; $i++) { echo '<li><i class="bx bxs-star"></i></li>'; } ?>
-                                                    <li><a href="<?= $base_url; ?>courses/<?= $row['url']; ?>">5</a></li>
+                                                    <li><a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>">5</a></li>
                                                 </ul>
                                                 <span class="tag"><?php
 $shortDesc = trim($row['short_description']);
@@ -826,7 +826,7 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
     : $cleaned;
 ?></span>
                                                 <div class="btn-course-view">
-                                                    <a href="<?= $base_url; ?>courses/<?= $row['url']; ?>" class="default-btn">Buy Now</a>
+                                                    <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>" class="default-btn">Buy Now</a>
                                                 </div>
                                             </div>
                                         </div>
