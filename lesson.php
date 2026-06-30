@@ -792,14 +792,23 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                 $method = '';
                                 $success = false;
 
-                                if ($drawtextAvailable && file_exists($fontFile)) {
+                                // Check if FFmpeg is actually installed/available
+                                $ffmpegAvailable = false;
+                                try {
+                                    // On Windows, 2>/dev/null doesn't work the same, but shell_exec will return empty or throw if ffmpeg isn't found
+                                    $checkCmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? "$ffmpegPath -version 2> NUL" : "$ffmpegPath -version 2>/dev/null";
+                                    $output = shell_exec($checkCmd);
+                                    $ffmpegAvailable = !empty(trim($output ?? ''));
+                                } catch (Exception $e) { }
+
+                                if ($ffmpegAvailable && $drawtextAvailable && file_exists($fontFile)) {
                                     // Method 1: Use drawtext filter
                                     echo "<!-- DEBUG: Using drawtext method -->\n";
                                     $method = "DrawText Filter";
                                     $ffmpegOutput = applyWatermarkDrawtext($ffmpegPath, $localVideoPath, $outputVideoPath, $fontFile, $watermarkText);
                                     $success = file_exists($outputVideoPath);
 
-                                } elseif ($gdAvailable) {
+                                } elseif ($ffmpegAvailable && $gdAvailable) {
                                     // Method 2: Use image overlay
                                     echo "<!-- DEBUG: Using image overlay method -->\n";
                                     $method = "Image Overlay";
