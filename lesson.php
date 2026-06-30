@@ -792,75 +792,43 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                 $method = '';
                                 $success = false;
 
-                                // Check if FFmpeg is actually installed/available
-                                $ffmpegAvailable = false;
-                                try {
-                                    // On Windows, 2>/dev/null doesn't work the same, but shell_exec will return empty or throw if ffmpeg isn't found
-                                    $checkCmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? "$ffmpegPath -version 2> NUL" : "$ffmpegPath -version 2>/dev/null";
-                                    $output = shell_exec($checkCmd);
-                                    $ffmpegAvailable = !empty(trim($output ?? ''));
-                                } catch (Exception $e) { }
-
-                                if ($ffmpegAvailable && $drawtextAvailable && file_exists($fontFile)) {
-                                    // Method 1: Use drawtext filter
+                                // Attempt Method 1: DrawText Filter
+                                if ($drawtextAvailable && file_exists($fontFile)) {
                                     echo "<!-- DEBUG: Using drawtext method -->\n";
                                     $method = "DrawText Filter";
                                     $ffmpegOutput = applyWatermarkDrawtext($ffmpegPath, $localVideoPath, $outputVideoPath, $fontFile, $watermarkText);
-                                    $success = file_exists($outputVideoPath);
+                                    $success = file_exists($outputVideoPath) && filesize($outputVideoPath) > 1000;
+                                }
 
-                                } elseif ($ffmpegAvailable && $gdAvailable) {
-                                    // Method 2: Use image overlay
+                                // Attempt Method 2: Image Overlay (if Method 1 failed or wasn't available)
+                                if (!$success && $gdAvailable) {
                                     echo "<!-- DEBUG: Using image overlay method -->\n";
                                     $method = "Image Overlay";
                                     $watermarkFilename = "watermark_" . md5($watermarkText) . ".png";
                                     $watermarkPath = $watermarkDir . $watermarkFilename;
 
-                                    echo "<!-- DEBUG: Watermark path: $watermarkPath -->\n";
-
-                                    // Create watermark image if it doesn't exist
                                     if (!file_exists($watermarkPath)) {
-                                        echo "<!-- DEBUG: Creating watermark image -->\n";
-                                        if (!createWatermarkImage($watermarkText, $watermarkPath)) {
-                                            echo "<div class='status error'>Failed to create watermark image for: " . htmlspecialchars($watermarkText) . "</div>";
-                                            echo "<!-- DEBUG: Watermark creation failed -->\n";
-                                            echo "</div>";
-                                            $lessonIndex++;
-                                            continue;
-                                        }
-                                        echo "<div class='status success'>Created watermark image: $watermarkPath (" . number_format(filesize($watermarkPath) / 1024, 2) . " KB)</div>";
-                                        echo "<!-- DEBUG: Watermark created successfully -->\n";
-                                    } else {
-                                        echo "<!-- DEBUG: Using existing watermark image -->\n";
+                                        createWatermarkImage($watermarkText, $watermarkPath);
                                     }
 
-                                    // Verify watermark image exists and is valid
-                                    if (!file_exists($watermarkPath) || filesize($watermarkPath) == 0) {
-                                        echo "<div class='status error'>Watermark image is invalid or empty</div>";
-                                        echo "<!-- DEBUG: Watermark validation failed -->\n";
-                                        echo "</div>";
-                                        $lessonIndex++;
-                                        continue;
+                                    if (file_exists($watermarkPath) && filesize($watermarkPath) > 0) {
+                                        $ffmpegOutput = applyWatermarkOverlay($ffmpegPath, $localVideoPath, $watermarkPath, $outputVideoPath);
+                                        $success = file_exists($outputVideoPath) && filesize($outputVideoPath) > 1000;
                                     }
+                                }
 
-                                    echo "<!-- DEBUG: Watermark validated, applying overlay -->\n";
-                                    $ffmpegOutput = applyWatermarkOverlay($ffmpegPath, $localVideoPath, $watermarkPath, $outputVideoPath);
-                                    $success = file_exists($outputVideoPath) && filesize($outputVideoPath) > 1000; // At least 1KB
-                    
-                                } else {
-                                    // Method 3: Copy without watermark (fallback)
+                                // Fallback: Serve original video without watermark if FFmpeg failed
+                                if (!$success) {
                                     echo "<!-- DEBUG: Using copy-only method (fallback) -->\n";
-                                    $method = "No Watermark (Copy Only)";
+                                    $method = "No Watermark (Fallback)";
                                     
-                                    // Use @ to suppress PHP warnings if permission is denied
-                                    $result = @copy($localVideoPath, $outputVideoPath);
-                                    
-                                    if ($result) {
+                                    // Try to copy, if permission fails, just use original path
+                                    if (@copy($localVideoPath, $outputVideoPath)) {
                                         $success = true;
                                     } else {
-                                        // If copy fails due to permissions, just use the original video
                                         $outputVideoPath = $localVideoPath;
                                         $success = true;
-                                        echo "<!-- DEBUG: Copy failed (permission?), falling back to original video -->\n";
+                                        echo "<!-- DEBUG: Copy failed, falling back to original video -->\n";
                                     }
                                 }
 
