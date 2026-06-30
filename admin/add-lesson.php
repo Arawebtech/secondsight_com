@@ -164,15 +164,14 @@ if (isset($_POST['submit'])) {
        THUMBNAIL UPLOAD
     ========================= */
 
- if (!empty($_FILES["video_thumbnail"]["name"])) {
+    $video_thumbnail = $_POST['video_thumbnail2'] ?? '';
 
-    $video_thumbnail = time().'_'.$_FILES["video_thumbnail"]["name"];
-    $tmp = $_FILES["video_thumbnail"]["tmp_name"];
-
-    $folder = "uploads/thumbnails/";
-
-    move_uploaded_file($tmp, $folder.$video_thumbnail);
-}
+    if (!empty($_FILES["video_thumbnail"]["name"])) {
+        $video_thumbnail = time().'_'.$_FILES["video_thumbnail"]["name"];
+        $tmp = $_FILES["video_thumbnail"]["tmp_name"];
+        $folder = "uploads/thumbnails/";
+        move_uploaded_file($tmp, $folder.$video_thumbnail);
+    }
     $status = "Active";
     $created_date = date("Y-m-d H:i:s");
 
