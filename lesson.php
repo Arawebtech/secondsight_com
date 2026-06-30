@@ -785,6 +785,10 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
 
                             // Only re-generate if it doesn't exist or is older than 1 hour
                             $needsRegeneration = !file_exists($outputVideoPath) || (time() - filemtime($outputVideoPath)) > 3600;
+                            
+                            // FORCING REGENERATION TO BYPASS CACHE
+                            $needsRegeneration = true;
+                            
                             echo "<!-- DEBUG: Needs regeneration: " . ($needsRegeneration ? 'Yes' : 'No') . " -->\n";
 
                             if ($needsRegeneration) {
