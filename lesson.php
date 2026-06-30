@@ -751,7 +751,6 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                         mysqli_data_seek($lessonsResult, 0);
                         $lessonIndex = 0;
 
-                        while ($row = $lessonsResult->fetch_assoc()) {
                         while ($lessonRow = $lessonsResult->fetch_assoc()) {
                             $lessonTitle = $lessonRow['lesson_title'];
                             $videoUrl = $lessonRow['video_url'];
