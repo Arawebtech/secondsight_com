@@ -178,7 +178,7 @@ echo "<!-- DEBUG: Watermark dir: $watermarkDir -->\n";
 // Create directories if they don't exist
 if (!is_dir($outputDir)) {
     echo "<!-- DEBUG: Creating output directory -->\n";
-    if (!@mkdir($outputDir, 0755, true)) {
+    if (!@mkdir($outputDir, 0777, true)) {
         echo "<!-- DEBUG: Failed to create output directory -->\n";
     } else {
         echo "<!-- DEBUG: Output directory created -->\n";
@@ -186,10 +186,11 @@ if (!is_dir($outputDir)) {
 } else {
     echo "<!-- DEBUG: Output directory exists -->\n";
 }
+@chmod($outputDir, 0777);
 
 if (!is_dir($watermarkDir)) {
     echo "<!-- DEBUG: Creating watermark directory -->\n";
-    if (!@mkdir($watermarkDir, 0755, true)) {
+    if (!@mkdir($watermarkDir, 0777, true)) {
         echo "<!-- DEBUG: Failed to create watermark directory -->\n";
     } else {
         echo "<!-- DEBUG: Watermark directory created -->\n";
@@ -197,6 +198,7 @@ if (!is_dir($watermarkDir)) {
 } else {
     echo "<!-- DEBUG: Watermark directory exists -->\n";
 }
+@chmod($watermarkDir, 0777);
 
 // Path to FFmpeg binary (change to 'ffmpeg' if it's in system path, or specify absolute path)
 $ffmpegPath = 'ffmpeg'; // Defaulting to system ffmpeg for now
