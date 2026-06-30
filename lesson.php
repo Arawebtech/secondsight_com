@@ -794,17 +794,22 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                 $method = '';
                                 $success = false;
 
+                                $debugLogs = [];
+
                                 // Attempt Method 1: DrawText Filter
                                 if ($drawtextAvailable && file_exists($fontFile)) {
-                                    echo "<!-- DEBUG: Using drawtext method -->\n";
                                     $method = "DrawText Filter";
                                     $ffmpegOutput = applyWatermarkDrawtext($ffmpegPath, $localVideoPath, $outputVideoPath, $fontFile, $watermarkText);
                                     $success = file_exists($outputVideoPath) && filesize($outputVideoPath) > 1000;
+                                    if (!$success) {
+                                        $debugLogs[] = "Method 1 Failed. Output: " . $ffmpegOutput;
+                                    }
+                                } else {
+                                    $debugLogs[] = "Method 1 Skipped: drawtext=" . ($drawtextAvailable?'yes':'no') . ", font=" . (file_exists($fontFile)?'yes':'no');
                                 }
 
-                                // Attempt Method 2: Image Overlay (if Method 1 failed or wasn't available)
+                                // Attempt Method 2: Image Overlay
                                 if (!$success && $gdAvailable) {
-                                    echo "<!-- DEBUG: Using image overlay method -->\n";
                                     $method = "Image Overlay";
                                     $watermarkFilename = "watermark_" . md5($watermarkText) . ".png";
                                     $watermarkPath = $watermarkDir . $watermarkFilename;
@@ -816,12 +821,16 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                     if (file_exists($watermarkPath) && filesize($watermarkPath) > 0) {
                                         $ffmpegOutput = applyWatermarkOverlay($ffmpegPath, $localVideoPath, $watermarkPath, $outputVideoPath);
                                         $success = file_exists($outputVideoPath) && filesize($outputVideoPath) > 1000;
+                                        if (!$success) {
+                                            $debugLogs[] = "Method 2 Failed. Output: " . $ffmpegOutput;
+                                        }
+                                    } else {
+                                        $debugLogs[] = "Method 2 Skipped: Could not create watermark image.";
                                     }
                                 }
 
-                                // Fallback: Serve original video without watermark if FFmpeg failed
+                                // Fallback: Serve original video without watermark
                                 if (!$success) {
-                                    echo "<!-- DEBUG: Using copy-only method (fallback) -->\n";
                                     $method = "No Watermark (Fallback)";
                                     
                                     // Try to copy, if permission fails, just use original path
@@ -830,8 +839,13 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                     } else {
                                         $outputVideoPath = $localVideoPath;
                                         $success = true;
-                                        echo "<!-- DEBUG: Copy failed, falling back to original video -->\n";
                                     }
+                                    
+                                    // Print debug logs to screen so we can see why it failed
+                                    echo "<div style='background: #fff3cd; color: #856404; padding: 15px; margin-bottom: 15px; border: 1px solid #ffeeba; border-radius: 5px;'>";
+                                    echo "<strong>Watermark Generation Failed!</strong><br>";
+                                    echo "<pre style='font-size: 11px; margin-top: 10px; white-space: pre-wrap;'>" . htmlspecialchars(implode("\n", $debugLogs)) . "</pre>";
+                                    echo "</div>";
                                 }
 
                                 echo "<!-- DEBUG: Processing completed, success: " . ($success ? 'Yes' : 'No') . " -->\n";
