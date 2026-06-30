@@ -258,7 +258,7 @@ if (isset($_POST['submit'])) {
                 $batch_id = intval($batch_id);
 
                 $stmt->bind_param(
-                    "isssssssssssis",
+                    "issssssssssis",
                     $course_id,
                     $course_name,
                     $lesson_title,
