@@ -159,6 +159,7 @@ if (isset($_POST['submit'])) {
     $meta_description = trim($_POST['meta_description']);
 
     $video_url = $_POST['uploaded_video_path'] ?? '';
+    $external_url = trim($_POST['external_url'] ?? '');
 
     /* =========================
        THUMBNAIL UPLOAD
@@ -196,6 +197,7 @@ if (isset($_POST['submit'])) {
                 lesson_title=?,
                 lesson_desc=?,
                 video_url=?,
+                external_url=?,
                 video_thumbnail=?,
                 video_alt=?,
                 meta_keyword=?,
@@ -206,11 +208,12 @@ if (isset($_POST['submit'])) {
             $stmt = $conn->prepare($update_sql);
 
             $stmt->bind_param(
-                "issssssssi",
+                "isssssssssi",
                 $course_id,
                 $lesson_title,
                 $lesson_desc,
                 $video_url,
+                $external_url,
                 $video_thumbnail,
                 $video_alt,
                 $meta_keyword,
@@ -245,8 +248,8 @@ if (isset($_POST['submit'])) {
             }
 
             $insert_sql = "INSERT INTO lesson_video
-            (course_id, course_name, lesson_title, lesson_desc, video_url, video_thumbnail, status, video_alt, meta_keyword, meta_description, batch_id, created_date)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            (course_id, course_name, lesson_title, lesson_desc, video_url, external_url, video_thumbnail, status, video_alt, meta_keyword, meta_description, batch_id, created_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conn->prepare($insert_sql);
 
@@ -255,12 +258,13 @@ if (isset($_POST['submit'])) {
                 $batch_id = intval($batch_id);
 
                 $stmt->bind_param(
-                    "isssssssssis",
+                    "isssssssssssis",
                     $course_id,
                     $course_name,
                     $lesson_title,
                     $lesson_desc,
                     $video_url,
+                    $external_url,
                     $video_thumbnail,
                     $status,
                     $video_alt,
@@ -403,9 +407,15 @@ $conn->close();
                                 <small id="uploadStatus" class="text-info"></small>
                             <?php else: ?>
                                 <label>Upload Video:</label>
-                                <input type="file" name="video_display" id="videoDisplay" class="form-control" accept="video/*" required>
+                                <input type="file" name="video_display" id="videoDisplay" class="form-control" accept="video/*">
                                 <small id="uploadStatus" class="text-info"></small>
+                                <small class="help-block">Upload a video file OR provide an external URL below.</small>
                             <?php endif; ?>
+                            
+                            <div style="margin-top: 15px;">
+                                <label>External Video URL (Optional):</label>
+                                <input type="url" name="external_url" class="form-control" placeholder="https://www.youtube.com/watch?v=..." value="<?= $edit_mode ? htmlspecialchars($lesson_data['external_url'] ?? '') : '' ?>">
+                            </div>
                         </div>
                          <!-- Video Alt -->
                         <div class="form-group col-md-6">

@@ -149,7 +149,7 @@ try {
 echo "<!-- DEBUG: Preparing lesson query -->\n";
 try {
     $lessonQuery = $conn->prepare("
-        SELECT lesson_title, video_url 
+        SELECT lesson_title, video_url, external_url 
         FROM lesson_video 
         WHERE course_id = ?
     ");
@@ -752,153 +752,61 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                         $lessonIndex = 0;
 
                         while ($row = $lessonsResult->fetch_assoc()) {
-                            echo "<!-- DEBUG: Processing lesson $lessonIndex -->\n";
-
-                            $lessonTitle = $row['lesson_title'];
-                            $videoUrl = $row['video_url'];
+                        while ($lessonRow = $lessonsResult->fetch_assoc()) {
+                            $lessonTitle = $lessonRow['lesson_title'];
+                            $videoUrl = $lessonRow['video_url'];
+                            $externalUrl = $lessonRow['external_url'] ?? '';
 
                             echo "<div class='lesson-content' style='display:" . ($lessonIndex === 0 ? 'block' : 'none') . "'>";
                             echo "<h4 class='lesson-title'>" . htmlspecialchars($lessonTitle) . "</h4>";
 
-                            $localVideoPath = __DIR__ . '/admin/' . $videoUrl;
-                            echo "<!-- DEBUG: Local video path: $localVideoPath -->\n";
-
-                            if (!file_exists($localVideoPath)) {
-                                echo "<div class='status error'>Video for <strong>" . htmlspecialchars($lessonTitle) . "</strong> not found on local path: $localVideoPath</div>";
-                                echo "<!-- DEBUG: Video file not found -->\n";
-                                echo "</div>";
-                                $lessonIndex++;
-                                continue;
-                            }
-
-                            echo "<!-- DEBUG: Video file exists -->\n";
-
-                            $safeEmail = preg_replace('/[^A-Za-z0-9@\._-]/', '_', $userEmail);
-                            $safePhone = preg_replace('/[^0-9]/', '', $userPhone);
-                            $safeText = preg_replace('/[^A-Za-z0-9@\._-]/', '_', $watermarkText);
-                            // v7 forces regeneration with 200px margins and larger font
-                            $outputFilename = "lesson_dyn_v10_{$courseId}_user_{$user_id}_{$safeEmail}_{$safePhone}_" . basename($videoUrl);
-                            $outputVideoPath = $outputDir . $outputFilename;
-
-                            echo "<!-- DEBUG: Output filename: $outputFilename -->\n";
-                            echo "<!-- DEBUG: Output path: $outputVideoPath -->\n";
-
-                            // Try common absolute paths for FFmpeg on Linux just in case it's missing from PATH
-                            if (strpos($ffmpegPath, '/') === false) {
-                                if (file_exists('/usr/bin/ffmpeg')) $ffmpegPath = '/usr/bin/ffmpeg';
-                                elseif (file_exists('/usr/local/bin/ffmpeg')) $ffmpegPath = '/usr/local/bin/ffmpeg';
-                                elseif (file_exists('/opt/ffmpeg/bin/ffmpeg')) $ffmpegPath = '/opt/ffmpeg/bin/ffmpeg';
-                            }
-
-                            // Only re-generate if it doesn't exist or is older than 1 hour
-                            $needsRegeneration = !file_exists($outputVideoPath) || (time() - filemtime($outputVideoPath)) > 3600;
+                            echo "<!-- DEBUG: Processing lesson: " . htmlspecialchars($lessonTitle) . " -->\n";
                             
-                            echo "<!-- DEBUG: Needs regeneration: " . ($needsRegeneration ? 'Yes' : 'No') . " -->\n";
+                            // 1. If local video exists, render it with JS watermark
+                            if (!empty($videoUrl) && $videoUrl != '') {
+                                $localVideoPath = __DIR__ . '/admin/' . $videoUrl;
+                                echo "<!-- DEBUG: Local video path: $localVideoPath -->\n";
 
-                            if ($needsRegeneration) {
-                                echo "<!-- DEBUG: Starting video processing -->\n";
+                                if (file_exists($localVideoPath)) {
+                                    $publicVideoUrl = BASE_URL . "admin/" . str_replace('\\', '/', $videoUrl);
+                                    $finalVideoUrl = htmlspecialchars($publicVideoUrl) . '?v=' . time(); // cache-busting
+                                    
+                                    echo "<!-- DEBUG: About to render video element -->\n";
+                                    echo "<div class='video-container' style='position: relative; overflow: hidden; background: #000; border-radius: 8px;'>";
+                                    
+                                    // JS/CSS Watermark Overlay (Very Subtle Styling)
+                                    echo "    <div class='js-watermark' style='position: absolute; top: 10px; left: 10px; color: rgba(255, 255, 255, 0.4); font-size: 13px; font-weight: normal; pointer-events: none; z-index: 999; padding: 4px 8px; background: transparent; border-radius: 4px; display: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: Arial, sans-serif; transition: all 0.8s ease; opacity: 0.5;'>" . htmlspecialchars($watermarkText) . "</div>";
 
-                                $ffmpegOutput = '';
-                                $method = '';
-                                $success = false;
-
-                                $debugLogs = [];
-
-                                // Attempt Method 1: DrawText Filter
-                                if ($drawtextAvailable && file_exists($fontFile)) {
-                                    $method = "DrawText Filter";
-                                    $ffmpegOutput = applyWatermarkDrawtext($ffmpegPath, $localVideoPath, $outputVideoPath, $fontFile, $watermarkText);
-                                    $success = file_exists($outputVideoPath) && filesize($outputVideoPath) > 1000;
-                                    if (!$success) {
-                                        $debugLogs[] = "Method 1 Failed. Output: " . $ffmpegOutput;
-                                    }
+                                    echo "    <video id='video-$lessonIndex' data-index='$lessonIndex' controls preload='metadata' controlsList='nodownload' class='course-video' style='width:100%; display: block;'>";
+                                    echo "        <source src='$finalVideoUrl' type='video/mp4'>";
+                                    echo "        Your browser does not support the video tag.";
+                                    echo "    </video>";
+                                    echo "</div>";
+                                    echo "<!-- DEBUG: Video element rendered -->\n";
                                 } else {
-                                    $debugLogs[] = "Method 1 Skipped: drawtext=" . ($drawtextAvailable?'yes':'no') . ", font=" . (file_exists($fontFile)?'yes':'no');
+                                    echo "<div class='status error'>Video file not found on server</div>";
                                 }
-
-                                // Attempt Method 2: Image Overlay
-                                if (!$success && $gdAvailable) {
-                                    $method = "Image Overlay";
-                                    $watermarkFilename = "watermark_" . md5($watermarkText) . ".png";
-                                    $watermarkPath = $watermarkDir . $watermarkFilename;
-
-                                    if (!file_exists($watermarkPath)) {
-                                        createWatermarkImage($watermarkText, $watermarkPath);
-                                    }
-
-                                    if (file_exists($watermarkPath) && filesize($watermarkPath) > 0) {
-                                        $ffmpegOutput = applyWatermarkOverlay($ffmpegPath, $localVideoPath, $watermarkPath, $outputVideoPath);
-                                        $success = file_exists($outputVideoPath) && filesize($outputVideoPath) > 1000;
-                                        if (!$success) {
-                                            $debugLogs[] = "Method 2 Failed. Output: " . $ffmpegOutput;
-                                        }
-                                    } else {
-                                        $debugLogs[] = "Method 2 Skipped: Could not create watermark image.";
-                                    }
+                            } 
+                            // 2. If NO local video was shown, but external URL exists, show the iframe
+                            elseif (!empty($externalUrl)) {
+                                $embedUrl = $externalUrl;
+                                // Automatically convert YouTube links to embed links
+                                if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i', $externalUrl, $match)) {
+                                    $embedUrl = "https://www.youtube.com/embed/" . $match[1] . "?rel=0&modestbranding=1&showinfo=0";
                                 }
-
-                                // Fallback: Serve original video without watermark
-                                if (!$success) {
-                                    $method = "No Watermark (Fallback)";
-                                    
-                                    // Try to copy, if permission fails, just use original path
-                                    if (@copy($localVideoPath, $outputVideoPath)) {
-                                        $success = true;
-                                    } else {
-                                        $outputVideoPath = $localVideoPath;
-                                        $success = true;
-                                    }
-                                    
-                                    // Print debug logs to screen so we can see why it failed
-                                    echo "<div style='background: #fff3cd; color: #856404; padding: 15px; margin-bottom: 15px; border: 1px solid #ffeeba; border-radius: 5px;'>";
-                                    echo "<strong>Watermark Generation Failed!</strong><br>";
-                                    echo "<pre style='font-size: 11px; margin-top: 10px; white-space: pre-wrap;'>" . htmlspecialchars(implode("\n", $debugLogs)) . "</pre>";
-                                    echo "</div>";
-                                }
-
-                                echo "<!-- DEBUG: Processing completed, success: " . ($success ? 'Yes' : 'No') . " -->\n";
-
-                                // Display debug information
-                             /*   echo "<div class='debug-info'>";
-                                echo "<strong>Method Used:</strong> $method\n\n";
-                                echo "<strong>Input File Size:</strong> " . number_format(filesize($localVideoPath) / 1024 / 1024, 2) . " MB\n";
-                                echo "<strong>FFmpeg Command & Output:</strong>\n$ffmpegOutput\n\n";
-                                echo "<strong>Output File:</strong> " . ($success ? "✅ Created Successfully" : "❌ Failed to Create") . "\n";
-                             /*   echo "<div class='debug-info'>";*/
-
-                                if (!$success) {
-                                    echo "<div class='status error'>Failed to create watermarked video for: " . htmlspecialchars($lessonTitle) . "</div>";
-                                    echo "<!-- DEBUG: Video processing failed -->\n";
-                                    echo "</div>";
-                                    $lessonIndex++;
-                                    continue;
-                                }
-                            } else {
-                                // echo "<div class='status success'>Using cached video (created " . date('Y-m-d H:i:s', filemtime($outputVideoPath)) . ")</div>";
-                                echo "<!-- DEBUG: Using cached video -->\n";
+                                echo "<!-- DEBUG: Rendering External URL Iframe -->\n";
+                                echo "<div class='video-container' style='position: relative; overflow: hidden; background: #000; border-radius: 8px; padding-bottom: 56.25%; height: 0;'>";
+                                echo "    <iframe id='iframe-$lessonIndex' src='$embedUrl' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;' allowfullscreen></iframe>";
+                                echo "</div>";
                             }
-
-                            // Final public URL
-                            if ($outputVideoPath === $localVideoPath) {
-                                $publicVideoUrl = BASE_URL . "admin/" . str_replace('\\', '/', $videoUrl);
-                            } else {
-                                $publicVideoUrl = BASE_URL . "admin/temp_videos/" . basename($outputVideoPath);
-                            }
-                            $finalVideoUrl = htmlspecialchars($publicVideoUrl) . '?v=' . time(); // cache-busting
-                    
-                            echo "<!-- DEBUG: About to render video element -->\n";
-                            echo "<div class='video-container' style='position: relative; overflow: hidden; background: #000; border-radius: 8px;'>";
                             
-                            // JS/CSS Watermark Overlay (Very Subtle Styling)
-                            echo "    <div class='js-watermark' style='position: absolute; top: 10px; left: 10px; color: rgba(255, 255, 255, 0.4); font-size: 13px; font-weight: normal; pointer-events: none; z-index: 999; padding: 4px 8px; background: transparent; border-radius: 4px; display: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: Arial, sans-serif; transition: all 0.8s ease; opacity: 0.3;'>" . htmlspecialchars($watermarkText) . "</div>";
-
-                            echo "    <video id='video-$lessonIndex' data-index='$lessonIndex' controls preload='metadata' controlsList='nodownload' class='course-video' style='width:100%; display: block;'>";
-                            echo "        <source src='$finalVideoUrl' type='video/mp4'>";
-                            echo "        Your browser does not support the video tag.";
-                            echo "    </video>";
-                            echo "</div>";
-                            echo "<!-- DEBUG: Video element rendered -->\n";
-
+                            // 3. Always show YouTube button below if URL exists
+                            if (!empty($externalUrl)) {
+                                echo "<div style='margin-top: 15px; margin-bottom: 25px; text-align: left;'>";
+                                echo "    <a href='" . htmlspecialchars($externalUrl) . "' target='_blank' class='btn btn-danger' style='padding: 8px 16px; font-size: 14px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);'><i class='fa fa-youtube-play' style='margin-right: 8px;'></i> Watch on YouTube</a>";
+                                echo "</div>";
+                            }
+                            
                             echo "</div>"; // .lesson-content
                             $lessonIndex++;
                             echo "<!-- DEBUG: Lesson $lessonIndex completed -->\n";
@@ -917,27 +825,19 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                         const video = container.querySelector('video');
                         const watermark = container.querySelector('.js-watermark');
                         
-                        if (video && watermark) {
+                        if (watermark && video) {
                             // Show watermark when playing
                             video.addEventListener('play', () => {
                                 watermark.style.display = 'block';
                             });
                             
-                            // Hide watermark when paused or ended (optional, uncomment if desired)
-                            // video.addEventListener('pause', () => { watermark.style.display = 'none'; });
-                            // video.addEventListener('ended', () => { watermark.style.display = 'none'; });
-                            
                             // Move watermark every 4 seconds
                             setInterval(() => {
                                 if (!video.paused && !video.ended) {
-                                    // Calculate safe boundaries so watermark doesn't go off-screen
                                     const maxX = container.clientWidth - watermark.clientWidth - 20;
-                                    const maxY = container.clientHeight - watermark.clientHeight - 40; // leaving space for controls
-                                    
-                                    // Generate random position
+                                    const maxY = container.clientHeight - watermark.clientHeight - 40;
                                     const randomX = Math.max(10, Math.floor(Math.random() * maxX));
                                     const randomY = Math.max(10, Math.floor(Math.random() * maxY));
-                                    
                                     watermark.style.left = randomX + 'px';
                                     watermark.style.top = randomY + 'px';
                                 }
