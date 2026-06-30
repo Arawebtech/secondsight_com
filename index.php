@@ -356,15 +356,15 @@ include('include/head.php');
                 <!-- Left Content -->
                 <div class="col-lg-6">
                     <div class="banner-content">
-                        <h1 class="wow animate__fadeInLeft" data-wow-delay="0.5s">
+                        <h1 class="wow animate__fadeInLeft" data-wow-delay="0.2s">
                             Transform Your Life, Heal Your Soul and Find True Liberation
                         </h1>
-                        <p class="wow animate__fadeInLeft font-14-mobile" data-wow-delay="0.8s">
+                        <p class="wow animate__fadeInLeft font-14-mobile" data-wow-delay="0.4s">
                             At our foundation, we scientifically explore occult concepts like the third eye, blindfold
                             training, and manifestation, revealing how thoughts and emotions shape our reality.
                         </p>
                         <a href="courses.php" class="default-btn wow animate__fadeInLeft hm-vc-btn"
-                            data-wow-delay="1s" style="margin-left:0;">
+                            data-wow-delay="0.6s" style="margin-left:0;">
                             View Courses
                         </a>
                     </div>
@@ -372,7 +372,7 @@ include('include/head.php');
 
                 <!-- Right Image -->
                 <div class="col-lg-6">
-                    <div class="banner-img wow animate__fadeInRight" data-wow-delay="1.5s">
+                    <div class="banner-img wow animate__fadeInRight" data-wow-delay="0.8s">
                         <img src="/assets/img/banner-imag/s1.webp" alt="Banner Image" loading="lazy">
                     </div>
                 </div>
@@ -387,7 +387,6 @@ include('include/head.php');
                 .banner-area .banner-content h1,
                 .banner-area .banner-content p,
                 .banner-area .banner-img img {
-                    animation-delay: 0.5s;
                     animation-duration: 1s;
                 }
 
