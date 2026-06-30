@@ -234,10 +234,19 @@ if (isset($_POST['submit'])) {
         ========================= */
 
         else {
+            $course_name = '';
+            $c_stmt = $conn->prepare("SELECT s_name FROM courses WHERE id = ?");
+            if ($c_stmt) {
+                $c_stmt->bind_param("i", $course_id);
+                $c_stmt->execute();
+                $c_stmt->bind_result($course_name);
+                $c_stmt->fetch();
+                $c_stmt->close();
+            }
 
             $insert_sql = "INSERT INTO lesson_video
-            (course_id, lesson_title, lesson_desc, video_url, video_thumbnail, status, video_alt, meta_keyword, meta_description, batch_id, created_date)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            (course_id, course_name, lesson_title, lesson_desc, video_url, video_thumbnail, status, video_alt, meta_keyword, meta_description, batch_id, created_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conn->prepare($insert_sql);
 
@@ -246,8 +255,9 @@ if (isset($_POST['submit'])) {
                 $batch_id = intval($batch_id);
 
                 $stmt->bind_param(
-                    "issssssssis",
+                    "isssssssssis",
                     $course_id,
+                    $course_name,
                     $lesson_title,
                     $lesson_desc,
                     $video_url,
