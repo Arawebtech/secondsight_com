@@ -1439,20 +1439,17 @@ include('include/head.php');
     });
   });
 </script>
-</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize WOW.js to prevent multiple initializations
+        if (typeof WOW !== "undefined" && !window.wowInitialized) {
+            window.wowInitialized = true;
+            new WOW().init();
+        }
+    });
+</script>
 
-
-</html>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" defer></script>
- <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    // Initialize WOW.js to prevent multiple initializations
-                    if (typeof WOW !== "undefined" && !window.wowInitialized) {
-                        window.wowInitialized = true;
-                        new WOW().init();
-                    }
-                });
-            </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () {
@@ -1478,8 +1475,6 @@ include('include/head.php');
         // हर फॉर्म पर event listener लगाएं
         forms.forEach(form => {
             form.addEventListener("submit", function (e) {
-              
-
                 let d = new FormData(form);
                 fetch(url, {
                     method: "POST",
@@ -1488,9 +1483,7 @@ include('include/head.php');
                 .then(res => res.text())
                 .then(finalRes => {
                     form.reset(); // फॉर्म खाली करें
-                    // window.location.href = "thankyou.php";
                 })
-               
             });
         });
     });
@@ -1550,3 +1543,5 @@ include('include/head.php');
     }
 }
 </style>
+</body>
+</html>
