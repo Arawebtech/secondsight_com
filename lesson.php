@@ -339,7 +339,7 @@ function copyVideoWithoutWatermark($ffmpegPath, $inputPath, $outputPath)
 {
     echo "<!-- DEBUG: Copying video without watermark -->\n";
 
-    $result = copy($inputPath, $outputPath);
+    $result = @copy($inputPath, $outputPath);
     $output = "Native PHP copy() used. Result: " . ($result ? 'Success' : 'Failed');
     
     echo "<!-- DEBUG: Copy output: $output -->\n";
@@ -850,8 +850,18 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                     // Method 3: Copy without watermark (fallback)
                                     echo "<!-- DEBUG: Using copy-only method (fallback) -->\n";
                                     $method = "No Watermark (Copy Only)";
-                                    $ffmpegOutput = copyVideoWithoutWatermark($ffmpegPath, $localVideoPath, $outputVideoPath);
-                                    $success = file_exists($outputVideoPath);
+                                    
+                                    // Use @ to suppress PHP warnings if permission is denied
+                                    $result = @copy($localVideoPath, $outputVideoPath);
+                                    
+                                    if ($result) {
+                                        $success = true;
+                                    } else {
+                                        // If copy fails due to permissions, just use the original video
+                                        $outputVideoPath = $localVideoPath;
+                                        $success = true;
+                                        echo "<!-- DEBUG: Copy failed (permission?), falling back to original video -->\n";
+                                    }
                                 }
 
                                 echo "<!-- DEBUG: Processing completed, success: " . ($success ? 'Yes' : 'No') . " -->\n";
@@ -862,12 +872,7 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                 echo "<strong>Input File Size:</strong> " . number_format(filesize($localVideoPath) / 1024 / 1024, 2) . " MB\n";
                                 echo "<strong>FFmpeg Command & Output:</strong>\n$ffmpegOutput\n\n";
                                 echo "<strong>Output File:</strong> " . ($success ? "✅ Created Successfully" : "❌ Failed to Create") . "\n";
-                                if ($success) {
-                                    $outputSize = filesize($outputVideoPath);
-                                    echo "<strong>Output File Size:</strong> " . number_format($outputSize / 1024 / 1024, 2) . " MB\n";
-                                    echo "<strong>Processing Status:</strong> " . ($outputSize > 100000 ? "✅ Looks Good" : "⚠️ File might be incomplete") . "\n";
-                                }
-                                echo "</div>";*/
+                             /*   echo "<div class='debug-info'>";*/
 
                                 if (!$success) {
                                     echo "<div class='status error'>Failed to create watermarked video for: " . htmlspecialchars($lessonTitle) . "</div>";
@@ -882,7 +887,11 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                             }
 
                             // Final public URL
-                            $publicVideoUrl = BASE_URL . "admin/temp_videos/" . basename($outputVideoPath);
+                            if ($outputVideoPath === $localVideoPath) {
+                                $publicVideoUrl = BASE_URL . "admin/" . str_replace('\\', '/', $videoUrl);
+                            } else {
+                                $publicVideoUrl = BASE_URL . "admin/temp_videos/" . basename($outputVideoPath);
+                            }
                             $finalVideoUrl = htmlspecialchars($publicVideoUrl) . '?v=' . time(); // cache-busting
                     
                             echo "<!-- DEBUG: About to render video element -->\n";
