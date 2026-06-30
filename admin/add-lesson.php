@@ -504,7 +504,9 @@ reader.readAsDataURL(input.files[0]);
                 multiple: true
             });
 
+            <?php if (!$edit_mode || empty($lesson_data['video_url'])): ?>
             $('#submitBtn').prop('disabled', true);
+            <?php endif; ?>
 
             $('#videoDisplay').on('change', function() {
                 var file = this.files[0];

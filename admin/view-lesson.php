@@ -238,7 +238,9 @@ style="object-fit:cover;border-radius:5px;">
 <span style="color:red;">No Thumbnail</span>
 
 <?php } ?>
-</td>                               <td>
+</td>
+<td><?php echo htmlspecialchars($info_item->s_name ?? 'No Course'); ?></td>
+<td>
                                                     <a href="view-lesson.php?togglelesson=<?php echo $info_item->id; ?>">
                                                     
                                                             <i class="fa <?php echo (trim($info_item->status) == 'Active' ? 'fa-toggle-on' : 'fa-toggle-off'); ?>"
