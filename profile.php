@@ -1203,7 +1203,7 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
                     var messageDiv = $("#responseMessage");
                     if (response.status === "success") {
                         messageDiv.removeClass("errored").addClass("successed").css("color", "#155724").css("background-color", "#d4edda").text(response.message).fadeIn();
-                        setTimeout(function() { window.location.href = response.redirect; }, 2000);
+                        setTimeout(function() { window.location.href = response.redirect; window.location.reload(); }, 2000);
                     } else {
                         messageDiv.removeClass("successed errored").addClass("successed").css("color", "#155724").css("background-color", "#d4edda").text(response.message).fadeIn();
                     }
@@ -1845,4 +1845,5 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
 
