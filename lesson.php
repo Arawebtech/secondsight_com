@@ -7,9 +7,7 @@ header("Pragma: no-cache");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if (!defined('BASE_URL')) {
-    define("BASE_URL", "https://secondsightfoundation.com/");
-}
+
 
 include('admin/include/db_config.php');
 include('include/session_validator.php');

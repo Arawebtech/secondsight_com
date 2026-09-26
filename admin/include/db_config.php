@@ -17,7 +17,7 @@ if (!defined('BASE_URL')) {
     if ($isLocalhost) {
         define("BASE_URL", $protocol . $domainName . "/araweb/vps-secondside-com/");
     } else {
-        define("BASE_URL", "https://secondsightfoundation.com/");
+        define("BASE_URL", $protocol . $domainName . "/");
     }
     define("ADMIN_URL", BASE_URL . "admin" . "/");
 }

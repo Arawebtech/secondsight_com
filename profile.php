@@ -516,7 +516,7 @@ $stmt_batches->close();
         style="box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); padding: 10px 20px;">
         <!-- Header content remains unchanged -->
         <div class="container-fluid" style="justify-content: flex-start;">
-            <a class="navbar-brand" href="https://secondsightfoundation.com/profile.php" style="display: flex; align-items: center;">
+            <a class="navbar-brand" href="<?= $base_url ?>profile.php" style="display: flex; align-items: center;">
                 <img src="/assets/img/logo-nn.png" class="main-logo" alt="Logo"
                     style="height: 50px; margin-right: 10px;">
             </a>
@@ -1869,5 +1869,6 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
 
 
