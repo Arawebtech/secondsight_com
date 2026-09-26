@@ -35,7 +35,7 @@
 //     try {
 
 //     if (empty($batch_ids)) {
-//         die("Please select at least one batch.");
+//         // die("Please select at least one batch.");
 //     }
 
 //     $sql_query = "INSERT INTO lesson_video 
@@ -180,7 +180,7 @@ if (isset($_POST['submit'])) {
     $created_date = date("Y-m-d H:i:s");
 
     if (empty($batch_ids)) {
-        die("Please select at least one batch.");
+        // die("Please select at least one batch.");
     }
 
     $conn->autocommit(FALSE);
@@ -260,7 +260,8 @@ if (isset($_POST['submit'])) {
 
             $stmt = $conn->prepare($insert_sql);
 
-            foreach ($batch_ids as $batch_id) {
+            $loop_batches = empty($batch_ids) ? [0] : $batch_ids;
+            foreach ($loop_batches as $batch_id) {
 
                 $batch_id = intval($batch_id);
 
@@ -583,4 +584,5 @@ reader.readAsDataURL(input.files[0]);
 </body>
 
 </html>
+
 
