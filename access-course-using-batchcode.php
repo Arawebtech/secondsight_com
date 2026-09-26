@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode([
                 'status' => 'success', 
                 'message' => 'Successfully enrolled in the batch! You can now access all lessons in this batch.',
-                'redirect' => 'profile.php'
+                'redirect' => 'profile.php?enroll_success=1#my-batches-section'
             ]);
         } else {
             throw new Exception('Failed to enroll user');
@@ -103,3 +103,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }
 ?>
+
