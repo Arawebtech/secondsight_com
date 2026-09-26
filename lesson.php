@@ -149,7 +149,7 @@ try {
 echo "<!-- DEBUG: Preparing lesson query -->\n";
 try {
     $lessonQuery = $conn->prepare("
-        SELECT lesson_title, video_url, external_url 
+        SELECT lesson_title, video_url 
         FROM lesson_video 
         WHERE course_id = ?
     ");
@@ -754,15 +754,19 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                         while ($lessonRow = $lessonsResult->fetch_assoc()) {
                             $lessonTitle = $lessonRow['lesson_title'];
                             $videoUrl = $lessonRow['video_url'];
-                            $externalUrl = $lessonRow['external_url'] ?? '';
+                            
 
                             echo "<div class='lesson-content' style='display:" . ($lessonIndex === 0 ? 'block' : 'none') . "'>";
                             echo "<h4 class='lesson-title'>" . htmlspecialchars($lessonTitle) . "</h4>";
 
                             echo "<!-- DEBUG: Processing lesson: " . htmlspecialchars($lessonTitle) . " -->\n";
                             
+                                                        // Check if videoUrl is a valid HTTP link
+                            $isExternal = filter_var($videoUrl, FILTER_VALIDATE_URL) !== false;
+                            $externalUrl = $isExternal ? $videoUrl : '';
+
                             // 1. If local video exists, render it with JS watermark
-                            if (!empty($videoUrl) && $videoUrl != '') {
+                            if (!empty($videoUrl) && !$isExternal) {
                                 $localVideoPath = __DIR__ . '/admin/' . $videoUrl;
                                 echo "<!-- DEBUG: Local video path: $localVideoPath -->\n";
 
