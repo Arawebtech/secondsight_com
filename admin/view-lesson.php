@@ -165,7 +165,7 @@ SELECT
 FROM lesson_video lv
 JOIN courses c ON lv.course_id = c.id 
 LEFT JOIN batch b ON lv.batch_id = b.id
-ORDER BY lv.video_alt ASC
+ORDER BY lv.id DESC
 ";
                                      $result_item = mysqli_query($conn, $query);
                                             $count = 1;
@@ -183,47 +183,46 @@ ORDER BY lv.video_alt ASC
 <td style="width:30%; position: relative;">
 
 <?php
-$videoSizeMB = "0";
-
-if(!empty($videoUrl)){
-
-    // video file name nikalna
-    $videoFile = basename($videoUrl);
-
-    // correct server path
-    $videoPath = $_SERVER['DOCUMENT_ROOT']."/demo/admin/uploads/videos/".$videoFile;
-
-    if(file_exists($videoPath)){
-        $videoSizeMB = round(filesize($videoPath)/(1024*1024),2);
+$isExternal = filter_var($videoUrl, FILTER_VALIDATE_URL) !== false;
+if ($isExternal) {
+?>
+    <div style="padding: 20px 0;">
+        <a href="<?php echo htmlspecialchars($videoUrl); ?>" target="_blank" class="btn btn-danger btn-sm" style="box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+            <i class="fa fa-youtube-play"></i> Watch YouTube URL
+        </a>
+    </div>
+<?php
+} else {
+    $videoSizeMB = "0";
+    if(!empty($videoUrl)){
+        $videoFile = basename($videoUrl);
+        $videoPath = $_SERVER['DOCUMENT_ROOT']."/demo/admin/uploads/videos/".$videoFile;
+        if(file_exists($videoPath)){
+            $videoSizeMB = round(filesize($videoPath)/(1024*1024),2);
+        }
     }
+?>
+<div class="video-container" style="position: relative; display: inline-block; width:150px;height:100px;">
+    <video
+        id="video_<?php echo $info_item->id; ?>"
+        width="150"
+        height="100"
+        controls
+        style="border-radius:4px;"
+        preload="metadata"
+        onloadedmetadata="showDuration(this, <?php echo $info_item->id; ?>)">
+        <source src="<?php echo htmlspecialchars($videoUrl); ?>" type="video/mp4">
+    </video>
+    <div style="font-size:12px;margin-top:3px;">
+        Video Size: <?php echo htmlspecialchars($info_item->video_alt); ?>MB
+    </div>
+    <div id="duration_<?php echo $info_item->id; ?>" style="font-size:12px;color:#555;">
+        Duration: Loading...
+    </div>
+</div>
+<?php
 }
 ?>
-
-<div class="video-container" style="position: relative; display: inline-block; width:150px;height:100px;">
-
-<video
-id="video_<?php echo $info_item->id; ?>"
-width="150"
-height="100"
-controls
-style="border-radius:4px;"
-preload="metadata"
-onloadedmetadata="showDuration(this, <?php echo $info_item->id; ?>)">
-
-<source src="<?php echo $videoUrl; ?>" type="video/mp4">
-
-</video>
-
-<div style="font-size:12px;margin-top:3px;">
-Video Size: <?php echo $info_item->video_alt; ?>MB
-</div>
-
-<div id="duration_<?php echo $info_item->id; ?>" style="font-size:12px;color:#555;">
-Duration: Loading...
-</div>
-
-</div>
-
 </td>
 
 <td>
