@@ -252,7 +252,7 @@ $stmt_purchased->close();
 
 
 $query_batch = "
-SELECT DISTINCT
+SELECT
     c.id,
     c.s_name,
     c.url,
@@ -262,7 +262,8 @@ SELECT DISTINCT
     c.banner_image,
     c.validity,
     c.duration_time,
-    'batch' AS access_type
+    'batch' AS access_type,
+    GROUP_CONCAT(DISTINCT ube.batch_id) AS batch_ids
 FROM user_batch_enrollments ube
 JOIN lesson_batch lb ON ube.batch_id = lb.batch_id
 JOIN lesson_video lv ON lb.lesson_id = lv.id
@@ -271,6 +272,7 @@ WHERE
 ube.user_id = ? 
 AND ube.status = 'Active'
 AND lv.status = 'Active'
+GROUP BY c.id
 ORDER BY c.s_name ASC
 ";
 
@@ -360,8 +362,40 @@ function checkNotificationExists($user_id, $message, $date)
     $row = $result->fetch_assoc();
     return $row['count'] > 0;
 }
-?>
+// Fetch user's batch enrollments
+$query_batches = "
+SELECT 
+    b.id,
+    b.batch_title,
+    b.description,
+    b.month_year,
+    b.max_students,
+    b.status,
+    b.created_date,
+    ube.enrolled_date,
+    ube.status AS enrollment_status,
+    COUNT(DISTINCT ube2.user_id) AS current_enrolled,
+    (SELECT COUNT(*) FROM lesson_batch lb WHERE lb.batch_id = b.id) AS lesson_count
+FROM batch b
+LEFT JOIN user_batch_enrollments ube ON b.id = ube.batch_id AND ube.user_id = ?
+LEFT JOIN user_batch_enrollments ube2 ON b.id = ube2.batch_id AND ube2.status = 'Active'
+WHERE ube.user_id = ? AND ube.status = 'Active'
+GROUP BY b.id, b.batch_title, b.description, b.month_year, b.max_students, b.status, b.created_date, ube.enrolled_date, ube.status
+ORDER BY ube.enrolled_date DESC
+";
 
+$stmt_batches = $conn->prepare($query_batches);
+$stmt_batches->bind_param("ii", $user_id, $user_id);
+$stmt_batches->execute();
+$result_batches = $stmt_batches->get_result();
+$batches = [];
+
+while ($batch_row = $result_batches->fetch_assoc()) {
+    $batches[] = $batch_row;
+}
+$stmt_batches->close();
+
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 <?php include('include/head.php'); ?>
@@ -547,7 +581,7 @@ function checkNotificationExists($user_id, $message, $date)
                         <a class="nav-link" href="#profile-section" data-toggle="tab">My Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#courses-section" data-toggle="tab">My Courses</a>
+                        <a class="nav-link" href="#courses-section" data-toggle="tab">My Courses</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#order-section" data-toggle="tab">My Orders</a>
@@ -556,7 +590,7 @@ function checkNotificationExists($user_id, $message, $date)
                         <a class="nav-link" href="#batchcode" data-toggle="tab">Batch Access</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="my-batches.php"><i class="fas fa-graduation-cap"></i> My Batches</a>
+                        <a class="nav-link active" href="#my-batches-section" data-toggle="tab"><i class="fas fa-graduation-cap"></i> My Batches</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#explore-courses-section" data-toggle="tab">Explore Courses</a>
@@ -589,7 +623,204 @@ function checkNotificationExists($user_id, $message, $date)
                 </div>
 
                 <!-- Order details section - unchanged -->
-                <div class="tab-pane fade" id="order-section">
+                <style>#my-batches-section .batch-header {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+#my-batches-section .batch-header h1 {
+    color: #667eea;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+#my-batches-section .batch-header p {
+    color: #666;
+    font-size: 1rem;
+}
+#my-batches-section .batches-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+#my-batches-section .batch-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+#my-batches-section .batch-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+#my-batches-section .batch-title {
+    font-size: 1.5rem;
+    color: #667eea;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+#my-batches-section .batch-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #666;
+}
+#my-batches-section .batch-info-item {
+    display: flex;
+    flex-direction: column;
+}
+#my-batches-section .batch-info-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+}
+#my-batches-section .batch-description {
+    color: #555;
+    line-height: 1.5;
+    margin: 15px 0;
+    font-size: 0.9rem;
+}
+#my-batches-section .batch-status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+#my-batches-section .batch-status.active {
+    background-color: #d4edda;
+    color: #155724;
+}
+#my-batches-section .batch-status.inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+#my-batches-section .batch-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-top: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    margin: 15px 0;
+}
+#my-batches-section .stat-item {
+    text-align: center;
+    flex: 1;
+}
+#my-batches-section .stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #667eea;
+}
+#my-batches-section .stat-label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 5px;
+}
+#my-batches-section .action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+#my-batches-section .btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+}
+#my-batches-section .empty-state {
+    background: white;
+    padding: 60px 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 992px) {
+    #my-batches-section .batches-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+    #my-batches-section .batches-grid { grid-template-columns: 1fr; }
+    #my-batches-section .batch-info { flex-direction: column; }
+    #my-batches-section .action-buttons { flex-direction: column; }
+}</style>
+<div class="tab-pane fade show active" id="my-batches-section">
+
+        <div class="batch-header">
+            <h1>📚 My Batches</h1>
+            <p>View and manage all your active batch enrollments</p>
+        </div>
+
+        <?php if (empty($batches)): ?>
+            <div class="empty-state">
+                <h2>No Batches Yet</h2>
+                <p>You haven't enrolled in any batches yet. Use a batch code to join a live batch session.</p>
+                
+            </div>
+        <?php else: ?>
+            <div class="batches-grid">
+                <?php foreach ($batches as $batch): ?>
+                    <div class="batch-card">
+                        <div class="batch-title"><?= htmlspecialchars($batch['batch_title']) ?></div>
+                        
+                        <span class="batch-status <?= $batch['status'] === 'Active' ? 'active' : 'inactive' ?>">
+                            <?= ucfirst($batch['status']) ?>
+                        </span>
+
+                        <?php if (!empty($batch['description'])): ?>
+                            <div class="batch-description">
+                                <?= htmlspecialchars(substr($batch['description'], 0, 100)) ?>
+                                <?php if (strlen($batch['description']) > 100): ?>...<?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="batch-stats">
+                            <div class="stat-item">
+                                <div class="stat-number"><?= htmlspecialchars($batch['month_year']) ?></div>
+                                <div class="stat-label">Month</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number"><?= htmlspecialchars($batch['lesson_count']) ?></div>
+                                <div class="stat-label">Lessons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number"><?= htmlspecialchars($batch['current_enrolled']) ?></div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                        </div>
+
+                        <div class="batch-info">
+                            <div class="batch-info-item">
+                                <span class="batch-info-label">Max Capacity:</span>
+                                <span><?= htmlspecialchars($batch['max_students']) ?> students</span>
+                            </div>
+                            <div class="batch-info-item">
+                                <span class="batch-info-label">Joined:</span>
+                                <span><?= date('M d, Y', strtotime($batch['enrolled_date'])) ?></span>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <a href="javascript:void(0)" onclick="filterBatchCourses(<?= $batch['id'] ?>, event)" class="btn btn-primary">View Courses</a>
+                            <a href="<?= $base_url ?>profile.php" class="btn btn-secondary">Details</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            
+        <?php endif; ?>
+    
+</div>
+
+<div class="tab-pane fade" id="order-section">
                     <?php if (!empty($orders)): ?>
                         <h3>My Orders</h3>
                         <!-- Your existing order display code remains unchanged -->
@@ -650,7 +881,7 @@ function checkNotificationExists($user_id, $message, $date)
                 </div>
 
                 <!-- MODIFIED: My Courses Section - Now shows only purchased courses -->
-                <div class="tab-pane fade show active" id="courses-section" style="overflow-x:hidden;">
+                <div class="tab-pane fade" id="courses-section" style="overflow-x:hidden;">
                     <h3>My Purchased Courses</h3>
                     
                     <!-- Search Field for Courses -->
@@ -725,7 +956,7 @@ function checkNotificationExists($user_id, $message, $date)
                         
                         <div id="batchCourseList">
                             <?php foreach ($batch_courses as $course): ?>
-                                <div class="course-container border batch-course-container batch-course-item" 
+                                <div class="course-container border batch-course-container batch-course-item" data-batch-ids="<?= htmlspecialchars($course['batch_ids']) ?>" 
                                      data-coursename="<?= htmlspecialchars(strtolower($course['s_name'])) ?>" 
                                      style="background-color:#fff;margin-bottom:1rem;">
                                     <h3 class="course-title-head batch-course-title py-1" style="padding:6%; display: flex; align-items: center; gap: 10px;">
@@ -1171,6 +1402,44 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
         });
     }
     </script>
+<script>
+function filterBatchCourses(batchId, event) {
+    // Show the courses section tab
+    $('.nav-link[href="#courses-section"]').tab("show");
+    
+    // Hide all courses initially
+    $(".course-container").hide();
+    
+    // Show only the purchased courses and batch courses that match
+    $(".course-item").hide();
+    
+    $(".batch-course-item").each(function() {
+        var ids = $(this).attr("data-batch-ids");
+        if (ids) {
+            var idArray = ids.toString().split(",");
+            if (idArray.includes(batchId.toString())) {
+                $(this).show();
+            }
+        }
+    });
+    
+    // Update the heading to show we are filtering
+    var batchName = $(event.target).closest(".batch-card").find(".batch-title").text();
+    if(batchName) {
+        $("#courses-section h3").first().text("Courses in: " + batchName);
+    }
+}
+
+// Reset filter when My Courses is clicked directly
+$(document).ready(function() {
+    $('.nav-link[href="#courses-section"]').on("click", function() {
+        $(".course-container").show();
+        $(".course-item").show();
+        $(".batch-course-item").show();
+        $("#courses-section h3").first().text("My Purchased Courses");
+    });
+});
+</script>
 </body>
 </html>
 
@@ -1536,5 +1805,44 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
         }
     }
 </style>
+<script>
+function filterBatchCourses(batchId, event) {
+    // Show the courses section tab
+    $('.nav-link[href="#courses-section"]').tab("show");
+    
+    // Hide all courses initially
+    $(".course-container").hide();
+    
+    // Show only the purchased courses and batch courses that match
+    $(".course-item").hide();
+    
+    $(".batch-course-item").each(function() {
+        var ids = $(this).attr("data-batch-ids");
+        if (ids) {
+            var idArray = ids.toString().split(",");
+            if (idArray.includes(batchId.toString())) {
+                $(this).show();
+            }
+        }
+    });
+    
+    // Update the heading to show we are filtering
+    var batchName = $(event.target).closest(".batch-card").find(".batch-title").text();
+    if(batchName) {
+        $("#courses-section h3").first().text("Courses in: " + batchName);
+    }
+}
+
+// Reset filter when My Courses is clicked directly
+$(document).ready(function() {
+    $('.nav-link[href="#courses-section"]').on("click", function() {
+        $(".course-container").show();
+        $(".course-item").show();
+        $(".batch-course-item").show();
+        $("#courses-section h3").first().text("My Purchased Courses");
+    });
+});
+</script>
 </body>
 </html>
+

@@ -5,24 +5,30 @@ $username = "secondsight_com_user";
 $password = "Solutions@321@";
 $dbname = "secondsight_com_db";
 
+// $username = "root";
+// $password = "";
+// $dbname = "secondsight_com_db";
+
 // Defining base url
 if (!defined('BASE_URL')) {
-    define("BASE_URL", "https://secondsightfoundation.com/");
-}
-
-// Getting Admin url
-if (!defined('ADMIN_URL')) {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    $domainName = $_SERVER['HTTP_HOST'];
+    $isLocalhost = ($domainName == 'localhost' || $domainName == '127.0.0.1');
+    if ($isLocalhost) {
+        define("BASE_URL", $protocol . $domainName . "/araweb/vps-secondside-com/");
+    } else {
+        define("BASE_URL", "https://secondsightfoundation.com/");
+    }
     define("ADMIN_URL", BASE_URL . "admin" . "/");
 }
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-mysqli_set_charset($conn, "utf8mb4");
-$conn->set_charset("utf8mb4");
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-date_default_timezone_set('Asia/Kolkata');
-
 $base_url = BASE_URL;
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
