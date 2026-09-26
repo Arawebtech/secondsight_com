@@ -765,9 +765,15 @@ $stmt_batches->close();
                 
             </div>
         <?php else: ?>
-            <div class="batches-grid">
+            
+        <!-- Search Field for My Batches -->
+        <div class="form-group" style="max-width:400px;margin-bottom:20px;">
+            <input type="text" id="myBatchesSearchInput" class="form-control" placeholder="Search your batches by name...">
+        </div>
+        
+        <div class="batches-grid">
                 <?php foreach ($batches as $batch): ?>
-                    <div class="batch-card">
+                    <div class="batch-card" data-batchname="<?= htmlspecialchars(strtolower($batch['batch_title'])) ?>">
                         <div class="batch-title"><?= htmlspecialchars($batch['batch_title']) ?></div>
                         
                         <span class="batch-status <?= $batch['status'] === 'Active' ? 'active' : 'inactive' ?>">
@@ -1380,6 +1386,24 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
                     item.style.display = '';
                 } else {
                     item.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    
+    // ADDED: Search functionality for my batches
+    const myBatchesSearchInput = document.getElementById('myBatchesSearchInput');
+    if (myBatchesSearchInput) {
+        const batchCards = document.querySelectorAll('#my-batches-section .batch-card');
+        myBatchesSearchInput.addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+            batchCards.forEach(function(card) {
+                const name = card.getAttribute('data-batchname');
+                if (query === '' || name.includes(query)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
                 }
             });
         });
