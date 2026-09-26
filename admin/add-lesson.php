@@ -225,6 +225,12 @@ if (isset($_POST['submit'])) {
             $stmt->execute();
             $stmt->close();
 
+            // ADDED: Update lesson_batch
+            $lb_stmt = $conn->prepare("UPDATE lesson_batch SET batch_id = ? WHERE lesson_id = ?");
+            $lb_stmt->bind_param("ii", $batch_id, $edit_id);
+            $lb_stmt->execute();
+            $lb_stmt->close();
+
             $conn->commit();
 
             header("Location:view-lesson.php?id=Update");
@@ -275,9 +281,23 @@ if (isset($_POST['submit'])) {
                 );
 
                 $stmt->execute();
+                
+                // ADDED: Also insert into lesson_batch table to link lesson and batch
+                $lesson_id = $stmt->insert_id;
+                $lb_stmt = $conn->prepare("INSERT IGNORE INTO lesson_batch (lesson_id, batch_id) VALUES (?, ?)");
+                $lb_stmt->bind_param("ii", $lesson_id, $batch_id);
+                $lb_stmt->execute();
+                $lb_stmt->close();
             }
 
             $stmt->close();
+
+            // ADDED: Update lesson_batch
+            $lb_stmt = $conn->prepare("UPDATE lesson_batch SET batch_id = ? WHERE lesson_id = ?");
+            $lb_stmt->bind_param("ii", $batch_id, $edit_id);
+            $lb_stmt->execute();
+            $lb_stmt->close();
+
             $conn->commit();
 
             header("Location:view-lesson.php?id=Added");
@@ -565,3 +585,4 @@ reader.readAsDataURL(input.files[0]);
 </body>
 
 </html>
+
