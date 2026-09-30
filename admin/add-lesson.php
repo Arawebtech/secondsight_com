@@ -200,7 +200,6 @@ if (isset($_POST['submit'])) {
                 lesson_title=?,
                 lesson_desc=?,
                 video_url=?,
-                external_url=?,
                 video_thumbnail=?,
                 video_alt=?,
                 meta_keyword=?,
@@ -211,12 +210,11 @@ if (isset($_POST['submit'])) {
             $stmt = $conn->prepare($update_sql);
 
             $stmt->bind_param(
-                "isssssssssi",
+                "issssssssi",
                 $course_id,
                 $lesson_title,
                 $lesson_desc,
                 $video_url,
-                $external_url,
                 $video_thumbnail,
                 $video_alt,
                 $meta_keyword,
@@ -257,8 +255,8 @@ if (isset($_POST['submit'])) {
             }
 
             $insert_sql = "INSERT INTO lesson_video
-            (course_id, course_name, lesson_title, lesson_desc, video_url, external_url, video_thumbnail, status, video_alt, meta_keyword, meta_description, batch_id, created_date)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            (course_id, course_name, lesson_title, lesson_desc, video_url, video_thumbnail, status, video_alt, meta_keyword, meta_description, batch_id, created_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conn->prepare($insert_sql);
 
@@ -268,14 +266,13 @@ if (isset($_POST['submit'])) {
                 $batch_id = intval($batch_id);
 
                 $stmt->bind_param(
-                    "issssssssssis",
+                    "isssssssssis",
                     $course_id,
                     $course_name,
                     $lesson_title,
                     $lesson_desc,
                     $video_url,
-                    $external_url,
-                    $video_thumbnail,
+                $video_thumbnail,
                     $status,
                     $video_alt,
                     $meta_keyword,

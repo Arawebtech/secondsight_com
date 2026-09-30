@@ -9,6 +9,10 @@ $dbname = "secondsight_com_db";
 // $password = "";
 // $dbname = "secondsight_com_db";
 
+// $username = "root";
+// $password = "";
+// $dbname = "secondsight_com_db";
+
 // Defining base url
 if (!defined('BASE_URL')) {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
