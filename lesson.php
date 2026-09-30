@@ -7,9 +7,7 @@ header("Pragma: no-cache");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if (!defined('BASE_URL')) {
-    define("BASE_URL", "https://secondsightfoundation.com/");
-}
+
 
 include('admin/include/db_config.php');
 include('include/session_validator.php');
@@ -85,85 +83,100 @@ try {
     die("<!-- DEBUG: Failed to fetch user data: " . $e->getMessage() . " -->");
 }
 
-// Validate course_id
-echo "<!-- DEBUG: Validating course ID -->\n";
+// Validate course_id or batch_id
+echo "<!-- DEBUG: Validating course or batch ID -->\n";
 $courseId = isset($_GET['course_id']) ? intval($_GET['course_id']) : 0;
-echo "<!-- DEBUG: Course ID: $courseId -->\n";
+$batchId = isset($_GET['batch_id']) ? intval($_GET['batch_id']) : 0;
+echo "<!-- DEBUG: Course ID: $courseId, Batch ID: $batchId -->\n";
 
-if (!$courseId) {
-    die("<!-- DEBUG: Invalid course ID --><h2>Invalid course.</h2>");
+if (!$courseId && !$batchId) {
+    die("<!-- DEBUG: Invalid ID --><h2>Invalid course or batch.</h2>");
 }
 
-// Fetch course
-echo "<!-- DEBUG: Preparing course query -->\n";
-try {
-    $courseQuery = $conn->prepare("SELECT s_name FROM courses WHERE id = ?");
-    if (!$courseQuery) {
-        die("<!-- DEBUG: Failed to prepare course query: " . $conn->error . " -->");
+$courseName = "Course/Batch";
+
+if ($courseId) {
+    // Fetch course
+    echo "<!-- DEBUG: Preparing course query -->\n";
+    try {
+        $courseQuery = $conn->prepare("SELECT s_name FROM courses WHERE id = ?");
+        $courseQuery->bind_param("i", $courseId);
+        $courseQuery->execute();
+        $courseResult = $courseQuery->get_result();
+        if ($courseResult->num_rows > 0) {
+            $courseData = $courseResult->fetch_assoc();
+            $courseName = $courseData['s_name'];
+        }
+    } catch (Exception $e) {
+        die("<!-- DEBUG: Course query failed: " . $e->getMessage() . " -->");
     }
 
-    $courseQuery->bind_param("i", $courseId);
-    $courseQuery->execute();
-    $courseResult = $courseQuery->get_result();
-    echo "<!-- DEBUG: Course query executed -->\n";
-} catch (Exception $e) {
-    die("<!-- DEBUG: Course query failed: " . $e->getMessage() . " -->");
+    // Fetch lessons for course
+    echo "<!-- DEBUG: Preparing lesson query for course -->\n";
+    try {
+        $lessonQuery = $conn->prepare("SELECT lesson_title, video_url, external_url FROM lesson_video WHERE course_id = ?");
+        $lessonQuery->bind_param("i", $courseId);
+        $lessonQuery->execute();
+        $lessonsResult = $lessonQuery->get_result();
+        $lessonCount = $lessonsResult->num_rows;
+    } catch (Exception $e) {
+        die("<!-- DEBUG: Lesson query failed: " . $e->getMessage() . " -->");
+    }
+
+} elseif ($batchId) {
+    // Fetch batch
+    echo "<!-- DEBUG: Preparing batch query -->\n";
+    try {
+        $batchQuery = $conn->prepare("SELECT batch_title FROM batch WHERE id = ?");
+        $batchQuery->bind_param("i", $batchId);
+        $batchQuery->execute();
+        $batchResult = $batchQuery->get_result();
+        if ($batchResult->num_rows > 0) {
+            $batchData = $batchResult->fetch_assoc();
+            $courseName = $batchData['batch_title'];
+        }
+    } catch (Exception $e) {
+        die("<!-- DEBUG: Batch query failed: " . $e->getMessage() . " -->");
+    }
+
+    // Fetch lessons for batch
+    echo "<!-- DEBUG: Preparing lesson query for batch -->\n";
+    try {
+        $lessonQuery = $conn->prepare("
+            SELECT lv.lesson_title, lv.video_url, lv.external_url 
+            FROM lesson_video lv
+            INNER JOIN lesson_batch lb ON lv.id = lb.lesson_id
+            WHERE lb.batch_id = ?
+            UNION
+            SELECT lesson_title, video_url, external_url 
+            FROM lesson_video 
+            WHERE batch_id = ?
+        ");
+        $lessonQuery->bind_param("ii", $batchId, $batchId);
+        $lessonQuery->execute();
+        $lessonsResult = $lessonQuery->get_result();
+        $lessonCount = $lessonsResult->num_rows;
+    } catch (Exception $e) {
+        die("<!-- DEBUG: Lesson batch query failed: " . $e->getMessage() . " -->");
+    }
 }
 
-if ($courseResult->num_rows == 0) {
-    die("<!-- DEBUG: Course not found --><h2>Course not found.</h2>");
-}
-
-try {
-    $courseData = $courseResult->fetch_assoc();
-    $courseName = $courseData['s_name'];
-    echo "<!-- DEBUG: Course name: $courseName -->\n";
-} catch (Exception $e) {
-    die("<!-- DEBUG: Failed to fetch course data: " . $e->getMessage() . " -->");
-}
-
-// Fetch existing note for the user
+// Fetch existing note for the user (using courseId, even if 0)
 echo "<!-- DEBUG: Fetching user notes -->\n";
 $note_content = '';
 try {
-    $noteQuery = $conn->prepare("SELECT note_content FROM user_notes WHERE user_id = ? AND course_id = ?");
+    $noteQuery = $conn->prepare("SELECT note_content FROM user_notes WHERE user_id = ? AND course_id = ? AND batch_id = ?");
     if ($noteQuery) {
-        $noteQuery->bind_param("ii", $user_id, $courseId);
+        $noteQuery->bind_param("iii", $user_id, $courseId, $batchId);
         $noteQuery->execute();
         $noteResult = $noteQuery->get_result();
         if ($noteRow = $noteResult->fetch_assoc()) {
             $note_content = $noteRow['note_content'];
-            echo "<!-- DEBUG: Note content loaded -->\n";
-        } else {
-            echo "<!-- DEBUG: No existing notes found -->\n";
         }
         $noteQuery->close();
-    } else {
-        echo "<!-- DEBUG: Could not prepare note query (table might not exist) -->\n";
     }
 } catch (Exception $e) {
-    echo "<!-- DEBUG: Note query failed (this is OK if table doesn't exist): " . $e->getMessage() . " -->\n";
-}
-
-// Fetch lessons
-echo "<!-- DEBUG: Preparing lesson query -->\n";
-try {
-    $lessonQuery = $conn->prepare("
-        SELECT lesson_title, video_url, external_url 
-        FROM lesson_video 
-        WHERE course_id = ?
-    ");
-    if (!$lessonQuery) {
-        die("<!-- DEBUG: Failed to prepare lesson query: " . $conn->error . " -->");
-    }
-
-    $lessonQuery->bind_param("i", $courseId);
-    $lessonQuery->execute();
-    $lessonsResult = $lessonQuery->get_result();
-    $lessonCount = $lessonsResult->num_rows;
-    echo "<!-- DEBUG: Found $lessonCount lessons -->\n";
-} catch (Exception $e) {
-    die("<!-- DEBUG: Lesson query failed: " . $e->getMessage() . " -->");
+    // Note query failed (this is OK if table doesn't exist)
 }
 
 // Set up paths
@@ -753,16 +766,21 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
 
                         while ($lessonRow = $lessonsResult->fetch_assoc()) {
                             $lessonTitle = $lessonRow['lesson_title'];
-                            $videoUrl = $lessonRow['video_url'];
-                            $externalUrl = $lessonRow['external_url'] ?? '';
+                            $videoUrl = trim($lessonRow['video_url']);
+                            $externalUrl = trim($lessonRow['external_url'] ?? '');
+                            
 
                             echo "<div class='lesson-content' style='display:" . ($lessonIndex === 0 ? 'block' : 'none') . "'>";
                             echo "<h4 class='lesson-title'>" . htmlspecialchars($lessonTitle) . "</h4>";
 
                             echo "<!-- DEBUG: Processing lesson: " . htmlspecialchars($lessonTitle) . " -->\n";
                             
+                                                        // Check if videoUrl is a valid HTTP link
+                            $isExternal = filter_var($videoUrl, FILTER_VALIDATE_URL) !== false;
+                            if ($isExternal) { $externalUrl = $videoUrl; } else if (!isset($externalUrl)) { $externalUrl = ''; }
+
                             // 1. If local video exists, render it with JS watermark
-                            if (!empty($videoUrl) && $videoUrl != '') {
+                            if (!empty($videoUrl) && !$isExternal) {
                                 $localVideoPath = __DIR__ . '/admin/' . $videoUrl;
                                 echo "<!-- DEBUG: Local video path: $localVideoPath -->\n";
 
@@ -865,6 +883,7 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                     <h3>My Personal Notes</h3>
                     <form id="note-form" action="save_note.php" method="POST" class="note-form">
                         <input type="hidden" name="course_id" value="<?= $courseId ?>">
+                        <input type="hidden" name="batch_id" value="<?= $batchId ?>">
                         <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
                         <textarea name="note_content" class="form-control" rows="5"
                             placeholder="Jot down your notes for this course here..."><?= htmlspecialchars($note_content) ?></textarea>
@@ -887,6 +906,7 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                     <h3>Rate & Review This Course</h3>
                     <form id="comment-form" action="add_comment.php" method="POST" class="comment-form">
                         <input type="hidden" name="course_id" value="<?= $courseId ?>">
+                        <input type="hidden" name="batch_id" value="<?= $batchId ?>">
                         <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
 
                        <div class="form-group">
@@ -913,7 +933,7 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                             <textarea name="comment" class="form-control" rows="4"
                                 placeholder="Write your review here..."></textarea>
                         </div>
-                        <button type="submit" class="default-btn">Submit Review</button>
+                        <button type="submit" class="default-btn" style="background-color: var(--main-color); color: #fff; border-color: var(--main-color);" onmouseover="this.style.color='#000'; this.style.backgroundColor='transparent'" onmouseout="this.style.color='#fff'; this.style.backgroundColor='var(--main-color)'">Submit Review</button>
                     </form>
 
                     <hr class="my-4">
@@ -927,7 +947,7 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                 SELECT c.comment, c.rating, c.created_date, u.name 
                                 FROM course_comment c
                                 JOIN users u ON c.user_id = u.id
-                                WHERE c.course_id = ? 
+                                WHERE c.course_id = ? AND c.batch_id = ?
                                 ORDER BY c.created_date DESC
                             ");
 
@@ -935,7 +955,7 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                 echo "<!-- DEBUG: Failed to prepare comment query: " . $conn->error . " -->\n";
                                 echo "<p class='no-reviews'>Unable to load reviews at this time.</p>";
                             } else {
-                                $commentQuery->bind_param("i", $courseId);
+                                $commentQuery->bind_param("ii", $courseId, $batchId);
                                 $commentQuery->execute();
                                 $commentResult = $commentQuery->get_result();
                                 echo "<!-- DEBUG: Found " . $commentResult->num_rows . " comments -->\n";

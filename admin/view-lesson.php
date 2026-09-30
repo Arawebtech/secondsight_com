@@ -165,7 +165,7 @@ SELECT
 FROM lesson_video lv
 JOIN courses c ON lv.course_id = c.id 
 LEFT JOIN batch b ON lv.batch_id = b.id
-ORDER BY lv.video_alt ASC
+ORDER BY lv.id DESC
 ";
                                      $result_item = mysqli_query($conn, $query);
                                             $count = 1;
@@ -183,47 +183,63 @@ ORDER BY lv.video_alt ASC
 <td style="width:30%; position: relative;">
 
 <?php
-$videoSizeMB = "0";
-
-if(!empty($videoUrl)){
-
-    // video file name nikalna
-    $videoFile = basename($videoUrl);
-
-    // correct server path
-    $videoPath = $_SERVER['DOCUMENT_ROOT']."/demo/admin/uploads/videos/".$videoFile;
-
-    if(file_exists($videoPath)){
-        $videoSizeMB = round(filesize($videoPath)/(1024*1024),2);
+$isExternal = filter_var($videoUrl, FILTER_VALIDATE_URL) !== false;
+if ($isExternal) {
+    $youtubeId = '';
+    if (preg_match('/youtu\.be\/([^\?\/]+)/', $videoUrl, $matches)) {
+        $youtubeId = $matches[1];
+    } elseif (preg_match('/youtube\.com\/watch\?v=([^\&\?\/]+)/', $videoUrl, $matches)) {
+        $youtubeId = $matches[1];
+    } elseif (preg_match('/youtube\.com\/embed\/([^\&\?\/]+)/', $videoUrl, $matches)) {
+        $youtubeId = $matches[1];
     }
+
+    if (!empty($youtubeId)) {
+?>
+    <div style="padding: 10px 0;">
+        <iframe width="240" height="135" src="https://www.youtube.com/embed/<?php echo $youtubeId; ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></iframe>
+    </div>
+<?php
+    } else {
+?>
+    <div style="padding: 20px 0;">
+        <a href="<?php echo htmlspecialchars($videoUrl); ?>" target="_blank" class="btn btn-primary btn-sm" style="box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+            <i class="fa fa-external-link"></i> Watch External Video
+        </a>
+    </div>
+<?php
+    }
+} else {
+    $videoSizeMB = "0";
+    if(!empty($videoUrl)){
+        $videoFile = basename($videoUrl);
+        $videoPath = $_SERVER['DOCUMENT_ROOT']."/demo/admin/uploads/videos/".$videoFile;
+        if(file_exists($videoPath)){
+            $videoSizeMB = round(filesize($videoPath)/(1024*1024),2);
+        }
+    }
+?>
+<div class="video-container" style="position: relative; display: inline-block; width:150px;height:100px;">
+    <video
+        id="video_<?php echo $info_item->id; ?>"
+        width="150"
+        height="100"
+        controls
+        style="border-radius:4px;"
+        preload="metadata"
+        onloadedmetadata="showDuration(this, <?php echo $info_item->id; ?>)">
+        <source src="<?php echo htmlspecialchars($videoUrl); ?>" type="video/mp4">
+    </video>
+    <div style="font-size:12px;margin-top:3px;">
+        Video Size: <?php echo htmlspecialchars($info_item->video_alt); ?>MB
+    </div>
+    <div id="duration_<?php echo $info_item->id; ?>" style="font-size:12px;color:#555;">
+        Duration: Loading...
+    </div>
+</div>
+<?php
 }
 ?>
-
-<div class="video-container" style="position: relative; display: inline-block; width:150px;height:100px;">
-
-<video
-id="video_<?php echo $info_item->id; ?>"
-width="150"
-height="100"
-controls
-style="border-radius:4px;"
-preload="metadata"
-onloadedmetadata="showDuration(this, <?php echo $info_item->id; ?>)">
-
-<source src="<?php echo $videoUrl; ?>" type="video/mp4">
-
-</video>
-
-<div style="font-size:12px;margin-top:3px;">
-Video Size: <?php echo $info_item->video_alt; ?>MB
-</div>
-
-<div id="duration_<?php echo $info_item->id; ?>" style="font-size:12px;color:#555;">
-Duration: Loading...
-</div>
-
-</div>
-
 </td>
 
 <td>
@@ -423,4 +439,4 @@ document.getElementById("duration_"+id).innerHTML =
     .video-container video::-webkit-media-controls-panel {
         background-color: rgba(0, 0, 0, 0.8);
     }
-</style>
+</style> 

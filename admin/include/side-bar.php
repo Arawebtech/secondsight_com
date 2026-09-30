@@ -20,6 +20,7 @@
                     <li><a href="view-courses.php"><i class="fas fa-book-open"></i> <span>View Courses</span></a></li>
                     <li><a href="view-lesson.php"><i class="fa-solid fa-video"></i> <span>View Lesson</span></a></li>
                     <li><a href="view-batch.php"><i class="fa-solid fa-layer-group"></i> <span>View Batches</span></a></li>
+                    <li><a href="schedule-batch.php"><i class="fa-regular fa-calendar-alt"></i> <span>Schedule Batch</span></a></li>
                     <li><a href="view-course-comment.php"><i class="fa-regular fa-comment"></i> <span>Course Comment</span></a></li>
                     <li><a href="view-blog.php"><i class="fa-solid fa-blog"></i> <span>View Blogs</span></a></li>
                      <li><a href="view-image.php"><i class="fa-solid fa-image"></i> <span>View Gallery</span></a></li>

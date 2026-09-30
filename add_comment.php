@@ -30,11 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // --- Get form data ---
     $user_id = isset($_POST['user_id']) ? intval($_POST['user_id']) : 0;
     $course_id = isset($_POST['course_id']) ? intval($_POST['course_id']) : 0;
+    $batch_id = isset($_POST['batch_id']) ? intval($_POST['batch_id']) : 0;
     $comment_text = isset($_POST['comment']) ? trim($_POST['comment']) : '';
     $rating = isset($_POST['rating']) ? intval($_POST['rating']) : null;
 
     // --- Basic validation ---
-    if (empty($user_id) || empty($course_id)) {
+    if (empty($user_id) || (empty($course_id) && empty($batch_id))) {
         $response['message'] = 'Invalid user or course data.';
         echo json_encode($response);
         exit();
@@ -53,13 +54,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // --- Prepare and execute insert statement ---
-    $query = "INSERT INTO course_comment (user_id, course_id, course_name, comment, rating, created_date) VALUES (?, ?, (SELECT s_name FROM courses WHERE id = ?), ?, ?, NOW())";
-    
-    $stmt = $conn->prepare($query);
+    if ($course_id) {
+        $query = "INSERT INTO course_comment (user_id, course_id, batch_id, course_name, comment, rating, created_date) VALUES (?, ?, ?, (SELECT s_name FROM courses WHERE id = ?), ?, ?, NOW())";
+        $stmt = $conn->prepare($query);
+        if ($stmt) $stmt->bind_param("iiiisi", $user_id, $course_id, $batch_id, $course_id, $comment_text, $rating);
+    } else {
+        $query = "INSERT INTO course_comment (user_id, course_id, batch_id, course_name, comment, rating, created_date) VALUES (?, ?, ?, (SELECT batch_title FROM batch WHERE id = ?), ?, ?, NOW())";
+        $stmt = $conn->prepare($query);
+        if ($stmt) $stmt->bind_param("iiiisi", $user_id, $course_id, $batch_id, $batch_id, $comment_text, $rating);
+    }
 
     if ($stmt) {
-        $stmt->bind_param("iiisi", $user_id, $course_id, $course_id, $comment_text, $rating);
-
         if ($stmt->execute()) {
             $response['success'] = true;
             $response['message'] = 'Review submitted successfully!';

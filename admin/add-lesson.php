@@ -35,7 +35,7 @@
 //     try {
 
 //     if (empty($batch_ids)) {
-//         die("Please select at least one batch.");
+//         // die("Please select at least one batch.");
 //     }
 
 //     $sql_query = "INSERT INTO lesson_video 
@@ -160,6 +160,9 @@ if (isset($_POST['submit'])) {
 
     $video_url = $_POST['uploaded_video_path'] ?? '';
     $external_url = trim($_POST['external_url'] ?? '');
+    if (empty($video_url) && !empty($external_url)) {
+        $video_url = $external_url;
+    }
 
     /* =========================
        THUMBNAIL UPLOAD
@@ -177,7 +180,7 @@ if (isset($_POST['submit'])) {
     $created_date = date("Y-m-d H:i:s");
 
     if (empty($batch_ids)) {
-        die("Please select at least one batch.");
+        // die("Please select at least one batch.");
     }
 
     $conn->autocommit(FALSE);
@@ -225,6 +228,12 @@ if (isset($_POST['submit'])) {
             $stmt->execute();
             $stmt->close();
 
+            // ADDED: Update lesson_batch
+            $lb_stmt = $conn->prepare("UPDATE lesson_batch SET batch_id = ? WHERE lesson_id = ?");
+            $lb_stmt->bind_param("ii", $batch_id, $edit_id);
+            $lb_stmt->execute();
+            $lb_stmt->close();
+
             $conn->commit();
 
             header("Location:view-lesson.php?id=Update");
@@ -253,7 +262,8 @@ if (isset($_POST['submit'])) {
 
             $stmt = $conn->prepare($insert_sql);
 
-            foreach ($batch_ids as $batch_id) {
+            $loop_batches = empty($batch_ids) ? [0] : $batch_ids;
+            foreach ($loop_batches as $batch_id) {
 
                 $batch_id = intval($batch_id);
 
@@ -275,9 +285,23 @@ if (isset($_POST['submit'])) {
                 );
 
                 $stmt->execute();
+                
+                // ADDED: Also insert into lesson_batch table to link lesson and batch
+                $lesson_id = $stmt->insert_id;
+                $lb_stmt = $conn->prepare("INSERT IGNORE INTO lesson_batch (lesson_id, batch_id) VALUES (?, ?)");
+                $lb_stmt->bind_param("ii", $lesson_id, $batch_id);
+                $lb_stmt->execute();
+                $lb_stmt->close();
             }
 
             $stmt->close();
+
+            // ADDED: Update lesson_batch
+            $lb_stmt = $conn->prepare("UPDATE lesson_batch SET batch_id = ? WHERE lesson_id = ?");
+            $lb_stmt->bind_param("ii", $batch_id, $edit_id);
+            $lb_stmt->execute();
+            $lb_stmt->close();
+
             $conn->commit();
 
             header("Location:view-lesson.php?id=Added");
@@ -414,13 +438,13 @@ $conn->close();
                             
                             <div style="margin-top: 15px;">
                                 <label>External Video URL (Optional):</label>
-                                <input type="url" name="external_url" class="form-control" placeholder="https://www.youtube.com/watch?v=..." value="<?= $edit_mode ? htmlspecialchars($lesson_data['external_url'] ?? '') : '' ?>">
+                                <input type="url" name="external_url" class="form-control" placeholder="https://www.youtube.com/watch?v=..." value="<?= $edit_mode ? htmlspecialchars(!empty($lesson_data['external_url']) ? $lesson_data['external_url'] : (preg_match('/^http/', $lesson_data['video_url'] ?? '') ? $lesson_data['video_url'] : '')) : '' ?>">
                             </div>
                         </div>
                          <!-- Video Alt -->
                         <div class="form-group col-md-6">
                             <label>Video Size : MB</label>
-                            <input type="text" name="video_alt" class="form-control" placeholder="video size in mb" required
+                            <input type="text" name="video_alt" class="form-control" placeholder="video size in mb"
                                    value="<?= $edit_mode ? htmlspecialchars($lesson_data['video_alt']) : '' ?>">
                         </div>
 <div class="form-group col-md-6">
@@ -523,9 +547,7 @@ reader.readAsDataURL(input.files[0]);
                 multiple: true
             });
 
-            <?php if (!$edit_mode || empty($lesson_data['video_url'])): ?>
-            $('#submitBtn').prop('disabled', true);
-            <?php endif; ?>
+            
 
             $('#videoDisplay').on('change', function() {
                 var file = this.files[0];
@@ -565,3 +587,5 @@ reader.readAsDataURL(input.files[0]);
 </body>
 
 </html>
+
+

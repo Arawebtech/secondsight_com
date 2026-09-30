@@ -35,22 +35,23 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = isset($_POST['user_id']) ? intval($_POST['user_id']) : 0;
     $course_id = isset($_POST['course_id']) ? intval($_POST['course_id']) : 0;
+    $batch_id = isset($_POST['batch_id']) ? intval($_POST['batch_id']) : 0;
     $note_content = isset($_POST['note_content']) ? trim($_POST['note_content']) : '';
 
-    if (empty($user_id) || empty($course_id)) {
+    if (empty($user_id) || (empty($course_id) && empty($batch_id))) {
         $response['message'] = 'Invalid data submitted.';
         echo json_encode($response);
         exit();
     }
     
     // Using INSERT ... ON DUPLICATE KEY UPDATE (UPSERT)
-    $query = "INSERT INTO user_notes (user_id, course_id, note_content) VALUES (?, ?, ?)
+    $query = "INSERT INTO user_notes (user_id, course_id, batch_id, note_content) VALUES (?, ?, ?, ?)
               ON DUPLICATE KEY UPDATE note_content = ?";
     
     $stmt = $conn->prepare($query);
 
     if ($stmt) {
-        $stmt->bind_param("iiss", $user_id, $course_id, $note_content, $note_content);
+        $stmt->bind_param("iiiss", $user_id, $course_id, $batch_id, $note_content, $note_content);
 
         if ($stmt->execute()) {
             $response['success'] = true;
