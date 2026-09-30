@@ -11,6 +11,17 @@ include('include/db_config.php');
 $msg = "";
 
 $edit_id = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
+$current_file = '';
+if ($edit_id > 0) {
+    $stmt = $conn->prepare("SELECT schedule_file FROM batch WHERE id=?");
+    $stmt->bind_param("i", $edit_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($row = $res->fetch_assoc()) {
+        $current_file = $row['schedule_file'];
+    }
+    $stmt->close();
+}
 
 // Handle Delete
 if (isset($_GET['del'])) {
@@ -141,6 +152,18 @@ if(isset($_GET['msg']) && $_GET['msg']=='deleted') {
                             <label>Upload File (PDF / Image) *</label>
                             <input type="file" name="schedule_file" class="form-control" accept=".pdf,image/*" required>
                             <small class="text-muted">Will overwrite any existing schedule for the selected batch.</small>
+                            <?php if (!empty($current_file)): ?>
+                                <div style="margin-top: 15px; padding: 10px; background: #f9f9f9; border: 1px solid #ddd; border-radius: 4px;">
+                                    <p style="margin-bottom: 5px;"><strong>Currently Uploaded:</strong> <a href="uploads/schedules/<?= htmlspecialchars($current_file) ?>" target="_blank"><?= htmlspecialchars($current_file) ?></a></p>
+                                    <?php
+                                    $ext = strtolower(pathinfo($current_file, PATHINFO_EXTENSION));
+                                    if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])): ?>
+                                        <img src="uploads/schedules/<?= htmlspecialchars($current_file) ?>" style="max-width: 150px; max-height: 150px; border: 1px solid #ccc; padding: 3px; background: #fff; border-radius: 4px;">
+                                    <?php elseif ($ext == 'pdf'): ?>
+                                        <i class="fa fa-file-pdf-o text-danger" style="font-size: 40px;"></i>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="box-footer">
