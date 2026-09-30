@@ -10,6 +10,8 @@ include('include/db_config.php');
 
 $msg = "";
 
+$edit_id = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
+
 // Handle Delete
 if (isset($_GET['del'])) {
     $id = intval($_GET['del']);
@@ -75,7 +77,7 @@ if (isset($_POST['submit'])) {
                 $stmt = $conn->prepare("UPDATE batch SET schedule_file=? WHERE id=?");
                 $stmt->bind_param("si", $file_name, $batch_id);
                 if ($stmt->execute()) {
-                    $msg = "<div class='alert alert-success'>Schedule uploaded successfully.</div>";
+                    $msg = "<div class='alert alert-success'>Schedule uploaded/updated successfully.</div>";
                 } else {
                     $msg = "<div class='alert alert-danger'>Database error.</div>";
                 }
@@ -118,7 +120,7 @@ if(isset($_GET['msg']) && $_GET['msg']=='deleted') {
             <?= $msg ?>
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Upload Batch Schedule (PDF or Image)</h3>
+                    <h3 class="box-title"><?= $edit_id > 0 ? "Update Batch Schedule (PDF or Image)" : "Upload Batch Schedule (PDF or Image)" ?></h3>
                 </div>
                 <form method="POST" enctype="multipart/form-data">
                     <div class="box-body">
@@ -129,7 +131,8 @@ if(isset($_GET['msg']) && $_GET['msg']=='deleted') {
                                 <?php
                                 $batches = $conn->query("SELECT id, batch_title FROM batch ORDER BY batch_title ASC");
                                 while($b = $batches->fetch_assoc()) {
-                                    echo "<option value='".$b['id']."'>".htmlspecialchars($b['batch_title'])."</option>";
+                                    $selected = ($edit_id == $b['id']) ? 'selected' : '';
+                                    echo "<option value='".$b['id']."' $selected>".htmlspecialchars($b['batch_title'])."</option>";
                                 }
                                 ?>
                             </select>
@@ -141,7 +144,10 @@ if(isset($_GET['msg']) && $_GET['msg']=='deleted') {
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" name="submit" class="btn btn-primary">Upload Schedule</button>
+                        <button type="submit" name="submit" class="btn btn-primary"><?= $edit_id > 0 ? "Update Schedule" : "Upload Schedule" ?></button>
+                        <?php if($edit_id > 0): ?>
+                            <a href="schedule-batch.php" class="btn btn-default">Cancel Edit</a>
+                        <?php endif; ?>
                     </div>
                 </form>
             </div>
@@ -174,8 +180,9 @@ if(isset($_GET['msg']) && $_GET['msg']=='deleted') {
                                     <td><?= htmlspecialchars($row['batch_title']) ?></td>
                                     <td><i class="fa <?= $icon ?>"></i> <?= htmlspecialchars($row['schedule_file']) ?></td>
                                     <td>
-                                        <a href="uploads/schedules/<?= htmlspecialchars($row['schedule_file']) ?>" target="_blank" class="btn btn-sm btn-info">View File</a>
-                                        <a href="schedule-batch.php?del=<?= $row['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to remove the schedule for this batch?');">Remove</a>
+                                        <a href="schedule-batch.php?edit=<?= $row['id'] ?>" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Edit</a>
+                                        <a href="uploads/schedules/<?= htmlspecialchars($row['schedule_file']) ?>" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> View</a>
+                                        <a href="schedule-batch.php?del=<?= $row['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to remove the schedule for this batch?');"><i class="fa fa-trash"></i> Remove</a>
                                     </td>
                                 </tr>
                                 <?php
