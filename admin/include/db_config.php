@@ -5,9 +5,6 @@ $username = "secondsight_com_user";
 $password = "Solutions@321@";
 $dbname = "secondsight_com_db";
 
-// $username = "root";
-// $password = "";
-// $dbname = "secondsight_com_db";
 
 // $username = "root";
 // $password = "";

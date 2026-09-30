@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
     <!--<link rel="stylesheet" href="assets/css/owl.theme.default.min.css">-->
-    <!--<link rel="preload" href="assets/css/owl.theme.default.min.css" as="style" media="print" onload="this.media='all'">-->
+    <link rel="preload" href="assets/css/owl.theme.default.min.css" as="style" media="print" onload="this.media='all'">
 
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <!--<link rel="preload" href="assets/css/owl.carousel.min.css" as="style" media="print" onload="this.media='all'">-->
