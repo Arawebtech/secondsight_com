@@ -99,7 +99,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Instamojo Payment Request
         $api_url = "https://www.instamojo.com/api/1.1/payment-requests/";
-        $redirect_url = "https://secondsightfoundation.com/payment_status.php";
+        
+        // Use dynamic base URL for redirect so it works on localhost too
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domainName = $_SERVER['HTTP_HOST'];
+        $isLocalhost = ($domainName == 'localhost' || $domainName == '127.0.0.1');
+        $base_url = $isLocalhost ? $protocol . $domainName . "/araweb/secondsight_com_backup/" : $protocol . $domainName . "/";
+        $redirect_url = $base_url . "payment_status.php";
 
         $data = [
             'purpose' => 'Course Purchase',

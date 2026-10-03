@@ -165,7 +165,7 @@ $query = "SELECT
     o.paid_amount,
     o.order_status, 
     o.payment_status, 
-     
+    (SELECT GROUP_CONCAT(c.s_name SEPARATOR ', ') FROM order_details od JOIN courses c ON od.course_id = c.id WHERE od.order_id = o.id) AS course_names,
     o.created_at
     FROM orders o
     JOIN users u ON o.user_id = u.id
@@ -462,7 +462,7 @@ $totals = mysqli_fetch_assoc($totalResult);
                                                 <th>Order Status</th>
                                                 <th>Payment Status</th>
                                                 <th>Coupon Code</th>
-                                                <th>Batch Code</th>
+                                                <th>Course Name</th>
                                                 <th>Discount%</th>
                                                 <th>Created Date</th>
                                             </tr>
@@ -491,7 +491,7 @@ $totals = mysqli_fetch_assoc($totalResult);
                                                         </span>
                                                     </td>
                                                     <td><?php echo htmlspecialchars($info_item->couponcode); ?></td>
-                                                    <td>-</td>
+                                                    <td><?php echo htmlspecialchars($info_item->course_names ? $info_item->course_names : '-'); ?></td>
                                                     <td><?php echo $info_item->discount_percent; ?>%</td>
                                                     <td><?php echo date('d-m-y H:i', strtotime($info_item->created_at)); ?></td>
                                                 </tr>

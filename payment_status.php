@@ -51,10 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $final_amount = $order_total - $calculated_discount;
     $is_free_order = ($final_amount <= 0.01); // Consider amounts less than 1 cent as free
 
-    // Only process as successful payment if:
-    // 1. Payment status is explicitly 'success' AND payment_id is not 'FREE', OR
+    // 1. Payment status is explicitly 'success' OR 'Credit' (Instamojo) AND payment_id is not 'FREE', OR
     // 2. It's genuinely a free order (100% discount or $0 total) AND payment_id is 'FREE'
-    $valid_paid_transaction = ($payment_status === 'success' && $payment_id !== 'FREE' && $payment_id !== 'N/A');
+    $valid_paid_transaction = (($payment_status === 'success' || strcasecmp($payment_status, 'Credit') === 0) && $payment_id !== 'FREE' && $payment_id !== 'N/A');
     $valid_free_transaction = ($is_free_order && $payment_id === 'FREE');
 
     if ($valid_paid_transaction || $valid_free_transaction) {

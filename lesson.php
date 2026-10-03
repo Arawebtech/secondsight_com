@@ -114,7 +114,7 @@ if ($courseId) {
     // Fetch lessons for course
     echo "<!-- DEBUG: Preparing lesson query for course -->\n";
     try {
-        $lessonQuery = $conn->prepare("SELECT lesson_title, video_url, external_url FROM lesson_video WHERE course_id = ?");
+        $lessonQuery = $conn->prepare("SELECT lesson_title, video_url FROM lesson_video WHERE course_id = ?");
         $lessonQuery->bind_param("i", $courseId);
         $lessonQuery->execute();
         $lessonsResult = $lessonQuery->get_result();
@@ -143,12 +143,12 @@ if ($courseId) {
     echo "<!-- DEBUG: Preparing lesson query for batch -->\n";
     try {
         $lessonQuery = $conn->prepare("
-            SELECT lv.lesson_title, lv.video_url, lv.external_url 
+            SELECT lv.lesson_title, lv.video_url 
             FROM lesson_video lv
             INNER JOIN lesson_batch lb ON lv.id = lb.lesson_id
             WHERE lb.batch_id = ?
             UNION
-            SELECT lesson_title, video_url, external_url 
+            SELECT lesson_title, video_url 
             FROM lesson_video 
             WHERE batch_id = ?
         ");
