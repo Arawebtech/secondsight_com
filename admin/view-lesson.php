@@ -211,29 +211,30 @@ if ($isExternal) {
     }
 } else {
     $videoSizeMB = "0";
-    if(!empty($videoUrl)){
-        $videoFile = basename($videoUrl);
-        $videoPath = $_SERVER['DOCUMENT_ROOT']."/demo/admin/uploads/videos/".$videoFile;
-        if(file_exists($videoPath)){
-            $videoSizeMB = round(filesize($videoPath)/(1024*1024),2);
+    if (!empty($info_item->video_alt)) {
+        $videoSizeMB = $info_item->video_alt;
+    } elseif (!empty($videoUrl)) {
+        $videoPath = __DIR__ . "/" . $videoUrl; // Pointing correctly to admin/assets/lessonVideo/
+        if (file_exists($videoPath)) {
+            $videoSizeMB = round(filesize($videoPath) / (1024 * 1024), 2);
         }
     }
 ?>
-<div class="video-container" style="position: relative; display: inline-block; width:150px;height:100px;">
+<div class="video-container" style="position: relative; display: inline-block; width:240px;height:135px; margin-bottom:40px;">
     <video
         id="video_<?php echo $info_item->id; ?>"
-        width="150"
-        height="100"
+        width="240"
+        height="135"
         controls
         style="border-radius:4px;"
         preload="metadata"
         onloadedmetadata="showDuration(this, <?php echo $info_item->id; ?>)">
         <source src="<?php echo htmlspecialchars($videoUrl); ?>" type="video/mp4">
     </video>
-    <div style="font-size:12px;margin-top:3px;">
-        Video Size: <?php echo htmlspecialchars($info_item->video_alt); ?>MB
+    <div style="font-size:12px;margin-top:3px; font-weight: bold;">
+        Video Size: <?php echo htmlspecialchars($videoSizeMB); ?> MB
     </div>
-    <div id="duration_<?php echo $info_item->id; ?>" style="font-size:12px;color:#555;">
+    <div id="duration_<?php echo $info_item->id; ?>" style="font-size:12px;color:#555; font-weight: bold;">
         Duration: Loading...
     </div>
 </div>
