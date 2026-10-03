@@ -376,6 +376,7 @@ SELECT
     ube.enrolled_date,
     ube.status AS enrollment_status,
     bc.expiry_date AS batchcode_expiry,
+    bc.batchcode_name,
     COUNT(DISTINCT ube2.user_id) AS current_enrolled,
     (SELECT COUNT(*) FROM lesson_batch lb WHERE lb.batch_id = b.id) AS lesson_count
 FROM batch b
@@ -383,7 +384,7 @@ LEFT JOIN user_batch_enrollments ube ON b.id = ube.batch_id AND ube.user_id = ?
 LEFT JOIN batchcode bc ON ube.batchcode_id = bc.id
 LEFT JOIN user_batch_enrollments ube2 ON b.id = ube2.batch_id AND ube2.status = 'Active'
 WHERE ube.user_id = ? AND ube.status = 'Active'
-GROUP BY b.id, b.batch_title, b.description, b.month_year, b.max_students, b.status, b.created_date, b.schedule_file, ube.enrolled_date, ube.status, bc.expiry_date
+GROUP BY b.id, b.batch_title, b.description, b.month_year, b.max_students, b.status, b.created_date, b.schedule_file, ube.enrolled_date, ube.status, bc.expiry_date, bc.batchcode_name
 ORDER BY ube.enrolled_date DESC
 ";
 
@@ -811,6 +812,7 @@ $stmt_batches->close();
                     ?>
                     <div class="batch-card" data-batchname="<?= htmlspecialchars(strtolower($batch['batch_title'])) ?>" <?= $is_expired ? 'style="opacity: 0.7; background: #fafafa; pointer-events: none;"' : '' ?>>
                         <div class="batch-title"><?= htmlspecialchars($batch['batch_title']) ?></div>
+                        <div style="font-size: 0.75rem; color: #718096; margin-bottom: 8px;">Code: <strong style="color:#2d3748;"><?= htmlspecialchars($batch['batchcode_name'] ?? 'N/A') ?></strong></div>
                         
                         <?php if ($is_expired): ?>
                             <span class="batch-status inactive" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;">
