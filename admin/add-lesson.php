@@ -374,7 +374,7 @@ $conn->close();
                         <!-- Course Selection -->
                         <div class="form-group col-md-6">
                             <label for="course_id">Select Course:</label>
-                            <select class="form-control" name="course_id" required>
+                            <select class="form-control" name="course_id">
                                 <option value="">Select Course</option>
                                 <?php foreach ($courses as $c_id => $name): ?>
                                     <option value="<?= htmlspecialchars($c_id) ?>"
@@ -402,14 +402,14 @@ $conn->close();
                         <!-- Lesson Title -->
                         <div class="form-group col-md-6">
                             <label>Lesson Title:</label>
-                            <input type="text" name="lesson_title" class="form-control" required
+                            <input type="text" name="lesson_title" class="form-control"
                                    value="<?= $edit_mode ? htmlspecialchars($lesson_data['lesson_title']) : '' ?>">
                         </div>
 
                         <!-- Short Description -->
                         <div class="form-group col-md-6">
                             <label>Short Description:</label>
-                            <input type="text" name="lesson_desc" class="form-control" required
+                            <input type="text" name="lesson_desc" class="form-control"
                                    value="<?= $edit_mode ? htmlspecialchars($lesson_data['lesson_desc']) : '' ?>">
                         </div>
 
@@ -483,14 +483,14 @@ width="150" height="100">
                         <!-- Meta Keyword -->
                         <div class="form-group col-md-6">
                             <label>Meta Keyword:</label>
-                            <input type="text" name="meta_keyword" class="form-control" required
+                            <input type="text" name="meta_keyword" class="form-control"
                                    value="<?= $edit_mode ? htmlspecialchars($lesson_data['meta_keyword']) : '' ?>">
                         </div>
 
                         <!-- Meta Description -->
                         <div class="form-group col-md-12">
                             <label>Meta Description:</label>
-                            <input type="text" name="meta_description" class="form-control" required
+                            <input type="text" name="meta_description" class="form-control"
                                    value="<?= $edit_mode ? htmlspecialchars($lesson_data['meta_description']) : '' ?>">
                         </div>
 

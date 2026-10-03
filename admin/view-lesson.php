@@ -163,7 +163,7 @@ SELECT
     c.s_name,
     b.batch_title
 FROM lesson_video lv
-JOIN courses c ON lv.course_id = c.id 
+LEFT JOIN courses c ON lv.course_id = c.id 
 LEFT JOIN batch b ON lv.batch_id = b.id
 ORDER BY lv.id DESC
 ";
