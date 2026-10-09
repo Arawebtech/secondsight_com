@@ -40,16 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['model-submit'])) {
     }
 
     try {
-        // Prepare email
         $to = "gurujimanishsharma@gmail.com, info@arawebtechnologies.com";
         $subject = "New Query Raised From Second Sight Foundation";
 
-        // Headers
-        $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "From: Secondsightfoundation.com <gurujimanishsharma@gmail.com>\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-        // Email Body
         $body = "
             <html>
             <body>
@@ -63,8 +56,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['model-submit'])) {
             </html>
         ";
 
-        // Send the email
-        if (mail($to, $subject, $body, $headers)) {
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'learningpoint0786@gmail.com';
+        $mail->Password   = 'fwwz jvve ityx vwwl';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
+
+        $mail->setFrom('learningpoint0786@gmail.com', 'Second Sight Foundation');
+        $mail->addAddress('gurujimanishsharma@gmail.com');
+        $mail->addAddress('info@arawebtechnologies.com');
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+
+        if ($mail->send()) {
             echo "<script>alert('Thank you! We will get back to you soon.');</script>";
         } else {
             echo "<script>alert('Failed to send email. Please try again later.');</script>";
@@ -102,48 +111,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['enroll-submit'])) {
     if (!empty($name) && !empty($email) && !empty($phone) && !empty($course)) {
  
 
-            // Send mail
-            $to = "gurujimanishsharma@gmail.com, info@arawebtechnologies.com"; // multiple emails separated by comma
-            $subject = "New Enroll Query Raised From Second Sight Foundation";
+            try {
+                $subject = "New Enroll Query Raised From Second Sight Foundation";
 
-            $message = "
-            <html>
-            <head>
-            <title>New Enroll Query</title>
-            </head>
-            <body>
-            <table border='1' cellpadding='5' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
-                <tr>
-                    <td><strong>Name</strong></td>
-                    <td>{$name}</td>
-                </tr>
-                <tr>
-                    <td><strong>Email</strong></td>
-                    <td>{$email}</td>
-                </tr>
-                <tr>
-                    <td><strong>Mobile No.</strong></td>
-                    <td>{$phone}</td>
-                </tr>
-                <tr>
-                    <td><strong>Course</strong></td>
-                    <td>{$course}</td>
-                </tr>
-            </table>
-            </body>
-            </html>
-            ";
+                $message_body = "
+                <html>
+                <head>
+                <title>New Enroll Query</title>
+                </head>
+                <body>
+                <table border='1' cellpadding='5' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td>{$name}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email</strong></td>
+                        <td>{$email}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mobile No.</strong></td>
+                        <td>{$phone}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Course</strong></td>
+                        <td>{$course}</td>
+                    </tr>
+                </table>
+                </body>
+                </html>
+                ";
 
-            // Headers
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= 'From: Secondsightfoundation.com <gurujimanishsharma@gmail.com>' . "\r\n";
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'learningpoint0786@gmail.com';
+                $mail->Password   = 'fwwz jvve ityx vwwl';
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+                $mail->Port       = 465;
 
-            // Send the mail
-            if (mail($to, $subject, $message, $headers)) {
-                echo "<script>alert('Thank you! We will get back to you soon.');</script>";
-            } else {
-                echo "<script>alert('Failed to send details. Please try again later.');</script>";
+                $mail->setFrom('learningpoint0786@gmail.com', 'Second Sight Foundation');
+                $mail->addAddress('gurujimanishsharma@gmail.com');
+                $mail->addAddress('info@arawebtechnologies.com');
+
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $message_body;
+
+                if ($mail->send()) {
+                    echo "<script>alert('Thank you! We will get back to you soon.');</script>";
+                } else {
+                    echo "<script>alert('Failed to send details. Please try again later.');</script>";
+                }
+            } catch (Exception $e) {
+                error_log('Mailer Error: ' . $e->getMessage());
+                echo "<script>alert('An error occurred while sending your email. Please try again later.');</script>";
             }
        
     } else {
@@ -1220,7 +1243,7 @@ include('include/head.php');
     </div>
 
     <?php
-    $query = "SELECT * FROM testimonials WHERE status = 'Active'";
+    $query = "SELECT * FROM testimonials WHERE status = 'Active' ORDER BY id DESC LIMIT 3";
 
     // $query = "select * from team ORDER BY RAND()";
     $result = mysqli_query($conn, $query);
@@ -1233,21 +1256,18 @@ include('include/head.php');
                 <span>TESTIMONIAL</span>
                 <h2>What Our Students Say</h2>
             </div>
-            <div class="feedback-slider owl-theme owl-carousel">
-
+            <div class="row">
 
                 <?php while ($row = mysqli_fetch_assoc($result)) {
-                    $bannerImagePath = $base_url . "/assets/img/single-blog/{$row['banner_image']}";
+                    $bannerImage = !empty($row['banner_image']) ? rawurlencode($row['banner_image']) : '';
+                    $bannerImagePath = $base_url . "/assets/img/single-blog/" . $bannerImage;
                     $videoUrl = $row['youtube_video_url'];
 
                     // Convert YouTube URL to embed format if it's from YouTube Shorts
-                    // Convert YouTube URL to embed format if it's from YouTube Shorts
                     if (strpos($videoUrl, 'youtube.com/shorts/') !== false) {
-                        // If the URL is from YouTube Shorts, extract the video ID
                         $videoId = substr($videoUrl, strrpos($videoUrl, '/') + 1);
                         $videoUrl = "https://www.youtube.com/embed/{$videoId}";
                     } elseif (strpos($videoUrl, 'youtube.com/watch?v=') !== false) {
-                        // If the URL is a standard YouTube video, extract the video ID
                         parse_str(parse_url($videoUrl, PHP_URL_QUERY), $queryParams);
                         if (isset($queryParams['v'])) {
                             $videoId = $queryParams['v'];
@@ -1255,36 +1275,32 @@ include('include/head.php');
                         }
                     }
                     ?>
-
-                    <div class="feedback-item">
-                        <i class="flaticon-quotation"></i>
-                        <p><?php echo $row['description']; ?></p>
-                        <div class="feedback-title">
-                           
-                            <?php if (!empty($row['banner_image'])) { ?>
-                                <img src="<?php echo $bannerImagePath; ?>" alt="Image" style="width: 60px; height: 60px; border-radius: 50%; float: left; margin-right: 15px;">
-                            <?php } ?>
-                            <h3><?php echo $row['t_name'] ?></h3>
-                            <span><?php echo isset($row['short_name']) ? $row['short_name'] : ''; ?></span>
-                            <div style="clear: both;"></div>
-                            <?php if (!empty($videoUrl)) { ?>
-                                <div class="video-embed">
-                                    <iframe src="<?php echo $videoUrl; ?>" frameborder="0" loading="lazy" 
-                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen></iframe>
-                                </div>
-                            <?php } else { ?>
-                                <!-- You can add fallback content here if needed -->
-                            <?php } ?>
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="feedback-item h-100" style="background: #ffffff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); padding: 20px; transition: transform 0.3s;">
+                            <i class="flaticon-quotation" style="font-size: 30px; color: #ffb607; margin-bottom: 15px; display: block;"></i>
+                            <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;"><?php echo $row['description']; ?></p>
+                            <div class="feedback-title">
+                                <?php if (!empty($row['banner_image'])) { ?>
+                                    <img src="<?php echo $bannerImagePath; ?>" alt="Image" style="width: 60px; height: 60px; border-radius: 50%; float: left; margin-right: 15px;">
+                                <?php } ?>
+                                <h3 style="font-size: 18px; margin-bottom: 5px;"><?php echo $row['t_name'] ?></h3>
+                                <span style="font-size: 14px; color: #777;"><?php echo isset($row['short_name']) ? $row['short_name'] : ''; ?></span>
+                                <div style="clear: both;"></div>
+                                <?php if (!empty($videoUrl)) { ?>
+                                    <div class="video-embed" style="margin-top: 15px;">
+                                        <iframe src="<?php echo $videoUrl; ?>" frameborder="0" loading="lazy" 
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen style="width: 100%; border-radius: 8px; height: 200px;"></iframe>
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
 
                     <?php
                 }
                 ?>
-
-     
-
             </div>
         </div>
     </section>
