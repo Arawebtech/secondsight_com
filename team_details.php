@@ -28,7 +28,7 @@ if ($result_product->num_rows > 0) {
     $s_schema = htmlspecialchars($row['s_schema']);
     $meta_keyword = htmlspecialchars($row['meta_keyword']);
 
-    $bannerImagePath = $base_url . "../assets/img/team/{$row['image']}";
+    $bannerImagePath = $base_url . "/assets/img/team/{$row['image']}";
 } else {
     echo "blog not found.";
     exit;
@@ -521,7 +521,7 @@ if ($result_product->num_rows > 0) {
     </script>
   
 
-    <section class="single-course-area ptb-100" style="background:#000000e6;">
+    <section class="single-course-area ptb-100" style="background:#000000e6; padding-bottom: 100px; margin-bottom: 100px;">
         <div class="container">
             <div class="teacher-name-head">
                 <ul class="tabs" style=" background: -moz-linear-gradient(top, #FFB606 0%, #FCAC31 50%, #FAAB5C 100%);
@@ -562,6 +562,7 @@ if ($result_product->num_rows > 0) {
     width: 405;">
                 </div>
             </div>
+        </div>
     </section>
     <style>
         @media (max-width: 768px) {

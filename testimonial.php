@@ -4,7 +4,7 @@ include('include/cart_logic.php');
 include('admin/include/db_config.php');
 $user_id = $_SESSION['user_id'];
 
-$query = "SELECT * FROM testimonials";
+$query = "SELECT * FROM testimonials WHERE status = 'Active'";
 $result = mysqli_query($conn, $query);
 ?>
 
@@ -156,7 +156,7 @@ include('include/head.php');
                 <span>TESTIMONIAL</span>
                 <h2>What Our Students Say</h2>
             </div>
-            <div class="courses-slider-three owl-theme owl-carousel" >
+            <div class="row">
                 <?php while ($row = mysqli_fetch_assoc($result)) {
                     $bannerImagePath = $base_url . "/assets/img/single-blog/{$row['banner_image']}";
                     $videoUrl = $row['youtube_video_url'];
@@ -173,19 +173,24 @@ include('include/head.php');
                         }
                     }
                 ?>
-                    <div class="feedback-item">
-                        <i class="flaticon-quotation"></i>
-                        <p class="feedback-description"><?php echo $row['description']; ?></p>
-                        <div class="feedback-title">
-                          
-                            <h3><?php echo $row['t_name']; ?></h3>
-                            <span><?php echo $row['short_name']; ?></span>
-                            <!-- Embed Video if URL is available -->
-                            <?php if (!empty($videoUrl)) { ?>
-                                <div class="video-embed">
-                                    <iframe src="<?php echo $videoUrl; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                </div>
-                            <?php } ?>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="feedback-item h-100">
+                            <i class="flaticon-quotation"></i>
+                            <p class="feedback-description"><?php echo $row['description']; ?></p>
+                            <div class="feedback-title">
+                                <?php if (!empty($row['banner_image'])) { ?>
+                                    <img src="<?php echo $bannerImagePath; ?>" alt="Image" style="width: 60px; height: 60px; border-radius: 50%; float: left; margin-right: 15px;">
+                                <?php } ?>
+                                <h3><?php echo $row['t_name']; ?></h3>
+                                <span><?php echo $row['short_name']; ?></span>
+                                <div style="clear: both;"></div>
+                                <!-- Embed Video if URL is available -->
+                                <?php if (!empty($videoUrl)) { ?>
+                                    <div class="video-embed" style="margin-top: 15px;">
+                                        <iframe src="<?php echo $videoUrl; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 <?php } ?>

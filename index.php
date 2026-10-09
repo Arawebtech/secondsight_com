@@ -1220,7 +1220,7 @@ include('include/head.php');
     </div>
 
     <?php
-    $query = "SELECT * FROM testimonials";
+    $query = "SELECT * FROM testimonials WHERE status = 'Active'";
 
     // $query = "select * from team ORDER BY RAND()";
     $result = mysqli_query($conn, $query);
@@ -1261,9 +1261,12 @@ include('include/head.php');
                         <p><?php echo $row['description']; ?></p>
                         <div class="feedback-title">
                            
-
+                            <?php if (!empty($row['banner_image'])) { ?>
+                                <img src="<?php echo $bannerImagePath; ?>" alt="Image" style="width: 60px; height: 60px; border-radius: 50%; float: left; margin-right: 15px;">
+                            <?php } ?>
                             <h3><?php echo $row['t_name'] ?></h3>
                             <span><?php echo isset($row['short_name']) ? $row['short_name'] : ''; ?></span>
+                            <div style="clear: both;"></div>
                             <?php if (!empty($videoUrl)) { ?>
                                 <div class="video-embed">
                                     <iframe src="<?php echo $videoUrl; ?>" frameborder="0" loading="lazy" 
