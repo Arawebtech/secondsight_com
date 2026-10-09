@@ -539,14 +539,14 @@ if ($result_product->num_rows > 0) {
 
 
                                     <div class="item">
-                                        <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row['url']; ?>" class="thumb">
+                                        <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row1['url']; ?>" class="thumb">
                                             <span class="fullimage cover bg<?= $index; ?>" role="img"
                                                 style="background-image: url('<?= $bannerImagePath1; ?>');"></span>
                                         </a>
 
                                         <div class="info">
                                             <h4 class="title">
-                                              <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row['url']; ?>">
+                                              <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row1['url']; ?>">
                                                     <h3 style="font-size:18px">
                                                         <?= $row1['b_name']; ?>
                                                     </h3> <!-- Dynamic description -->
@@ -576,7 +576,7 @@ if ($result_product->num_rows > 0) {
             </div>
             <div class="row">
                 <?php
-                $query = "SELECT * FROM blog ORDER BY RAND()";
+                $query = "SELECT * FROM blog ORDER BY RAND() LIMIT 3";
                 $result = mysqli_query($conn, $query);
 
                 while ($row1 = mysqli_fetch_assoc($result)) {
@@ -584,23 +584,22 @@ if ($result_product->num_rows > 0) {
                     ?>
                     <div class="col-lg-4 col-md-6">
                         <div class="single-course">
-                            <a href="single-course.php?id=<?= $row1['id']; ?>"> <!-- Dynamic course link -->
+                            <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row1['url']; ?>"> <!-- Dynamic course link -->
                                 <img src="<?= $bannerImagePath1; ?>" alt="<?= htmlspecialchars($row1['b_name']); ?>"
                                     style="width: 410px; height: 250px;">
                             </a>
                             <div class="course-content">
-                               <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row['url']; ?>">
+                               <a href="<?= $base_url; ?>blog_details.php?blog_url=<?= $row1['url']; ?>">
                                     <h3>
                                           <?php
                                     // Trim the short description to remove any leading or trailing whitespace
                                     $shortDesc = trim($row1['b_title']);
                                     if (strlen($shortDesc) > 150) {
-                                        echo substr($shortDesc, 0, 150) . '...';
+                                        echo htmlspecialchars(substr($shortDesc, 0, 150)) . '...';
                                     } else {
-                                        echo $shortDesc;
+                                        echo htmlspecialchars($shortDesc);
                                     }
                                     ?>
-                                    <?= $row1['$shortDesc']; ?>
                                     </h3>
                                 </a>
                                 <ul class="rating">

@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Redirect index.php to the base URL
+RewriteCond %{THE_REQUEST} \s/index\.php[\s?] [NC]
+RewriteRule ^index\.php$ / [R=301,L]
+
+# URL Rewrites for Clean URLs
+RewriteRule ^blog/([^/]+)$ blog_details.php?blog_url=$1 [L,QSA]
+RewriteRule ^courses/([^/]+)$ courses_details.php?courses_url=$1 [L,QSA]
+RewriteRule ^team/([^/]+)$ team_details.php?team_url=$1 [L,QSA]
+
+# Error Document
+ErrorDocument 404 /404.html
