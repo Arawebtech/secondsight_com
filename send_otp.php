@@ -2,12 +2,12 @@
 session_start();
 
 // Include PHPMailer classes
-// require 'phpmailer/src/Exception.php';
-// require 'phpmailer/src/PHPMailer.php';
-// require 'phpmailer/src/SMTP.php';
+require 'phpmailer/src/Exception.php';
+require 'phpmailer/src/PHPMailer.php';
+require 'phpmailer/src/SMTP.php';
 
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 // Get the email from the request
 $data = json_decode(file_get_contents('php://input'), true);
@@ -21,7 +21,6 @@ if ($email) {
     $_SESSION['otp'] = $otp;
 
     // Email content
-    $to = $email;
     $subject = "Your One-Time Password (OTP) for Secondsightfoundation.com";
     $brand_logo_url = 'https://secondsightfoundation.com/assets/img/flogo.webp'; // Use absolute URL for email images
     $message = "<!DOCTYPE html>
@@ -57,20 +56,31 @@ if ($email) {
 </body>
 </html>";
 
-    // Email headers
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
-    $headers .= "From: Secondsightfoundation.com <no-reply@secondsightfoundation.com>\r\n";
-    $headers .= "Reply-To: support@secondsightfoundation.com\r\n";
-    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-    // Optionally, add List-Unsubscribe header for bulk mail compliance
-    // $headers .= "List-Unsubscribe: <mailto:support@secondsightfoundation.com>\r\n";
+    try {
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'learningpoint0786@gmail.com';
+        $mail->Password   = 'fwwz jvve ityx vwwl';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
 
-    // Send email
-    if (mail($to, $subject, $message, $headers)) {
-        echo json_encode(['success' => true, 'message' => 'OTP sent successfully']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to send OTP']);
+        $mail->setFrom('learningpoint0786@gmail.com', 'Second Sight Foundation');
+        $mail->addAddress($email);
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $message;
+
+        if ($mail->send()) {
+            echo json_encode(['success' => true, 'message' => 'OTP sent successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to send OTP']);
+        }
+    } catch (Exception $e) {
+        error_log('Mailer Error: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'An error occurred while sending OTP']);
     }
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid email']);

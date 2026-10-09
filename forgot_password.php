@@ -28,16 +28,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $to = $email;
         $subject = 'User Password Recovery';
         $message = "Your password is: " . $password;
-        $headers = "From: Secondsightfoundation.com <gurujimanishsharma@gmail.com>\r\n";
-        $headers .= "Reply-To: gurujimanishsharma@gmail.com\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
-        if (mail($to, $subject, $message, $headers)) {
-            echo "<script>alert('An email has been sent with your password. Please check your email: $email');
-             window.location.href = 'login.php';
-            </script>";
-        } else {
-            echo "<script>alert('Failed to send email. Please try again later.');</script>";
+        try {
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'learningpoint0786@gmail.com';
+            $mail->Password   = 'fwwz jvve ityx vwwl';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
+
+            $mail->setFrom('learningpoint0786@gmail.com', 'Second Sight Foundation');
+            $mail->addAddress($email);
+
+            $mail->isHTML(true);
+            $mail->Subject = 'User Password Recovery';
+            $mail->Body    = $message;
+
+            if ($mail->send()) {
+                echo "<script>alert('An email has been sent with your password. Please check your email: $email');
+                 window.location.href = 'login.php';
+                </script>";
+            } else {
+                echo "<script>alert('Failed to send email. Please try again later.');</script>";
+            }
+        } catch (Exception $e) {
+            error_log('Mailer Error: ' . $e->getMessage());
+            echo "<script>alert('An error occurred while sending your email. Please try again later.');</script>";
         }
     } else {
         echo "<script>alert('No user found with that email address.');</script>";

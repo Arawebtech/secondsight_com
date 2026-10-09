@@ -40,14 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    // Email settings
-    $to = "gurujimanishsharma@gmail.com, info@arawebtechnologies.com";
-    $subject = "New Query Raised From Second Sight Foundation";
-    $headers = "From: Secondsightfoundation.com <gurujimanishsharma@gmail.com>\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
     // Email Body
     $body = "
         <h2>New Customer Query</h2>
@@ -59,11 +51,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </table>
     ";
 
-    // Send the email
-    if (mail($to, $subject, $body, $headers)) {
-        echo "<script>alert('Thank you! We will get back to you soon.');</script>";
-    } else {
-        echo "<script>alert('Failed to send email. Please try again later.');</script>";
+    try {
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'learningpoint0786@gmail.com';
+        $mail->Password   = 'fwwz jvve ityx vwwl';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
+
+        $mail->setFrom('learningpoint0786@gmail.com', 'Second Sight Foundation');
+        $mail->addAddress('gurujimanishsharma@gmail.com');
+        $mail->addAddress('info@arawebtechnologies.com');
+        $mail->addReplyTo($email, $name);
+
+        $mail->isHTML(true);
+        $mail->Subject = "New Query Raised From Second Sight Foundation";
+        $mail->Body    = $body;
+
+        if ($mail->send()) {
+            echo "<script>alert('Thank you! We will get back to you soon.');</script>";
+        } else {
+            echo "<script>alert('Failed to send email. Please try again later.');</script>";
+        }
+    } catch (Exception $e) {
+        error_log('Mailer Error: ' . $e->getMessage());
+        echo "<script>alert('An error occurred while sending your email. Please try again later.');</script>";
     }
 }
 ?>
