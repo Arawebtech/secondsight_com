@@ -117,19 +117,50 @@ if (isset($_POST['register'])) {
             </html>
             ";
 
-            // Headers
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= "From: Secondsightfoundation <noreply@secondsightfoundation.com>" . "\r\n";
+            // PHPMailer Setup for SMTP
+            $mail = new PHPMailer(true);
+            try {
+                // Server settings
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'learningpoint0786@gmail.com'; 
+                $mail->Password   = 'fwwz jvve ityx vwwl';
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
+                $mail->Port       = 587; 
 
-            if (mail($to, $subject, $message, $headers)) {
+                // Recipients
+                $mail->setFrom('learningpoint0786@gmail.com', 'Secondsight Foundation');
+                $mail->addAddress($to, $first_name);
+
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $message;
+
+                $mail->send();
+                
                 echo "<script>
-                        alert('Please check your email to verify your account.');
+                        alert('Registration successful! Please check your email to verify your account.');
                         window.location.href = 'login.php';
                       </script>";
                 exit();
-            } else {
-                echo "<script>alert('Failed to send verification email. Please try again later.');</script>";
+            } catch (Exception $e) {
+                // If on localhost and don't want to setup email yet, bypass verification temporarily for testing
+                if ($_SERVER['SERVER_NAME'] == 'localhost') {
+                    $verify_query = "UPDATE users SET is_verify = 1 WHERE email = ?";
+                    $v_stmt = mysqli_prepare($conn, $verify_query);
+                    mysqli_stmt_bind_param($v_stmt, 's', $email);
+                    mysqli_stmt_execute($v_stmt);
+                    
+                    echo "<script>
+                            alert('Localhost Mode: Email sending failed, but account auto-verified for testing. Please login.');
+                            window.location.href = 'login.php';
+                          </script>";
+                    exit();
+                } else {
+                    echo "<script>alert('Failed to send verification email. Mailer Error: {$mail->ErrorInfo}');</script>";
+                }
             }
         }
     } catch (Exception $e) {
@@ -275,9 +306,6 @@ include('include/head.php');
     include('include/footer.php');
     include('include/footer-script.php');
     ?>
-</body>
-   
-    </script>
 </body>
 
 </html>

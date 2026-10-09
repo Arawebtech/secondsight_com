@@ -817,12 +817,7 @@ echo "<!-- DEBUG: Starting HTML output -->\n";
                                 echo "</div>";
                             }
                             
-                            // 3. Always show YouTube button below if URL exists
-                            if (!empty($externalUrl)) {
-                                echo "<div style='margin-top: 15px; margin-bottom: 25px; text-align: left;'>";
-                                echo "    <a href='" . htmlspecialchars($externalUrl) . "' target='_blank' class='btn btn-danger' style='padding: 8px 16px; font-size: 14px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);'><i class='fa fa-youtube-play' style='margin-right: 8px;'></i> Watch on YouTube</a>";
-                                echo "</div>";
-                            }
+                            // Removed the explicit "Watch on YouTube" button based on user request.
                             
                             echo "</div>"; // .lesson-content
                             $lessonIndex++;

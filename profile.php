@@ -43,7 +43,7 @@ if (isset($_POST['update'])) {
     $query_update = "UPDATE users SET name = ?, email = ?, mobile = ? WHERE id = ?";
     $stmt_update = $conn->prepare($query_update);
     $stmt_update->bind_param("sssi", $name, $email, $mobile, $user_id);
-    
+
     if ($stmt_update->execute()) {
         echo "<script>alert('Profile updated successfully!');
         window.location.href = 'profile.php';
@@ -407,28 +407,49 @@ $stmt_batches->close();
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
-    
+
     <!-- Your existing styles here -->
     <style>
         /* All your existing CSS styles remain the same */
         @media screen and (min-width: 767px) {
-            .openbtn { display: none; }
+            .openbtn {
+                display: none;
+            }
+
             .sidepanel {
                 position: relative;
                 width: 250px;
                 padding: 50px;
                 transition: none;
             }
-            .sidepanel.open { width: 250px; }
-            .closebtn { display: none; }
+
+            .sidepanel.open {
+                width: 250px;
+            }
+
+            .closebtn {
+                display: none;
+            }
         }
 
-        #mobile-notfi { position: absolute; right: 110px; }
-        .sidepanel a { font-size: 1.1rem; }
+        #mobile-notfi {
+            position: absolute;
+            right: 110px;
+        }
+
+        .sidepanel a {
+            font-size: 1.1rem;
+        }
 
         @media screen and (max-width:767px) {
-            .main-logo { display: none; }
-            #mobile-notfi { top: 12px; }
+            .main-logo {
+                display: none;
+            }
+
+            #mobile-notfi {
+                top: 12px;
+            }
+
             .sidepanel {
                 width: 0;
                 position: fixed;
@@ -441,19 +462,25 @@ $stmt_batches->close();
                 transition: 0.5s;
                 padding-top: 60px;
             }
+
             .sidepanel a {
                 text-decoration: none;
                 display: block;
                 transition: 0.3s;
                 font-size: 1.1rem;
             }
-            .sidepanel a:hover { color: #f1f1f1; }
+
+            .sidepanel a:hover {
+                color: #f1f1f1;
+            }
+
             .sidepanel .closebtn {
                 position: absolute;
                 top: 0;
                 right: 25px;
                 font-size: 36px;
             }
+
             .openbtn {
                 margin-left: -25px;
                 font-size: 20px;
@@ -463,17 +490,28 @@ $stmt_batches->close();
                 padding: 10px 15px;
                 border: none;
             }
-            .openbtn:hover { background-color: #444; }
+
+            .openbtn:hover {
+                background-color: #444;
+            }
+
             .sidepanel.open {
                 width: 250px;
                 height: 100%;
                 padding: 50px;
             }
-            .Instructor, .validity, .duration { margin-top: 0.45rem; }
+
+            .Instructor,
+            .validity,
+            .duration {
+                margin-top: 0.45rem;
+            }
         }
 
-        .collapse:not(.show) { display: block; }
-        
+        .collapse:not(.show) {
+            display: block;
+        }
+
         /* Add styles for batch access indicator */
         .batch-access-badge {
             display: inline-block;
@@ -486,31 +524,31 @@ $stmt_batches->close();
             margin-left: 8px;
             vertical-align: middle;
         }
-        
+
         .batch-course-container {
             border: 2px solid #1976d2;
             border-radius: 8px;
         }
-        
+
         .batch-course-title {
             background: linear-gradient(135deg, #1976d2, #42a5f5);
             color: white;
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 40px;
             color: #666;
         }
-        
+
         .empty-state i {
             font-size: 48px;
             margin-bottom: 16px;
             color: #ccc;
         }
     </style>
-    
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet"/>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 </head>
 
@@ -520,7 +558,8 @@ $stmt_batches->close();
         style="box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); padding: 10px 20px;">
         <!-- Header content remains unchanged -->
         <div class="container-fluid" style="justify-content: flex-start;">
-            <a class="navbar-brand" href="https://secondsightfoundation.com/profile.php" style="display: flex; align-items: center;">
+            <a class="navbar-brand" href="https://secondsightfoundation.com/profile.php"
+                style="display: flex; align-items: center;">
                 <img src="/assets/img/logo-nn.png" class="main-logo" alt="Logo"
                     style="height: 50px; margin-right: 10px;">
             </a>
@@ -528,8 +567,8 @@ $stmt_batches->close();
 
             <div class="profile-image profile-desk"
                 style="height:60px; width:60px; overflow: hidden; border-radius: 50%; border: 3px solid #d99b55;position:absolute;right:40px">
-                <a href="#profile-section" data-toggle="tab"> 
-                    <img src="<?= $user['profile_photo'] !== null ? $user['profile_photo'] : '/assets/img/profile/dpf.png'; ?>"
+                <a href="#profile-section" data-toggle="tab">
+                    <img src="<?= $user['profile_photo'] !== null ? $user['profile_photo'] : 'assets/img/profile/dpf.png'; ?>"
                         alt="" style="height: 100%; width: 100%; object-fit: cover;" class="img-fluid">
                 </a>
             </div>
@@ -560,7 +599,8 @@ $stmt_batches->close();
                                     </a>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <a class="dropdown-item" href="#" style="padding: 10px; color: #888;">No new notifications</a>
+                                <a class="dropdown-item" href="#" style="padding: 10px; color: #888;">No new
+                                    notifications</a>
                             <?php endif; ?>
                         </div>
                     </li>
@@ -574,7 +614,7 @@ $stmt_batches->close();
             <div class="sidebar-sticky">
                 <div class="profile-image profile-desk"
                     style="height:100px; width:100px; overflow: hidden; border-radius: 50%; border: 3px solid #d99b55;margin-left:10px">
-                    <img src="<?= $user['profile_photo'] !== null ? $user['profile_photo'] : '/assets/img/profile/dpf.png'; ?>"
+                    <img src="<?= $user['profile_photo'] !== null ? $user['profile_photo'] : 'assets/img/profile/dpf.png'; ?>"
                         alt="" style="height: 100%; width: 100%; object-fit: cover;" class="img-fluid">
                 </div>
                 <ul class="nav flex-column" id="nav-desktop">
@@ -594,7 +634,8 @@ $stmt_batches->close();
                         <a class="nav-link" href="#batchcode" data-toggle="tab">Batch Access</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#my-batches-section" data-toggle="tab"><i class="fas fa-graduation-cap"></i> My Batches</a>
+                        <a class="nav-link active" href="#my-batches-section" data-toggle="tab"><i
+                                class="fas fa-graduation-cap"></i> My Batches</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#explore-courses-section" data-toggle="tab">Explore Courses</a>
@@ -613,272 +654,319 @@ $stmt_batches->close();
                 <div class="tab-pane fade col-md-5" id="profile-section">
                     <h3>My Profile</h3>
                     <ul class="profile-details">
-                        <li>Name: <input type="text" value="<?php echo htmlspecialchars($user['name']); ?>" disabled></li>
-                        <li>Email: <input type="text" value="<?php echo htmlspecialchars($user['email']); ?>" disabled></li>
-                        <li>Phone: <input type="text" value="<?php echo htmlspecialchars($user['mobile']); ?>" disabled></li>
+                        <li>Name: <input type="text" value="<?php echo htmlspecialchars($user['name']); ?>" disabled>
+                        </li>
+                        <li>Email: <input type="text" value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
+                        </li>
+                        <li>Phone: <input type="text" value="<?php echo htmlspecialchars($user['mobile']); ?>" disabled>
+                        </li>
                     </ul>
 
                     <li class="nav-item d-flex flex-wrap justify-content-center" style="gap: 10px; margin-top: 10px;">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#updateProfileModal"
                             style="padding: 8px 15px; font-size: 0.9rem; display: inline-block;">Update Profile</button>
                         <button class="btn btn-secondary" data-toggle="modal" data-target="#changePasswordModal"
-                            style="padding: 8px 15px; font-size: 0.9rem; display: inline-block;">Change Password</button>
+                            style="padding: 8px 15px; font-size: 0.9rem; display: inline-block;">Change
+                            Password</button>
                     </li>
                 </div>
 
                 <!-- Order details section - unchanged -->
                 <style>
-#my-batches-section .batch-header {
-    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eaeaea;
-}
-#my-batches-section .batch-header h1 {
-    color: #4a5568;
-    font-size: 1.8rem;
-    margin-bottom: 5px;
-    font-weight: 700;
-}
-#my-batches-section .batch-header p {
-    color: #718096;
-    font-size: 0.9rem;
-    margin: 0;
-}
-#my-batches-section .batches-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-}
-#my-batches-section .batch-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f0f0f0;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-}
-#my-batches-section .batch-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    border-color: #cbd5e0;
-}
-#my-batches-section .batch-title {
-    font-size: 1.1rem;
-    color: #2d3748;
-    margin-bottom: 8px;
-    font-weight: 700;
-    line-height: 1.3;
-}
-#my-batches-section .batch-status {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    align-self: flex-start;
-}
-#my-batches-section .batch-status.active {
-    background-color: #e6fffa;
-    color: #319795;
-    border: 1px solid #b2f5ea;
-}
-#my-batches-section .batch-status.inactive {
-    background-color: #fff5f5;
-    color: #e53e3e;
-    border: 1px solid #fed7d7;
-}
-#my-batches-section .batch-description {
-    color: #4a5568;
-    line-height: 1.4;
-    margin: 10px 0;
-    font-size: 0.8rem;
-    flex-grow: 1;
-}
-#my-batches-section .batch-info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 0.8rem;
-    color: #718096;
-    background: #f7fafc;
-    padding: 8px;
-    border-radius: 8px;
-}
-#my-batches-section .batch-info-item {
-    display: flex;
-    flex-direction: column;
-}
-#my-batches-section .batch-info-label {
-    font-weight: 600;
-    color: #4a5568;
-    margin-bottom: 2px;
-    font-size: 0.75rem;
-}
-#my-batches-section .batch-stats {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-top: 1px solid #edf2f7;
-    border-bottom: 1px solid #edf2f7;
-    margin: 10px 0;
-}
-#my-batches-section .stat-item {
-    text-align: center;
-    flex: 1;
-}
-#my-batches-section .stat-number {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #4299e1;
-}
-#my-batches-section .stat-label {
-    font-size: 0.75rem;
-    color: #718096;
-    margin-top: 2px;
-}
-#my-batches-section .action-buttons {
-    display: flex;
-    gap: 8px;
-    margin-top: auto;
-    padding-top: 10px;
-}
-#my-batches-section .btn {
-    flex: 1;
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-    transition: opacity 0.2s;
-}
-#my-batches-section .btn:hover {
-    opacity: 0.9;
-}
-#my-batches-section .empty-state {
-    background: white;
-    padding: 60px 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-@media (max-width: 1200px) {
-    #my-batches-section .batches-grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 992px) {
-    #my-batches-section .batches-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 768px) {
-    #my-batches-section .batches-grid { grid-template-columns: 1fr; }
-    #my-batches-section .batch-info { flex-direction: column; gap: 8px; }
-}
-</style>
-<div class="tab-pane fade show active" id="my-batches-section">
+                    #my-batches-section .batch-header {
+                        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+                        padding: 20px;
+                        border-radius: 12px;
+                        margin-bottom: 25px;
+                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                        border: 1px solid #eaeaea;
+                    }
 
-        <div class="batch-header">
-            <h1>My Batches</h1>
-            <p>View and manage all your active batch enrollments</p>
-        </div>
+                    #my-batches-section .batch-header h1 {
+                        color: #4a5568;
+                        font-size: 1.8rem;
+                        margin-bottom: 5px;
+                        font-weight: 700;
+                    }
 
-        <?php if (empty($batches)): ?>
-            <div class="empty-state">
-                <h2>No Batches Yet</h2>
-                <p>You haven't enrolled in any batches yet. Use a batch code to join a live batch session.</p>
-                
-            </div>
-        <?php else: ?>
-            
-        <!-- Search Field for My Batches -->
-        <div class="form-group" style="max-width:400px;margin-bottom:20px;">
-            <input type="text" id="myBatchesSearchInput" class="form-control" placeholder="Search your batches by name...">
-        </div>
-        
-        <div class="batches-grid">
-                <?php foreach ($batches as $batch): 
-                        $is_expired = false;
-                        if (!empty($batch['batchcode_expiry'])) {
-                            $expiry_time = strtotime($batch['batchcode_expiry'] . " 23:59:59");
-                            if (time() > $expiry_time) {
-                                $is_expired = true;
-                            }
+                    #my-batches-section .batch-header p {
+                        color: #718096;
+                        font-size: 0.9rem;
+                        margin: 0;
+                    }
+
+                    #my-batches-section .batches-grid {
+                        display: grid;
+                        grid-template-columns: repeat(4, 1fr);
+                        gap: 15px;
+                    }
+
+                    #my-batches-section .batch-card {
+                        background: #ffffff;
+                        border-radius: 12px;
+                        padding: 15px;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                        border: 1px solid #f0f0f0;
+                        transition: all 0.3s ease;
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    #my-batches-section .batch-card:hover {
+                        transform: translateY(-4px);
+                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                        border-color: #cbd5e0;
+                    }
+
+                    #my-batches-section .batch-title {
+                        font-size: 1.1rem;
+                        color: #2d3748;
+                        margin-bottom: 8px;
+                        font-weight: 700;
+                        line-height: 1.3;
+                    }
+
+                    #my-batches-section .batch-status {
+                        display: inline-block;
+                        padding: 4px 10px;
+                        border-radius: 12px;
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                        margin-bottom: 10px;
+                        align-self: flex-start;
+                    }
+
+                    #my-batches-section .batch-status.active {
+                        background-color: #e6fffa;
+                        color: #319795;
+                        border: 1px solid #b2f5ea;
+                    }
+
+                    #my-batches-section .batch-status.inactive {
+                        background-color: #fff5f5;
+                        color: #e53e3e;
+                        border: 1px solid #fed7d7;
+                    }
+
+                    #my-batches-section .batch-description {
+                        color: #4a5568;
+                        line-height: 1.4;
+                        margin: 10px 0;
+                        font-size: 0.8rem;
+                        flex-grow: 1;
+                    }
+
+                    #my-batches-section .batch-info {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+                        font-size: 0.8rem;
+                        color: #718096;
+                        background: #f7fafc;
+                        padding: 8px;
+                        border-radius: 8px;
+                    }
+
+                    #my-batches-section .batch-info-item {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    #my-batches-section .batch-info-label {
+                        font-weight: 600;
+                        color: #4a5568;
+                        margin-bottom: 2px;
+                        font-size: 0.75rem;
+                    }
+
+                    #my-batches-section .batch-stats {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 10px 0;
+                        border-top: 1px solid #edf2f7;
+                        border-bottom: 1px solid #edf2f7;
+                        margin: 10px 0;
+                    }
+
+                    #my-batches-section .stat-item {
+                        text-align: center;
+                        flex: 1;
+                    }
+
+                    #my-batches-section .stat-number {
+                        font-size: 1.2rem;
+                        font-weight: 700;
+                        color: #4299e1;
+                    }
+
+                    #my-batches-section .stat-label {
+                        font-size: 0.75rem;
+                        color: #718096;
+                        margin-top: 2px;
+                    }
+
+                    #my-batches-section .action-buttons {
+                        display: flex;
+                        gap: 8px;
+                        margin-top: auto;
+                        padding-top: 10px;
+                    }
+
+                    #my-batches-section .btn {
+                        flex: 1;
+                        padding: 8px;
+                        border: none;
+                        border-radius: 6px;
+                        font-size: 11px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        text-align: center;
+                        transition: opacity 0.2s;
+                    }
+
+                    #my-batches-section .btn:hover {
+                        opacity: 0.9;
+                    }
+
+                    #my-batches-section .empty-state {
+                        background: white;
+                        padding: 60px 20px;
+                        border-radius: 10px;
+                        text-align: center;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    }
+
+                    @media (max-width: 1200px) {
+                        #my-batches-section .batches-grid {
+                            grid-template-columns: repeat(3, 1fr);
                         }
-                    ?>
-                    <div class="batch-card" data-batchname="<?= htmlspecialchars(strtolower($batch['batch_title'])) ?>" <?= $is_expired ? 'style="opacity: 0.7; background: #fafafa; pointer-events: none;"' : '' ?>>
-                        <div class="batch-title"><?= htmlspecialchars($batch['batch_title']) ?></div>
-                        <div style="font-size: 0.75rem; color: #718096; margin-bottom: 8px;">Code: <strong style="color:#2d3748;"><?= htmlspecialchars($batch['batchcode_name'] ?? 'N/A') ?></strong></div>
-                        
-                        <?php if ($is_expired): ?>
-                            <span class="batch-status inactive" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;">
-                                Expired
-                            </span>
-                        <?php else: ?>
-                            <span class="batch-status <?= $batch['status'] === 'Active' ? 'active' : 'inactive' ?>">
-                                <?= ucfirst($batch['status']) ?>
-                            </span>
-                        <?php endif; ?>
+                    }
 
-                        <?php if (!empty($batch['description'])): ?>
-                            <div class="batch-description">
-                                <?= htmlspecialchars(substr($batch['description'], 0, 100)) ?>
-                                <?php if (strlen($batch['description']) > 100): ?>...<?php endif; ?>
-                            </div>
-                        <?php endif; ?>
+                    @media (max-width: 992px) {
+                        #my-batches-section .batches-grid {
+                            grid-template-columns: repeat(2, 1fr);
+                        }
+                    }
 
-                        <div class="batch-stats">
-                            <div class="stat-item">
-                                <div class="stat-number"><?= htmlspecialchars($batch['month_year']) ?></div>
-                                <div class="stat-label">Month</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number"><?= htmlspecialchars($batch['lesson_count']) ?></div>
-                                <div class="stat-label">Lessons</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number"><?= htmlspecialchars($batch['current_enrolled']) ?></div>
-                                <div class="stat-label">Students</div>
-                            </div>
-                        </div>
+                    @media (max-width: 768px) {
+                        #my-batches-section .batches-grid {
+                            grid-template-columns: 1fr;
+                        }
 
-                        <div class="batch-info">
-                            <div class="batch-info-item">
-                                <span class="batch-info-label">Max Capacity:</span>
-                                <span><?= htmlspecialchars($batch['max_students']) ?> students</span>
-                            </div>
-                            <div class="batch-info-item">
-                                <span class="batch-info-label">Joined:</span>
-                                <span><?= date('M d, Y', strtotime($batch['enrolled_date'])) ?></span>
-                            </div>
-                        </div>
+                        #my-batches-section .batch-info {
+                            flex-direction: column;
+                            gap: 8px;
+                        }
+                    }
+                </style>
+                <div class="tab-pane fade show active" id="my-batches-section">
 
-                        <div class="action-buttons">
-                            <?php if ($is_expired): ?>
-                                <button class="btn btn-primary" style="background: #999; cursor: not-allowed; pointer-events: auto;" disabled>Batch Expired</button>
-                            <?php else: ?>
-                                <a href="<?= $base_url ?>lesson.php?batch_id=<?= $batch['id'] ?>" class="btn btn-primary" style="pointer-events: auto;">View Lessons</a>
-                            <?php endif; ?>
-                            <?php if (!empty($batch['schedule_file'])): ?>
-                                <a href="<?= $base_url ?>admin/uploads/schedules/<?= htmlspecialchars($batch['schedule_file']) ?>" target="_blank" class="btn btn-secondary">Details</a>
-                            <?php else: ?>
-                                <button class="btn btn-secondary" onclick="alert('No schedule or details available for this batch yet.')" style="cursor:help;">Details</button>
-                            <?php endif; ?>
-                        </div>
+                    <div class="batch-header">
+                        <h1>My Batches</h1>
+                        <p>View and manage all your active batch enrollments</p>
                     </div>
-                <?php endforeach; ?>
-            </div>
 
-            
-        <?php endif; ?>
-    
-</div>
+                    <?php if (empty($batches)): ?>
+                        <div class="empty-state">
+                            <h2>No Batches Yet</h2>
+                            <p>You haven't enrolled in any batches yet. Use a batch code to join a live batch session.</p>
 
-<div class="tab-pane fade" id="order-section">
+                        </div>
+                    <?php else: ?>
+
+                        <!-- Search Field for My Batches -->
+                        <div class="form-group" style="max-width:400px;margin-bottom:20px;">
+                            <input type="text" id="myBatchesSearchInput" class="form-control"
+                                placeholder="Search your batches by name...">
+                        </div>
+
+                        <div class="batches-grid">
+                            <?php foreach ($batches as $batch):
+                                $is_expired = false;
+                                if (!empty($batch['batchcode_expiry'])) {
+                                    $expiry_time = strtotime($batch['batchcode_expiry'] . " 23:59:59");
+                                    if (time() > $expiry_time) {
+                                        $is_expired = true;
+                                    }
+                                }
+                            ?>
+                                <div class="batch-card"
+                                    data-batchname="<?= htmlspecialchars(strtolower($batch['batch_title'])) ?>"
+                                    <?= $is_expired ? 'style="opacity: 0.7; background: #fafafa; pointer-events: none;"' : '' ?>>
+                                    <div class="batch-title"><?= htmlspecialchars($batch['batch_title']) ?></div>
+
+                                    <?php if ($is_expired): ?>
+                                        <span class="batch-status inactive"
+                                            style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;">
+                                            Expired
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="batch-status <?= $batch['status'] === 'Active' ? 'active' : 'inactive' ?>">
+                                            <?= ucfirst($batch['status']) ?>
+                                        </span>
+                                    <?php endif; ?>
+
+                                    <?php if (!empty($batch['description'])): ?>
+                                        <div class="batch-description">
+                                            <?= htmlspecialchars(substr($batch['description'], 0, 100)) ?>
+                                            <?php if (strlen($batch['description']) > 100): ?>...<?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <div class="batch-stats">
+                                        <div class="stat-item">
+                                            <div class="stat-number"><?= htmlspecialchars($batch['month_year']) ?></div>
+                                            <div class="stat-label">Month</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-number"><?= htmlspecialchars($batch['lesson_count']) ?></div>
+                                            <div class="stat-label">Lessons</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-number"><?= htmlspecialchars($batch['current_enrolled']) ?></div>
+                                            <div class="stat-label">Students</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="batch-info">
+                                        <div class="batch-info-item">
+                                            <span class="batch-info-label">Joined:</span>
+                                            <span><?= date('M d, Y', strtotime($batch['enrolled_date'])) ?></span>
+                                        </div>
+                                        <div class="batch-info-item">
+                                            <span class="batch-info-label">Expires:</span>
+                                            <span><?= !empty($batch['batchcode_expiry']) ? date('M d, Y', strtotime($batch['batchcode_expiry'])) : 'No Expiry' ?></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="action-buttons">
+                                        <?php if ($is_expired): ?>
+                                            <button class="btn btn-primary"
+                                                style="background: #999; cursor: not-allowed; pointer-events: auto;" disabled>Batch
+                                                Expired</button>
+                                        <?php else: ?>
+                                            <a href="<?= $base_url ?>lesson.php?batch_id=<?= $batch['id'] ?>"
+                                                class="btn btn-primary" style="pointer-events: auto;">View Lessons</a>
+                                        <?php endif; ?>
+                                        <?php if (!empty($batch['schedule_file'])): ?>
+                                            <a href="<?= $base_url ?>admin/uploads/schedules/<?= htmlspecialchars($batch['schedule_file']) ?>"
+                                                target="_blank" class="btn btn-secondary">Details</a>
+                                        <?php else: ?>
+                                            <button class="btn btn-secondary"
+                                                onclick="alert('No schedule or details available for this batch yet.')"
+                                                style="cursor:help;">Details</button>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+
+                    <?php endif; ?>
+
+                </div>
+
+                <div class="tab-pane fade" id="order-section">
                     <?php if (!empty($orders)): ?>
                         <h3>My Orders</h3>
                         <!-- Your existing order display code remains unchanged -->
@@ -928,7 +1016,9 @@ $stmt_batches->close();
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
-                                        <tr><td colspan="4">No courses found for this order.</td></tr>
+                                        <tr>
+                                            <td colspan="4">No courses found for this order.</td>
+                                        </tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
@@ -941,28 +1031,37 @@ $stmt_batches->close();
                 <!-- MODIFIED: My Courses Section - Now shows only purchased courses -->
                 <div class="tab-pane fade" id="courses-section" style="overflow-x:hidden;">
                     <h3>My Purchased Courses</h3>
-                    
+
                     <!-- Search Field for Courses -->
                     <div class="form-group" style="max-width:400px;margin:20px 0;">
-                        <input type="text" id="courseSearchInput" class="form-control" placeholder="Search your purchased courses by name...">
+                        <input type="text" id="courseSearchInput" class="form-control"
+                            placeholder="Search your purchased courses by name...">
                     </div>
-                    
+
                     <?php if (!empty($purchased_courses)): ?>
                         <div id="courseList">
                             <?php foreach ($purchased_courses as $course): ?>
-                                <div class="course-container border course-item" data-coursename="<?= htmlspecialchars(strtolower($course['s_name'])) ?>" style="background-color:#fff;margin-bottom:1rem;">
-                                    <h3 class="course-title-head py-1" style="background-color:#d3d3cf;padding:6%; display: flex; align-items: center; gap: 10px;">
+                                <div class="course-container border course-item"
+                                    data-coursename="<?= htmlspecialchars(strtolower($course['s_name'])) ?>"
+                                    style="background-color:#fff;margin-bottom:1rem;">
+                                    <h3 class="course-title-head py-1"
+                                        style="background-color:#d3d3cf;padding:6%; display: flex; align-items: center; gap: 10px;">
                                         <?php echo htmlspecialchars($course['s_name']); ?>
-                                        <span style="display:inline-block; background: #28a745; color: #fff; font-size: 0.9rem; font-weight: 500; border-radius: 12px; padding: 2px 12px; margin-left: 8px; vertical-align: middle;">Purchased</span>
+                                        <span
+                                            style="display:inline-block; background: #28a745; color: #fff; font-size: 0.9rem; font-weight: 500; border-radius: 12px; padding: 2px 12px; margin-left: 8px; vertical-align: middle;">Purchased</span>
                                     </h3>
                                     <div class="row" style="padding:2% 6%;">
                                         <div class="img-box col-lg-4 col-md-6 col-12">
-                                            <img src="/assets/img/course-img/<?php echo htmlspecialchars($course['banner_image']); ?>" alt="course_img">
+                                            <img src="/assets/img/course-img/<?php echo htmlspecialchars($course['banner_image']); ?>"
+                                                alt="course_img">
                                         </div>
                                         <div class="content-box col-lg-8 col-md-6 col-12 row">
-                                            <div class="Instructor"><b>Instructor:</b> <?php echo htmlspecialchars($course['instructor_name']); ?></div>
-                                            <div class="validity"><b>Validity:</b> <?php echo htmlspecialchars($course['validity']); ?> Months</div>
-                                            <div class="duration"><b>Duration:</b> <?php echo htmlspecialchars($course['duration_time']); ?></div>
+                                            <div class="Instructor"><b>Instructor:</b>
+                                                <?php echo htmlspecialchars($course['instructor_name']); ?></div>
+                                            <div class="validity"><b>Validity:</b>
+                                                <?php echo htmlspecialchars($course['validity']); ?> Months</div>
+                                            <div class="duration"><b>Duration:</b>
+                                                <?php echo htmlspecialchars($course['duration_time']); ?></div>
                                             <div style="padding-top:-20px; margin-top: 20px;">
                                                 <a class="btn btn-success float-end"
                                                     href="<?= $base_url . 'lesson.php?course_id=' . $course['id'] ?>"
@@ -978,7 +1077,9 @@ $stmt_batches->close();
                             <i class="fas fa-graduation-cap"></i>
                             <h4>No Purchased Courses Yet</h4>
                             <p>You haven't purchased any courses yet. Explore our course catalog to get started!</p>
-                            <a href="#explore-courses-section" data-toggle="tab" class="btn btn-primary">Explore Courses</a>
+                            <a href="javascript:void(0)"
+                                onclick="$('.nav-link[href=\'#explore-courses-section\']').click();"
+                                class="btn btn-primary">Explore Courses</a>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -986,7 +1087,7 @@ $stmt_batches->close();
                 <!-- MODIFIED: Batch Code Section - Now shows batch access courses -->
                 <div class="tab-pane fade" id="batchcode">
                     <h3>Batch Access</h3>
-                    
+
                     <div id="responseMessage" class="alerted w-25"></div>
 
                     <form id="batchcodeForm">
@@ -996,8 +1097,8 @@ $stmt_batches->close();
                     </form>
                     <div class="mt-3">
                         <small class="text-muted">
-                            <i class="fa fa-info-circle"></i> 
-                            Batch codes give you access to all lessons within a specific batch. 
+                            <i class="fa fa-info-circle"></i>
+                            Batch codes give you access to all lessons within a specific batch.
                             Enter the code provided by your instructor to enroll.
                         </small>
                     </div>
@@ -1006,29 +1107,35 @@ $stmt_batches->close();
                     <?php if (!empty($batch_courses)): ?>
                         <hr class="my-4">
                         <h4>Your Batch Access Courses</h4>
-                        
+
                         <!-- Search Field for Batch Courses -->
                         <div class="form-group" style="max-width:400px;margin:20px 0;">
-                            <input type="text" id="batchCourseSearchInput" class="form-control" placeholder="Search your batch courses by name...">
+                            <input type="text" id="batchCourseSearchInput" class="form-control"
+                                placeholder="Search your batch courses by name...">
                         </div>
-                        
+
                         <div id="batchCourseList">
                             <?php foreach ($batch_courses as $course): ?>
-                                <div class="course-container border batch-course-container batch-course-item" data-batch-ids="<?= htmlspecialchars($course['batch_ids']) ?>" 
-                                     data-coursename="<?= htmlspecialchars(strtolower($course['s_name'])) ?>" 
-                                     style="background-color:#fff;margin-bottom:1rem;">
-                                    <h3 class="course-title-head batch-course-title py-1" style="padding:6%; display: flex; align-items: center; gap: 10px;">
+                                <div class="course-container border batch-course-container batch-course-item"
+                                    data-batch-ids="<?= htmlspecialchars($course['batch_ids']) ?>"
+                                    data-coursename="<?= htmlspecialchars(strtolower($course['s_name'])) ?>"
+                                    style="background-color:#fff;margin-bottom:1rem;">
+                                    <h3 class="course-title-head batch-course-title py-1"
+                                        style="padding:6%; display: flex; align-items: center; gap: 10px;">
                                         <?php echo htmlspecialchars($course['s_name']); ?>
                                         <span class="batch-access-badge">Batch Access</span>
                                     </h3>
                                     <div class="row" style="padding:2% 6%;">
                                         <div class="img-box col-lg-4 col-md-6 col-12">
-                                            <img src="/assets/img/course-img/<?php echo htmlspecialchars($course['banner_image']); ?>" alt="course_img">
+                                            <img src="/assets/img/course-img/<?php echo htmlspecialchars($course['banner_image']); ?>"
+                                                alt="course_img">
                                         </div>
                                         <div class="content-box col-lg-8 col-md-6 col-12 row">
-                                            <div class="Instructor"><b>Instructor:</b> <?php echo htmlspecialchars($course['instructor_name']); ?></div>
+                                            <div class="Instructor"><b>Instructor:</b>
+                                                <?php echo htmlspecialchars($course['instructor_name']); ?></div>
                                             <div class="validity"><b>Access Type:</b> Batch Enrollment</div>
-                                            <div class="duration"><b>Duration:</b> <?php echo htmlspecialchars($course['duration_time']); ?></div>
+                                            <div class="duration"><b>Duration:</b>
+                                                <?php echo htmlspecialchars($course['duration_time']); ?></div>
                                             <div style="padding-top:-20px; margin-top: 20px;">
                                                 <a class="btn btn-primary float-end"
                                                     href="<?= $base_url . 'lesson.php?course_id=' . $course['id'] ?>"
@@ -1044,7 +1151,8 @@ $stmt_batches->close();
                         <div class="empty-state">
                             <i class="fas fa-users"></i>
                             <h4>No Batch Access Courses</h4>
-                            <p>You don't have access to any batch courses yet. Enter a batch code above to get access to courses shared by your instructor.</p>
+                            <p>You don't have access to any batch courses yet. Enter a batch code above to get access to
+                                courses shared by your instructor.</p>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -1056,9 +1164,11 @@ $stmt_batches->close();
                     <!-- Search Form -->
                     <form id="courseSearchForm" class="my-4" onsubmit="return false;">
                         <div class="input-group">
-                            <input type="text" id="searchQueryInput" name="search_query" class="form-control" placeholder="Search for courses by name or description...">
+                            <input type="text" id="searchQueryInput" name="search_query" class="form-control"
+                                placeholder="Search for courses by name or description...">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit" style="height: 100%; border-radius: 0 5px 5px 0;">Search</button>
+                                <button class="btn btn-primary" type="submit"
+                                    style="height: 100%; border-radius: 0 5px 5px 0;">Search</button>
                             </div>
                         </div>
                     </form>
@@ -1078,49 +1188,56 @@ $stmt_batches->close();
                                         $discountedPrice = $originalPrice - ($originalPrice * $discountPercentage / 100);
                                         $bannerImagePath = $base_url . "/assets/img/course-img/{$row['banner_image']}";
                                 ?>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="single-course shadow position-relative">
-                                            <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>">
-                                                <img src="<?= $bannerImagePath; ?>" alt="Image">
-                                            </a>
-                                            <div class="discount-badge"><?= $discountPercentage; ?>% OFF</div>
-                                            <div class="course-content">
-                                                <div class="price-container">
-                                                    <span class="discounted-price">₹ <?= number_format($discountedPrice, 0); ?></span>
-                                                    <span class="original-price">₹ <?= number_format($originalPrice, 0); ?></span>
-                                                </div>
-                                                <h3><?= htmlspecialchars($row['s_name'] ?? '') ?></h3>
-                                                <ul class="rating">
-                                                    <?php for ($i = 0; $i < 5; $i++) { echo '<li><i class="bx bxs-star"></i></li>'; } ?>
-                                                    <li><a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>">5</a></li>
-                                                </ul>
-                                                <span class="tag"><?php
-$shortDesc = trim($row['short_description']);
-$pOnly = '';
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="single-course shadow position-relative">
+                                                <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>">
+                                                    <img src="<?= $bannerImagePath; ?>" alt="Image">
+                                                </a>
+                                                <div class="discount-badge"><?= $discountPercentage; ?>% OFF</div>
+                                                <div class="course-content">
+                                                    <div class="price-container">
+                                                        <span class="discounted-price">₹
+                                                            <?= number_format($discountedPrice, 0); ?></span>
+                                                        <span class="original-price">₹
+                                                            <?= number_format($originalPrice, 0); ?></span>
+                                                    </div>
+                                                    <h3><?= htmlspecialchars($row['s_name'] ?? '') ?></h3>
+                                                    <ul class="rating">
+                                                        <?php for ($i = 0; $i < 5; $i++) {
+                                                            echo '<li><i class="bx bxs-star"></i></li>';
+                                                        } ?>
+                                                        <li><a
+                                                                href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>">5</a>
+                                                        </li>
+                                                    </ul>
+                                                    <span class="tag"><?php
+                                                                        $shortDesc = trim($row['short_description']);
+                                                                        $pOnly = '';
 
-libxml_use_internal_errors(true); // Suppress HTML warnings
-$dom = new DOMDocument();
-$dom->loadHTML('<?xml encoding="utf-8" ?>' . $shortDesc);
+                                                                        libxml_use_internal_errors(true); // Suppress HTML warnings
+                                                                        $dom = new DOMDocument();
+                                                                        $dom->loadHTML('<?xml encoding="utf-8" ?>' . $shortDesc);
 
-$paragraphs = $dom->getElementsByTagName('p');
-foreach ($paragraphs as $p) {
-    $pOnly .= $dom->saveHTML($p);
-}
-libxml_clear_errors();
+                                                                        $paragraphs = $dom->getElementsByTagName('p');
+                                                                        foreach ($paragraphs as $p) {
+                                                                            $pOnly .= $dom->saveHTML($p);
+                                                                        }
+                                                                        libxml_clear_errors();
 
-// Optional: Trim and truncate if needed
-$cleaned = strip_tags($pOnly, '<p>');
-echo mb_strlen($cleaned, 'UTF-8') > 150
-    ? mb_substr($cleaned, 0, 80, 'UTF-8') . '...'
-    : $cleaned;
-?></span>
-                                                <div class="btn-course-view">
-                                                    <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>" class="default-btn">Buy Now</a>
+                                                                        // Optional: Trim and truncate if needed
+                                                                        $cleaned = strip_tags($pOnly, '<p>');
+                                                                        echo mb_strlen($cleaned, 'UTF-8') > 150
+                                                                            ? mb_substr($cleaned, 0, 80, 'UTF-8') . '...'
+                                                                            : $cleaned;
+                                                                        ?></span>
+                                                    <div class="btn-course-view">
+                                                        <a href="<?= $base_url; ?>courses_details.php?courses_url=<?= $row['url']; ?>"
+                                                            class="default-btn">Buy Now</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php 
+                                <?php
                                     }
                                 } else {
                                     echo '<p class="col-12 text-center">No courses found.</p>';
@@ -1165,9 +1282,11 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
                         </div>
                         <div class="form-group">
                             <label for="profile_photo">Profile Photo (optional)</label>
-                            <input type="file" class="form-control-file" id="profile_photo" name="profile_photo" accept="image/*">
+                            <input type="file" class="form-control-file" id="profile_photo" name="profile_photo"
+                                accept="image/*">
                             <input type="hidden" id="cropped_image_data" name="cropped_image_data">
-                            <img id="profile_photo_preview" src="#" alt="Preview" style="display:none;max-width:200px;margin-top:10px;"/>
+                            <img id="profile_photo_preview" src="#" alt="Preview"
+                                style="display:none;max-width:200px;margin-top:10px;" />
                         </div>
                         <br>
                         <button type="submit" name="update" class="btn btn-primary">Update</button>
@@ -1183,7 +1302,8 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content custom-modal-content">
                 <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title w-100 text-center" id="changePasswordModalLabel" style="font-weight:600;">Change Password</h5>
+                    <h5 class="modal-title w-100 text-center" id="changePasswordModalLabel" style="font-weight:600;">
+                        Change Password</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -1206,7 +1326,8 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
                                 name="confirm_new_password" required placeholder="Re-enter new password">
                         </div>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" name="update_pass" class="btn btn-primary custom-btn w-100">Change Password</button>
+                            <button type="submit" name="update_pass" class="btn btn-primary custom-btn w-100">Change
+                                Password</button>
                         </div>
                     </form>
                 </div>
@@ -1214,7 +1335,8 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
         </div>
     </div>
 
-    <div class="modal fade" id="cropperModal" tabindex="-1" role="dialog" aria-labelledby="cropperModalLabel" aria-hidden="true">
+    <div class="modal fade" id="cropperModal" tabindex="-1" role="dialog" aria-labelledby="cropperModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1240,288 +1362,332 @@ echo mb_strlen($cleaned, 'UTF-8') > 150
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+
     <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="/assets/js/ajaxchimp.min.js"></script>
     <script src="/assets/js/custom.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <script>
-    // All page-specific vanilla JS and jQuery code
-    $(document).ready(function() {
-        // Batch code form submission
-        $("#batchcodeForm").submit(function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: "access-course-using-batchcode.php",
-                type: "POST",
-                data: $(this).serialize(),
-                dataType: "json",
-                success: function(response) {
-                    var messageDiv = $("#responseMessage");
-                    if (response.status === "success") {
-                        messageDiv.removeClass("errored").addClass("successed").css("color", "#155724").css("background-color", "#d4edda").text(response.message).fadeIn();
-                        setTimeout(function() { window.location.href = response.redirect; window.location.reload(); }, 2000);
-                    } else {
-                        messageDiv.removeClass("successed errored").addClass("successed").css("color", "#155724").css("background-color", "#d4edda").text(response.message).fadeIn();
+        // All page-specific vanilla JS and jQuery code
+        $(document).ready(function() {
+            // Batch code form submission
+            $("#batchcodeForm").submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "access-course-using-batchcode.php",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function(response) {
+                        var messageDiv = $("#responseMessage");
+                        if (response.status === "success") {
+                            messageDiv.removeClass("errored").addClass("successed").css("color",
+                                "#155724").css("background-color", "#d4edda").text(response
+                                .message).fadeIn();
+                            setTimeout(function() {
+                                window.location.href = response.redirect;
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            messageDiv.removeClass("successed errored").addClass("successed")
+                                .css("color", "#155724").css("background-color", "#d4edda")
+                                .text(response.message).fadeIn();
+                        }
+                        setTimeout(function() {
+                            messageDiv.fadeOut();
+                        }, 5000);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX Error: ", error, xhr.responseText);
+                        $("#responseMessage").removeClass("successed errored").addClass(
+                            "successed").css("color", "#155724").css("background-color",
+                            "#d4edda").text("Server Error! Check Console.").fadeIn();
                     }
-                    setTimeout(function() { messageDiv.fadeOut(); }, 5000);
-                },
-                error: function(xhr, status, error) {
-                    console.log("AJAX Error: ", error, xhr.responseText);
-                    $("#responseMessage").removeClass("successed errored").addClass("successed").css("color", "#155724").css("background-color", "#d4edda").text("Server Error! Check Console.").fadeIn();
-                }
-            });
-        });
-
-        // Course search via AJAX
-        $('#courseSearchForm').off('submit');
-        $('#searchQueryInput').on('keyup', function() {
-            var searchQuery = $(this).val();
-            var resultsContainer = $('#courseResultsContainer');
-            $.ajax({
-                url: 'search_courses.php',
-                type: 'POST',
-                data: { search_query: searchQuery },
-                beforeSend: function() { resultsContainer.html('<p class="col-12 text-center">Searching...</p>'); },
-                success: function(response) { resultsContainer.html(response); },
-                error: function() { resultsContainer.html('<p class="col-12 text-center">An error occurred while searching.</p>'); }
-            });
-        });
-
-        // Tab activation from URL hash
-        var hash = window.location.hash;
-        if (hash) {
-            $('.nav-link[href="' + hash + '"]').tab('show');
-        }
-
-        // Update URL hash on tab click
-        $('.nav-link').on('click', function (e) {
-            if (history.pushState) {
-                history.pushState(null, null, e.target.hash);
-            } else {
-                window.location.hash = e.target.hash;
-            }
-        });
-
-        // Cropper initialization
-        let cropper = null;
-        const sidebarProfileImage = document.querySelector('#mySidepanel .profile-image img');
-        const cropperModal = document.getElementById('cropperModal');
-        const cropperImage = document.getElementById('cropperImage');
-        const cropButton = document.getElementById('cropButton');
-        const profilePhotoInput = document.getElementById('profile_photo');
-
-        function openCropperWithFile(file) {
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    cropperImage.src = e.target.result;
-                    $('#updateProfileModal').modal('hide');
-                    $(cropperModal).modal('show');
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        $(cropperModal).on('shown.bs.modal', function() {
-            if (cropper) { cropper.destroy(); }
-            cropper = new Cropper(cropperImage, {
-                aspectRatio: 1, viewMode: 2, dragMode: 'move', autoCropArea: 1
-            });
-        });
-
-        if (sidebarProfileImage) {
-            sidebarProfileImage.addEventListener('click', function() {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.onchange = e => openCropperWithFile(e.target.files[0]);
-                input.click();
-            });
-        }
-
-        if (profilePhotoInput) {
-            profilePhotoInput.addEventListener('change', e => openCropperWithFile(e.target.files[0]));
-        }
-
-        cropButton.addEventListener('click', function() {
-            if (!cropper) return;
-            const canvas = cropper.getCroppedCanvas({ width: 300, height: 300 });
-            canvas.toBlob(function(blob) {
-                const formData = new FormData();
-                formData.append('profile_photo', blob, 'profile.jpg');
-                cropButton.textContent = 'Uploading...';
-                cropButton.disabled = true;
-                fetch('update_profile_photo.php', { method: 'POST', body: formData })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const newImageUrl = data.filePath + '?t=' + new Date().getTime();
-                        document.querySelectorAll('.profile-image img').forEach(img => { img.src = newImageUrl; });
-                        $(cropperModal).modal('hide');
-                    } else {
-                        alert('Upload failed: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred during upload.');
-                })
-                .finally(() => {
-                    cropButton.textContent = 'Crop & Upload';
-                    cropButton.disabled = false;
                 });
-            }, 'image/jpeg', 0.9);
-        });
+            });
 
-        $(cropperModal).on('hidden.bs.modal', function() {
-            if (cropper) {
-                cropper.destroy();
-                cropper = null;
+            // Course search via AJAX
+            $('#courseSearchForm').off('submit');
+            $('#searchQueryInput').on('keyup', function() {
+                var searchQuery = $(this).val();
+                var resultsContainer = $('#courseResultsContainer');
+                $.ajax({
+                    url: 'search_courses.php',
+                    type: 'POST',
+                    data: {
+                        search_query: searchQuery
+                    },
+                    beforeSend: function() {
+                        resultsContainer.html('<p class="col-12 text-center">Searching...</p>');
+                    },
+                    success: function(response) {
+                        resultsContainer.html(response);
+                    },
+                    error: function() {
+                        resultsContainer.html(
+                            '<p class="col-12 text-center">An error occurred while searching.</p>'
+                        );
+                    }
+                });
+            });
+
+            // Tab activation from URL hash
+            var hash = window.location.hash;
+            if (hash) {
+                $('.nav-link[href="' + hash + '"]').tab('show');
             }
-        });
-    });
 
-    // Vanilla JS functions and listeners
-    function togglePasswordVisibility(passwordFieldId, toggleIconId) {
-        var passwordField = document.getElementById(passwordFieldId);
-        var toggleIcon = document.getElementById(toggleIconId);
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            toggleIcon.classList.remove("fa-eye-slash");
-            toggleIcon.classList.add("fa-eye");
-        } else {
-            passwordField.type = "password";
-            toggleIcon.classList.remove("fa-eye");
-            toggleIcon.classList.add("fa-eye-slash");
+            // Update URL hash on tab click
+            $('.nav-link').on('click', function(e) {
+                if (history.pushState) {
+                    history.pushState(null, null, e.target.hash);
+                } else {
+                    window.location.hash = e.target.hash;
+                }
+            });
+
+            // Cropper initialization
+            let cropper = null;
+            const sidebarProfileImage = document.querySelector('#mySidepanel .profile-image img');
+            const cropperModal = document.getElementById('cropperModal');
+            const cropperImage = document.getElementById('cropperImage');
+            const cropButton = document.getElementById('cropButton');
+            const profilePhotoInput = document.getElementById('profile_photo');
+
+            function openCropperWithFile(file) {
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        cropperImage.src = e.target.result;
+                        $('#updateProfileModal').modal('hide');
+                        $(cropperModal).modal('show');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            $(cropperModal).on('shown.bs.modal', function() {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(cropperImage, {
+                    aspectRatio: 1,
+                    viewMode: 2,
+                    dragMode: 'move',
+                    autoCropArea: 1
+                });
+            });
+
+            if (sidebarProfileImage) {
+                sidebarProfileImage.addEventListener('click', function() {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.onchange = e => openCropperWithFile(e.target.files[0]);
+                    input.click();
+                });
+            }
+
+            if (profilePhotoInput) {
+                profilePhotoInput.addEventListener('change', e => openCropperWithFile(e.target.files[0]));
+            }
+
+            cropButton.addEventListener('click', function() {
+                if (!cropper) return;
+                const canvas = cropper.getCroppedCanvas({
+                    width: 300,
+                    height: 300
+                });
+                canvas.toBlob(function(blob) {
+                    const formData = new FormData();
+                    formData.append('profile_photo', blob, 'profile.jpg');
+                    cropButton.textContent = 'Uploading...';
+                    cropButton.disabled = true;
+                    fetch('update_profile_photo.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const newImageUrl = data.filePath + '?t=' + new Date()
+                                    .getTime();
+                                document.querySelectorAll('.profile-image img').forEach(img => {
+                                    img.src = newImageUrl;
+                                });
+                                $(cropperModal).modal('hide');
+                            } else {
+                                alert('Upload failed: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred during upload.');
+                        })
+                        .finally(() => {
+                            cropButton.textContent = 'Crop & Upload';
+                            cropButton.disabled = false;
+                        });
+                }, 'image/jpeg', 0.9);
+            });
+
+            $(cropperModal).on('hidden.bs.modal', function() {
+                if (cropper) {
+                    cropper.destroy();
+                    cropper = null;
+                }
+            });
+        });
+
+        // Vanilla JS functions and listeners
+        function togglePasswordVisibility(passwordFieldId, toggleIconId) {
+            var passwordField = document.getElementById(passwordFieldId);
+            var toggleIcon = document.getElementById(toggleIconId);
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            } else {
+                passwordField.type = "password";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            }
         }
-    }
 
-    document.getElementById('notificationBell').addEventListener('click', function() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "mark_notifications_seen.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onload = function() {
-            if (xhr.status == 200) {
-                document.getElementById('notificationCount').innerText = 0;
+        document.getElementById('notificationBell').addEventListener('click', function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "mark_notifications_seen.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    document.getElementById('notificationCount').innerText = 0;
+                }
+            };
+            xhr.send("user_id=" + <?php echo $user_id; ?>);
+        });
+
+        function openNav() {
+            if (window.innerWidth <= 767) {
+                document.getElementById('mySidepanel').classList.add('open');
             }
-        };
-        xhr.send("user_id=" + <?php echo $user_id; ?>);
-    });
+        }
 
-    function openNav() {
-        if (window.innerWidth <= 767) { document.getElementById('mySidepanel').classList.add('open'); }
-    }
+        function closeNav() {
+            if (window.innerWidth <= 767) {
+                document.getElementById('mySidepanel').classList.remove('open');
+            }
+        }
 
-    function closeNav() {
-        if (window.innerWidth <= 767) { document.getElementById('mySidepanel').classList.remove('open'); }
-    }
-
-    document.querySelectorAll('#mySidepanel .nav-link').forEach(link => {
-        link.addEventListener('click', closeNav);
-    });
-    
-    window.addEventListener("pageshow", function(event) {
-        if (event.persisted) { location.reload(); }
-    });
-
-    // ADDED: Search functionality for purchased courses
-    const searchInput = document.getElementById('courseSearchInput');
-    if (searchInput) {
-        const courseItems = document.querySelectorAll('#courseList .course-item');
-        searchInput.addEventListener('input', function() {
-            const query = this.value.trim().toLowerCase();
-            courseItems.forEach(function(item) {
-                const name = item.getAttribute('data-coursename');
-                if (query === '' || name.startsWith(query)) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+        document.querySelectorAll('#mySidepanel .nav-link').forEach(link => {
+            link.addEventListener('click', closeNav);
         });
-    }
 
-    
-    // ADDED: Search functionality for my batches
-    const myBatchesSearchInput = document.getElementById('myBatchesSearchInput');
-    if (myBatchesSearchInput) {
-        const batchCards = document.querySelectorAll('#my-batches-section .batch-card');
-        myBatchesSearchInput.addEventListener('input', function() {
-            const query = this.value.trim().toLowerCase();
-            batchCards.forEach(function(card) {
-                const name = card.getAttribute('data-batchname');
-                if (query === '' || name.includes(query)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+        window.addEventListener("pageshow", function(event) {
+            if (event.persisted) {
+                location.reload();
+            }
         });
-    }
 
-    // ADDED: Search functionality for batch courses
-    const batchSearchInput = document.getElementById('batchCourseSearchInput');
-    if (batchSearchInput) {
-        const batchCourseItems = document.querySelectorAll('#batchCourseList .batch-course-item');
-        batchSearchInput.addEventListener('input', function() {
-            const query = this.value.trim().toLowerCase();
-            batchCourseItems.forEach(function(item) {
-                const name = item.getAttribute('data-coursename');
-                if (query === '' || name.startsWith(query)) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
-                }
+        // ADDED: Search functionality for purchased courses
+        const searchInput = document.getElementById('courseSearchInput');
+        if (searchInput) {
+            const courseItems = document.querySelectorAll('#courseList .course-item');
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim().toLowerCase();
+                courseItems.forEach(function(item) {
+                    const name = item.getAttribute('data-coursename');
+                    if (query === '' || name.startsWith(query)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             });
-        });
-    }
+        }
+
+
+        // ADDED: Search functionality for my batches
+        const myBatchesSearchInput = document.getElementById('myBatchesSearchInput');
+        if (myBatchesSearchInput) {
+            const batchCards = document.querySelectorAll('#my-batches-section .batch-card');
+            myBatchesSearchInput.addEventListener('input', function() {
+                const query = this.value.trim().toLowerCase();
+                batchCards.forEach(function(card) {
+                    const name = card.getAttribute('data-batchname');
+                    if (query === '' || name.includes(query)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // ADDED: Search functionality for batch courses
+        const batchSearchInput = document.getElementById('batchCourseSearchInput');
+        if (batchSearchInput) {
+            const batchCourseItems = document.querySelectorAll('#batchCourseList .batch-course-item');
+            batchSearchInput.addEventListener('input', function() {
+                const query = this.value.trim().toLowerCase();
+                batchCourseItems.forEach(function(item) {
+                    const name = item.getAttribute('data-coursename');
+                    if (query === '' || name.startsWith(query)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
     </script>
-<script>
-function filterBatchCourses(batchId, event) {
-    // Show the courses section tab
-    $('.nav-link[href="#courses-section"]').tab("show");
-    
-    // Hide all courses initially
-    $(".course-container").hide();
-    
-    // Show only the purchased courses and batch courses that match
-    $(".course-item").hide();
-    
-    $(".batch-course-item").each(function() {
-        var ids = $(this).attr("data-batch-ids");
-        if (ids) {
-            var idArray = ids.toString().split(",");
-            if (idArray.includes(batchId.toString())) {
-                $(this).show();
+    <script>
+        function filterBatchCourses(batchId, event) {
+            // Show the courses section tab
+            $('.nav-link[href="#courses-section"]').tab("show");
+
+            // Hide all courses initially
+            $(".course-container").hide();
+
+            // Show only the purchased courses and batch courses that match
+            $(".course-item").hide();
+
+            $(".batch-course-item").each(function() {
+                var ids = $(this).attr("data-batch-ids");
+                if (ids) {
+                    var idArray = ids.toString().split(",");
+                    if (idArray.includes(batchId.toString())) {
+                        $(this).show();
+                    }
+                }
+            });
+
+            // Update the heading to show we are filtering
+            var batchName = $(event.target).closest(".batch-card").find(".batch-title").text();
+            if (batchName) {
+                $("#courses-section h3").first().text("Courses in: " + batchName);
             }
         }
-    });
-    
-    // Update the heading to show we are filtering
-    var batchName = $(event.target).closest(".batch-card").find(".batch-title").text();
-    if(batchName) {
-        $("#courses-section h3").first().text("Courses in: " + batchName);
-    }
-}
 
-// Reset filter when My Courses is clicked directly
-$(document).ready(function() {
-    $('.nav-link[href="#courses-section"]').on("click", function() {
-        $(".course-container").show();
-        $(".course-item").show();
-        $(".batch-course-item").show();
-        $("#courses-section h3").first().text("My Purchased Courses");
-    });
-});
-</script>
+        // Reset filter when My Courses is clicked directly
+        $(document).ready(function() {
+            $('.nav-link[href="#courses-section"]').on("click", function() {
+                $(".course-container").show();
+                $(".course-item").show();
+                $(".batch-course-item").show();
+                $("#courses-section h3").first().text("My Purchased Courses");
+            });
+        });
+    </script>
 </body>
+
 </html>
 
 <style>
     /* All your existing CSS styles remain the same */
-    body { background-color: #F5F5F5; }
+    body {
+        background-color: #F5F5F5;
+    }
 
     .single-course {
         background-color: #fff;
@@ -1534,14 +1700,47 @@ $(document).ready(function() {
         box-sizing: border-box;
     }
 
-    .single-course img { height: 280px; }
-    .course-content { height: 256px; position: relative; }
-    .course-content .btn-course-view { position: absolute; bottom: 10px; left: 10px; }
-    .single-course .course-content .rating li a { top: -1px; font-size: 14px; }
-    .single-course .course-content .price { top: -39px; font-size: 17px; }
-    .single-course .course-content .price del { color: #312B23; font-size: 15px; font-weight: 400; line-height: 0; }
-    .single-course .course-content p { border-bottom: none; margin-bottom: 0; max-height: unset; }
-    .single-course .course-content .tag { max-height: unset; }
+    .single-course img {
+        height: 280px;
+    }
+
+    .course-content {
+        height: 256px;
+        position: relative;
+    }
+
+    .course-content .btn-course-view {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .single-course .course-content .rating li a {
+        top: -1px;
+        font-size: 14px;
+    }
+
+    .single-course .course-content .price {
+        top: -39px;
+        font-size: 17px;
+    }
+
+    .single-course .course-content .price del {
+        color: #312B23;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 0;
+    }
+
+    .single-course .course-content p {
+        border-bottom: none;
+        margin-bottom: 0;
+        max-height: unset;
+    }
+
+    .single-course .course-content .tag {
+        max-height: unset;
+    }
 
     .sidebar {
         background-color: #fff;
@@ -1560,10 +1759,24 @@ $(document).ready(function() {
         color: #1d0f96;
     }
 
-    .sidebar .nav-item { margin: 10px 0; }
-    .nav-link { color: #333; text-decoration: none; transition: color 0.3s; }
-    .nav-link:hover { color: #1d0f96; }
-    .content-area { padding: 20px; flex: 1; }
+    .sidebar .nav-item {
+        margin: 10px 0;
+    }
+
+    .nav-link {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+        color: #1d0f96;
+    }
+
+    .content-area {
+        padding: 20px;
+        flex: 1;
+    }
 
     .profile-details {
         margin-bottom: 20px;
@@ -1588,7 +1801,8 @@ $(document).ready(function() {
         width: calc(100% - 20px);
     }
 
-    .profile-actions a, .profile-actions button {
+    .profile-actions a,
+    .profile-actions button {
         display: inline-block;
         padding: 5px 9px;
         color: #fff;
@@ -1599,9 +1813,18 @@ $(document).ready(function() {
         margin-bottom: 12px;
     }
 
-    .btn-primary { background-color: #1d0f96; }
-    .btn-primary:hover { opacity: 0.9; background-color: #154a7d; }
-    .tab-content { margin-top: 20px; }
+    .btn-primary {
+        background-color: #1d0f96;
+    }
+
+    .btn-primary:hover {
+        opacity: 0.9;
+        background-color: #154a7d;
+    }
+
+    .tab-content {
+        margin-top: 20px;
+    }
 
     .table {
         width: 100%;
@@ -1610,9 +1833,19 @@ $(document).ready(function() {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .table-hover tbody tr:hover { background-color: #f1f1f1; }
-    .thead-dark th { background-color: #343a40; color: #fff; border-bottom: 0; }
-    .default-btn { padding: 12px 25px; }
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #fff;
+        border-bottom: 0;
+    }
+
+    .default-btn {
+        padding: 12px 25px;
+    }
 
     @media (max-width: 768px) {
         .sidebar {
@@ -1621,18 +1854,47 @@ $(document).ready(function() {
             border-right: none;
             margin-top: 1px;
         }
-        .sidebar h4 { font-size: 16px; }
-        .nav-link { font-size: 14px; }
-        .profile-details li { font-size: 14px; }
-        .profile-actions { text-align: center; }
-        .content-area { padding: 10px; margin-top: 1px; }
-        .content-area h2 { font-size: 16px; }
+
+        .sidebar h4 {
+            font-size: 16px;
+        }
+
+        .nav-link {
+            font-size: 14px;
+        }
+
+        .profile-details li {
+            font-size: 14px;
+        }
+
+        .profile-actions {
+            text-align: center;
+        }
+
+        .content-area {
+            padding: 10px;
+            margin-top: 1px;
+        }
+
+        .content-area h2 {
+            font-size: 16px;
+        }
     }
 
     @media (max-width: 767px) {
-        .navbar-nav { display: block; text-align: center; }
-        .navbar-nav .nav-item { margin: 10px 0; }
-        .navbar-nav .nav-item button { display: block; width: 100%; }
+        .navbar-nav {
+            display: block;
+            text-align: center;
+        }
+
+        .navbar-nav .nav-item {
+            margin: 10px 0;
+        }
+
+        .navbar-nav .nav-item button {
+            display: block;
+            width: 100%;
+        }
     }
 
     @media only screen and (max-width: 767px) {
@@ -1643,10 +1905,24 @@ $(document).ready(function() {
             height: 40px;
             line-height: 45px;
         }
-        .single-course .course-content .price del { font-size: 12px; line-height: 0; }
-        .course-content .btn-course-view { position: relative; margin-left: 0; }
-        .course-content .btn-course-view a { margin-left: -9px; }
-        .single-course .course-content { height: auto; }
+
+        .single-course .course-content .price del {
+            font-size: 12px;
+            line-height: 0;
+        }
+
+        .course-content .btn-course-view {
+            position: relative;
+            margin-left: 0;
+        }
+
+        .course-content .btn-course-view a {
+            margin-left: -9px;
+        }
+
+        .single-course .course-content {
+            height: auto;
+        }
     }
 
     @media only screen and (min-width: 768px) and (max-width: 1190px) {
@@ -1657,8 +1933,15 @@ $(document).ready(function() {
             height: 40px;
             line-height: 55px;
         }
-        .single-course .course-content .price span { line-height: 45px; }
-        .single-course .course-content .price del { font-size: 12px; line-height: 0; }
+
+        .single-course .course-content .price span {
+            line-height: 45px;
+        }
+
+        .single-course .course-content .price del {
+            font-size: 12px;
+            line-height: 0;
+        }
     }
 
     /* Additional styles for notifications and other elements */
@@ -1687,17 +1970,24 @@ $(document).ready(function() {
         transition: background-color 0.3s;
     }
 
-    .dropdown-item:hover { background-color: #f1f1f1; }
-    .dropdown-item strong { font-size: 1rem; color: #007bff; }
-    .dropdown-item p { 
-        font-size: 0.9rem; 
-        margin: 5px 0; 
-        color: #666; 
+    .dropdown-item:hover {
+        background-color: #f1f1f1;
     }
-    
-    .dropdown-item small { 
-        font-size: 0.8rem; 
-        color: #888; 
+
+    .dropdown-item strong {
+        font-size: 1rem;
+        color: #007bff;
+    }
+
+    .dropdown-item p {
+        font-size: 0.9rem;
+        margin: 5px 0;
+        color: #666;
+    }
+
+    .dropdown-item small {
+        font-size: 0.8rem;
+        color: #888;
     }
 
     #notificationCount {
@@ -1741,7 +2031,9 @@ $(document).ready(function() {
         padding: 15px;
     }
 
-    .Instructor, .validity, .duration {
+    .Instructor,
+    .validity,
+    .duration {
         margin-bottom: 10px;
         color: #555;
     }
@@ -1866,15 +2158,17 @@ $(document).ready(function() {
 
     /* Course grid responsiveness */
     @media (max-width: 576px) {
-        .img-box, .content-box {
+
+        .img-box,
+        .content-box {
             margin-bottom: 15px;
         }
-        
+
         .course-title-head {
             font-size: 1rem;
             padding: 4%;
         }
-        
+
         .btn {
             font-size: 0.9rem;
             padding: 8px 16px;
@@ -1882,44 +2176,43 @@ $(document).ready(function() {
     }
 </style>
 <script>
-function filterBatchCourses(batchId, event) {
-    // Show the courses section tab
-    $('.nav-link[href="#courses-section"]').tab("show");
-    
-    // Hide all courses initially
-    $(".course-container").hide();
-    
-    // Show only the purchased courses and batch courses that match
-    $(".course-item").hide();
-    
-    $(".batch-course-item").each(function() {
-        var ids = $(this).attr("data-batch-ids");
-        if (ids) {
-            var idArray = ids.toString().split(",");
-            if (idArray.includes(batchId.toString())) {
-                $(this).show();
-            }
-        }
-    });
-    
-    // Update the heading to show we are filtering
-    var batchName = $(event.target).closest(".batch-card").find(".batch-title").text();
-    if(batchName) {
-        $("#courses-section h3").first().text("Courses in: " + batchName);
-    }
-}
+    function filterBatchCourses(batchId, event) {
+        // Show the courses section tab
+        $('.nav-link[href="#courses-section"]').tab("show");
 
-// Reset filter when My Courses is clicked directly
-$(document).ready(function() {
-    $('.nav-link[href="#courses-section"]').on("click", function() {
-        $(".course-container").show();
-        $(".course-item").show();
-        $(".batch-course-item").show();
-        $("#courses-section h3").first().text("My Purchased Courses");
+        // Hide all courses initially
+        $(".course-container").hide();
+
+        // Show only the purchased courses and batch courses that match
+        $(".course-item").hide();
+
+        $(".batch-course-item").each(function() {
+            var ids = $(this).attr("data-batch-ids");
+            if (ids) {
+                var idArray = ids.toString().split(",");
+                if (idArray.includes(batchId.toString())) {
+                    $(this).show();
+                }
+            }
+        });
+
+        // Update the heading to show we are filtering
+        var batchName = $(event.target).closest(".batch-card").find(".batch-title").text();
+        if (batchName) {
+            $("#courses-section h3").first().text("Courses in: " + batchName);
+        }
+    }
+
+    // Reset filter when My Courses is clicked directly
+    $(document).ready(function() {
+        $('.nav-link[href="#courses-section"]').on("click", function() {
+            $(".course-container").show();
+            $(".course-item").show();
+            $(".batch-course-item").show();
+            $("#courses-section h3").first().text("My Purchased Courses");
+        });
     });
-});
 </script>
 </body>
+
 </html>
-
-

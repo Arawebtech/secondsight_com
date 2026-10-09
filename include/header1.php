@@ -37,7 +37,7 @@ $user_name = $is_logged_in ? $_SESSION['user_name'] : '';
                             <div class="cart-icon">
                                 <a href="javascript:void(0);" onclick="toggleCartDropdown()" class="cart-toggle">
                                     <i class="flaticon-shopping-cart"></i>
-                                    <span id="cart-count"><?= count($_SESSION['cart']) ?></span>
+                                    <span id="cart-count"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span>
                                 </a>
 
                                 <!-- Dropdown Cart Items -->
@@ -105,7 +105,7 @@ $user_name = $is_logged_in ? $_SESSION['user_name'] : '';
                     <div class="mobile-cart-dropdown">
                         <a href="cart.php">
                             <i class="flaticon-shopping-cart"></i>
-                            <span id="cart-count"><?= count($_SESSION['cart']) ?></span>
+                            <span id="cart-count"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span>
                         </a>
                     </div>
 
