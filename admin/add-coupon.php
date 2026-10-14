@@ -34,6 +34,12 @@ if (!$conn) {
         $conn->query("ALTER TABLE coupon ADD COLUMN course_id INT NULL AFTER type");
         $conn->query("ALTER TABLE coupon ADD COLUMN applicable_to_all TINYINT(1) DEFAULT 1 AFTER course_id");
     }
+
+    $checkRemaining = $conn->query("SHOW COLUMNS FROM coupon LIKE 'remaining_uses'");
+    if ($checkRemaining && $checkRemaining->num_rows == 0) {
+        $conn->query("ALTER TABLE coupon ADD COLUMN remaining_uses INT DEFAULT 0 AFTER used_count");
+        $conn->query("UPDATE coupon SET remaining_uses = GREATEST(0, no_of_times - used_count)");
+    }
 }
 
 // Check if user is logged in
@@ -97,12 +103,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $conn) {
     if (!empty($validationErrors)) {
         $error_message = implode("<br>", $validationErrors);
     } else {
-        $stmt = $conn->prepare("INSERT INTO coupon (code, discount, type, course_id, applicable_to_all, no_of_times, used_count, expiry_date, status, created_at) VALUES (?, ?, ?, ?, ?, ?, 0, ?, 'active', NOW())");
+        $stmt = $conn->prepare("INSERT INTO coupon (code, discount, type, course_id, applicable_to_all, no_of_times, used_count, remaining_uses, expiry_date, status, created_at) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, 'active', NOW())");
         
         if (!$stmt) {
             $error_message = "Database prepare error: " . $conn->error;
         } else {
-            $stmt->bind_param("sdsiiis", $couponCode, $discount, $type, $courseId, $applicableToAll, $nooftimes, $expiryDate);
+            $stmt->bind_param("sdsiiiis", $couponCode, $discount, $type, $courseId, $applicableToAll, $nooftimes, $nooftimes, $expiryDate);
             
             if ($stmt->execute()) {
                 header("Location: view-coupon.php?status=added&code=" . urlencode($couponCode));

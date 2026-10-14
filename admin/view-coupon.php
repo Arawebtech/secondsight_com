@@ -7,6 +7,12 @@ if (empty($_SESSION['name'])) {
 }
 include("include/db_config.php");
 
+// Auto-sync status and remaining_uses for coupons
+if ($conn) {
+    $conn->query("UPDATE coupon SET status = 'expired' WHERE (used_count >= no_of_times OR expiry_date < CURDATE()) AND status = 'active' AND no_of_times > 0");
+    $conn->query("UPDATE coupon SET remaining_uses = GREATEST(0, no_of_times - used_count)");
+}
+
 /* -----delete record------ */
 if (isset($_GET['del'])) {
     $id = $_GET['del'];
@@ -46,7 +52,7 @@ if (isset($_GET['del'])) {
         
                 <?php if (!empty($msg)) echo $msg;
                 
-                   if (isset($_GET['id']) && $_GET['id'] == 'Added') {
+                   if ((isset($_GET['id']) && $_GET['id'] == 'Added') || (isset($_GET['status']) && $_GET['status'] == 'added')) {
                         echo '<p style="color:green;padding-left:20px;">New Coupon has been generated successfully</p>';
                     }
                  
@@ -140,7 +146,7 @@ if ($row->applicable_to_all == 1 || empty($row->course_id)) {
                                            <td><?php echo date("d-m-Y", strtotime($row->expiry_date)); ?></td>
 
 
-                                                    <td><?php if(strtotime($row->expiry_date) > strtotime(date("Y-m-d")) && $row->used_count < $row->no_of_times){ echo "<span style='color: green; font-weight: bold;'>Active</span>";
+                                                    <td><?php if(strtotime($row->expiry_date) >= strtotime(date("Y-m-d")) && $row->used_count < $row->no_of_times && $row->status != 'expired' && $row->status != 'disabled'){ echo "<span style='color: green; font-weight: bold;'>Active</span>";
                                                       }else{ echo "<span style='color: red; font-weight: bold;'>Expired</span>";} ?></td>
                                                     
                                                     <td>

@@ -47,6 +47,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        // Validate coupon code if applied
+        if (!empty($couponCode) && $couponCode !== '0') {
+            $c_stmt = $conn->prepare("SELECT id, code, discount, type, expiry_date, no_of_times, used_count, status FROM coupon WHERE UPPER(TRIM(code)) = UPPER(TRIM(?))");
+            $c_stmt->bind_param("s", $couponCode);
+            $c_stmt->execute();
+            $c_res = $c_stmt->get_result();
+            if ($c_row = $c_res->fetch_assoc()) {
+                if (strtotime($c_row['expiry_date']) < strtotime(date('Y-m-d')) || $c_row['used_count'] >= $c_row['no_of_times'] || $c_row['status'] === 'expired' || $c_row['status'] === 'disabled') {
+                    die("<script>alert('Coupon is expired or usage limit reached!'); window.location.href='checkout.php';</script>");
+                }
+                $couponCode = $c_row['code'];
+            } else {
+                die("<script>alert('Invalid coupon code!'); window.location.href='checkout.php';</script>");
+            }
+            $c_stmt->close();
+        }
+
         // Insert order
         $order_stmt = $conn->prepare("INSERT INTO orders (user_id, total_amount, discount_percent, couponcode, created_at) VALUES (?, ?, ?, ?, NOW())");
         $order_stmt->bind_param("idds", $user_id, $total1, $discountPercent, $couponCode);
@@ -89,11 +106,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $update_status->execute();
             $update_status->close();
 
+            // Increment coupon usage for free order
+            if (!empty($couponCode) && $couponCode !== '0') {
+                $coupon_stmt = $conn->prepare("UPDATE coupon SET used_count = used_count + 1, remaining_uses = GREATEST(0, no_of_times - (used_count + 1)) WHERE UPPER(TRIM(code)) = UPPER(TRIM(?))");
+                if ($coupon_stmt) {
+                    $coupon_stmt->bind_param("s", $couponCode);
+                    $coupon_stmt->execute();
+                    $coupon_stmt->close();
+                }
+
+                $expire_stmt = $conn->prepare("UPDATE coupon SET status = 'expired' WHERE UPPER(TRIM(code)) = UPPER(TRIM(?)) AND used_count >= no_of_times");
+                if ($expire_stmt) {
+                    $expire_stmt->bind_param("s", $couponCode);
+                    $expire_stmt->execute();
+                    $expire_stmt->close();
+                }
+            }
+
             unset($_SESSION['cart']);
             unset($_SESSION['quantities']);
             unset($_SESSION['order_summary']);
 
-            header("Location: /payment_status.php?payment_status=success&order_id=$order_id&payment_id=FREE");
+            $redirect_base = defined('BASE_URL') ? rtrim(BASE_URL, '/') . '/' : './';
+            header("Location: " . $redirect_base . "payment_status.php?payment_status=success&order_id=$order_id&payment_id=FREE");
             exit();
         }
 

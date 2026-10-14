@@ -144,14 +144,23 @@ try {
     if ($updateStmt->execute()) {
         logWebhook("Order $orderId status updated to: $mappedStatus");
         
-        // If payment is successful, expire the coupon
+        // If payment is successful, increment coupon usage
         if ($mappedStatus === 'completed' && !empty($couponCode) && $couponCode !== '0') {
-            $expireCouponQuery = "UPDATE coupon SET expiry_date = DATE_SUB(NOW(), INTERVAL 1 DAY) WHERE code = ?";
-            $expireStmt = $conn->prepare($expireCouponQuery);
-            $expireStmt->bind_param("s", $couponCode);
-            $expireStmt->execute();
-            $expireStmt->close();
-            logWebhook("Coupon $couponCode expired after successful payment");
+            $coupon_increment_query = "UPDATE coupon SET used_count = used_count + 1, remaining_uses = GREATEST(0, no_of_times - (used_count + 1)) WHERE UPPER(TRIM(code)) = UPPER(TRIM(?))";
+            $coupon_increment_stmt = $conn->prepare($coupon_increment_query);
+            if ($coupon_increment_stmt) {
+                $coupon_increment_stmt->bind_param("s", $couponCode);
+                $coupon_increment_stmt->execute();
+                $coupon_increment_stmt->close();
+            }
+
+            $expire_limit_stmt = $conn->prepare("UPDATE coupon SET status = 'expired' WHERE UPPER(TRIM(code)) = UPPER(TRIM(?)) AND used_count >= no_of_times");
+            if ($expire_limit_stmt) {
+                $expire_limit_stmt->bind_param("s", $couponCode);
+                $expire_limit_stmt->execute();
+                $expire_limit_stmt->close();
+            }
+            logWebhook("Coupon $couponCode usage incremented after successful payment");
         }
         
         // Send notification to user

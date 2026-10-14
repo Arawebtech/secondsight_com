@@ -68,21 +68,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             // **IMPORTANT: Increment coupon usage ONLY after successful payment**
             if (!empty($coupon_code_used) && $coupon_code_used !== '0') {
-                $coupon_increment_query = "UPDATE coupon SET used_count = used_count + 1, remaining_uses = remaining_uses - 1 WHERE code = ?";
+                $coupon_increment_query = "UPDATE coupon SET used_count = used_count + 1, remaining_uses = GREATEST(0, no_of_times - (used_count + 1)) WHERE UPPER(TRIM(code)) = UPPER(TRIM(?))";
                 $coupon_increment_stmt = $conn->prepare($coupon_increment_query);
-                $coupon_increment_stmt->bind_param("s", $coupon_code_used);
-                $coupon_increment_stmt->execute();
-                $coupon_increment_stmt->close();
-            }
+                if ($coupon_increment_stmt) {
+                    $coupon_increment_stmt->bind_param("s", $coupon_code_used);
+                    $coupon_increment_stmt->execute();
+                    $coupon_increment_stmt->close();
+                }
 
-            // Mark coupon as expired after successful payment
-            if (!empty($coupon_code_used) && $coupon_code_used !== '0') {
-                // Mark coupon as expired after successful payment
-                $expireCouponQuery = "UPDATE coupon SET expiry_date = DATE_SUB(NOW(), INTERVAL 1 DAY) WHERE code = ?";
-                $stmtExpire = $conn->prepare($expireCouponQuery);
-                $stmtExpire->bind_param("s", $coupon_code_used);
-                $stmtExpire->execute();
-                $stmtExpire->close();
+                // If usage limit is reached, mark status as expired
+                $expire_limit_stmt = $conn->prepare("UPDATE coupon SET status = 'expired' WHERE UPPER(TRIM(code)) = UPPER(TRIM(?)) AND used_count >= no_of_times");
+                if ($expire_limit_stmt) {
+                    $expire_limit_stmt->bind_param("s", $coupon_code_used);
+                    $expire_limit_stmt->execute();
+                    $expire_limit_stmt->close();
+                }
             }
 
             // Clear the cart session
