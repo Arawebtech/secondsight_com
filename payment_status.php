@@ -464,7 +464,7 @@ $conn->close();
 
         <div class="actions-section">
             <?php if ($payment_status === 'completed'): ?>
-                <a href="profile.php" class="action-link">Go to My Courses</a>
+                <a href="profile.php#courses-section" class="action-link">Go to My Courses</a>
             <?php else: ?>
                 <p style="margin-bottom: 20px; color: var(--text-medium);">
                     Please ensure your payment details are correct and try again, or contact support if the issue persists.

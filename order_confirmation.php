@@ -373,7 +373,7 @@ if ($order_success) {
             <?php endif; ?>
             
             <div class="action-buttons">
-                <a href="profile.php" class="btn btn-primary">Go to My Courses</a>
+                <a href="profile.php#courses-section" class="btn btn-primary">Go to My Courses</a>
                 <a href="courses.php" class="btn btn-secondary">Browse More Courses</a>
             </div>
         </div>
